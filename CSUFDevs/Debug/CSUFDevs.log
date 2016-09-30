@@ -1,0 +1,5 @@
+﻿  main.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\otlv4.h(15501): warning C4297: 'otl_stream::~otl_stream': function assumed not to throw an exception but does
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\otlv4.h(15501): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
+  CSUFDevs.vcxproj -> c:\users\scott\documents\visual studio 2015\Projects\CSUFDevs\Debug\CSUFDevs.exe
+  CSUFDevs.vcxproj -> c:\users\scott\documents\visual studio 2015\Projects\CSUFDevs\Debug\CSUFDevs.pdb (Partial PDB)
