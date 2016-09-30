@@ -47,7 +47,7 @@ void select(const std::string TABLE)
 	}
 }
 
-int main()
+void sqlTesting()
 {
 	otl_connect::otl_initialize();
 	try
@@ -69,7 +69,5 @@ int main()
 	}
 	
 	std::cin.get();
-
-	return 0;
 
 }
