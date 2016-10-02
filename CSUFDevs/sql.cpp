@@ -1,16 +1,173 @@
-#define OTL_ODBC
-#define OTL_ODBC_SELECT_STM_EXECUTE_BEFORE_DESCRIBE
-#define OTL_UNICODE
-
-#include <iostream>
-#include <string>
-#include <otlv4.h> // ALL SQL FUNCTIONALITY WITHIN THIS HEADER FILE
+#include "sql.h"
 
 otl_connect db; // connect object
 
 char someChar1;
 char someChar2;
 char* pointer;
+
+// Try not to edit this ungodly abomination
+std::string SelectAll(std::string TABLE)
+{
+	char query[100];		// Contains the query sent to the SQL database
+	std::string result;		// The "result" from the SQL database (rows are on seperate lines and columns are seperated by whitespace)
+	otl_stream sqlStream;	// Raw source of SQL result
+	otl_var_desc* nextVar;	// Contains the information regarding the datatype of the next piece of data to be read from the database.
+
+	strcpy(query, "SELECT * FROM ");
+	strcat(query, TABLE.c_str());
+	sqlStream.open(100, query, db);
+	nextVar = sqlStream.describe_next_out_var();
+
+	// Determine the datatype of each variable and append it to the result string (Datatypes that I don't know how to handle yet are commented out).
+	while (!sqlStream.eof())
+	{
+		switch (nextVar->ftype)
+		{
+//#ifdef OTL_BIGINT
+//		case(20) : // BIG INT
+//		{
+//			OTL_UBIGINT temp;
+//			sqlStream >> temp;
+//			break;
+//		}
+//#endif
+		//case(12) : // BLOB
+		//{
+		//	otl_lob_stream temp;
+		//	sqlStream >> temp;
+		//	result.append((std::string)temp)
+		//	break;
+		//}
+
+		case(1) :  // CHAR // CANNOT OUTPUT THE ENTIRE STRINGS OK
+		{
+			unsigned short temp[25];
+			sqlStream >> (unsigned char*)temp;
+
+			result.append(reinterpret_cast<char*>(temp));
+			break;
+		}
+		case(11) :  // CLOB
+		{
+			otl_lob_stream temp;
+			sqlStream >> temp;
+			break;
+		}
+		//case(17) : // DB2DATE
+		//{
+		//	otl_datetime temp; // May not be correct type for this case
+		//	sqlStream >> temp;
+		//	result.append((std::string)temp)
+		//	break;
+		//}
+
+		//case(16) : // DB2TIME
+		//{
+		//	otl_datetime temp; // May not be correct type for this case
+		//	sqlStream >> temp;
+		//	result.append((std::string)temp)
+		//	break;
+		//}
+		case(2) : // DOUBLE
+		{
+			double temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp));
+			break;
+		}
+		case(3) : // FLOAT
+		{
+			float temp;
+			sqlStream >> temp;
+			break;
+		}
+		case(4) : // INT
+		{
+			int temp;
+			char tempCh;
+				sqlStream >> temp;
+			sqlStream >> tempCh;
+			result.append(std::to_string(temp));
+			break;
+		}
+		case(7) : // LONG INT
+		{
+			long int temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp));
+			break;
+		}
+		//case(19) : // LTZ TIMESTAMP
+		//	break;
+		//case(23) : // RAW
+		//	break;
+		//case(10) : // RAW LONG
+		//	break;
+		case(6) : // SHORT
+		{
+			short temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp));
+			break;
+		}
+		//case(8) : // TIMESTAMP
+		//	break;
+		//case(18) : // TZ TIMESTAMP
+		//	break;
+//#ifdef OTL_BIGINT
+//		case(27) : // U BIG INT
+//
+//			OTL_UBIGINT temp;
+//			sqlStream >> temp;
+//			break;
+//#endif
+		case(5) : // UNSIGNED INT
+		{
+			unsigned temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp));
+			break;
+		}
+		case(9) : // VAR CHAR LONG
+		{
+			otl_long_unicode_string temp; // May not work
+			std::stringstream tempStream;
+			sqlStream >> temp;
+			for (int x = 0; x < temp.len(); x++)
+			{
+				tempStream<<(char)temp[x];
+			}
+
+			result.append(tempStream.str());
+			
+			break;
+		}
+		default:
+			std::cerr << "Unknown output type detected.";
+		}
+
+		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
+		// Else, add a whitespace character to seperate the column data.
+		try
+		{
+			sqlStream.check_end_of_row();
+			result.append("\n");
+			
+		}
+		catch (otl_exception& )
+		{
+			result.append(" ");
+		}
+		nextVar = sqlStream.describe_next_out_var();
+		
+	}
+
+	// Remove the extra newline from the back of the string.
+	result.pop_back();
+
+	return result;
+}
 
 // Sample of how selections are collected(number indicates position in stream except for row and column labels)
 // So its on a row by row basis
@@ -32,19 +189,18 @@ void select(const std::string TABLE)
 	int f1;
 	unsigned short f2[320];
 
-	while (!test.eof()) { // while not end-of-data
-		test >> f1;
-		test >> (unsigned char*)(f2);
-		// overloaded operator>>(unsigned char*) in the case of Unicode
-		// OTL accepts a pointer to a Unicode chracter array.
-		// operator>>(unsigned short*) wasn't overloaded 
-		// in order to avoid ambiguity in C++ type casting.
+	char output[100];
 
-		std::cout << f1;
-		for (int j = 0; f2[j] != 0; ++j)
-			std::cout << " " << (char)f2[j];
-		std::cout << std::endl;
+	while (!test.eof())
+	{
+
 	}
+}
+
+// For testing purposes only
+void SelectFixedStructure()
+{
+	
 }
 
 void sqlTesting()
@@ -56,7 +212,7 @@ void sqlTesting()
 																										  // for this (and the entire program) to function
 		db.direct_exec("USE TEST");
 
-		select("TEST");
+		std::cout << SelectAll("TEST");
 		
 		std::cout << "here";
 
