@@ -2,8 +2,9 @@
 
 ##ToDo
 * Everything
+* Intermediary class between the sql database and interface needs to be constructed.
 
 ## Notes
-* For the SQL datatypes, all simple types are safe (ints, chars, floats, etc.).\n
-* For strings, only use the text datatype. Do not use varchar in the current state of things.
-* The SelectAll() function is functional but useful for really only debugging at the moment.
+* For the SQL datatypes, all simple types are safe (ints, chars, floats, etc.).
+* For strings (in the database), do not use the text data type. Just use varchar(255).
+* The SelectAll() function works and is formatted.
