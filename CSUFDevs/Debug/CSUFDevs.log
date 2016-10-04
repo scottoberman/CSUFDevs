@@ -1,9 +1,6 @@
 ﻿  sql.cpp
 c:\program files (x86)\microsoft visual studio 14.0\vc\include\otlv4.h(15501): warning C4297: 'otl_stream::~otl_stream': function assumed not to throw an exception but does
   c:\program files (x86)\microsoft visual studio 14.0\vc\include\otlv4.h(15501): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
-c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(89): warning C4552: '>>': operator has no effect; expected operator with side-effect
-c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(191): warning C4101: 'output': unreferenced local variable
-c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(189): warning C4101: 'f2': unreferenced local variable
-c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(188): warning C4101: 'f1': unreferenced local variable
+c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(174): warning C4552: '>>': operator has no effect; expected operator with side-effect
   CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.exe
   CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.pdb (Partial PDB)

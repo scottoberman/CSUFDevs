@@ -2,27 +2,109 @@
 
 otl_connect db; // connect object
 
-char someChar1;
-char someChar2;
-char* pointer;
-
-// Try not to edit this ungodly abomination
+// Output all the contents of a table. Currently, there is no formatting and the tables/columns/rows are not labeled.
 std::string SelectAll(std::string TABLE)
 {
-	char query[100];		// Contains the query sent to the SQL database
+	std::string query;		// Contains the query sent to the SQL database
+	std::string colNames;	// Label for each column.
 	std::string result;		// The "result" from the SQL database (rows are on seperate lines and columns are seperated by whitespace)
+	std::string curResult;	// The individual output received from the stream.
 	otl_stream sqlStream;	// Raw source of SQL result
 	otl_var_desc* nextVar;	// Contains the information regarding the datatype of the next piece of data to be read from the database.
+	int outputLen;			// The "width" of each element of output.
+	int tempResultWidth;	// Size of output before padding is added (used for formatting).
 
-	strcpy(query, "SELECT * FROM ");
-	strcat(query, TABLE.c_str());
-	sqlStream.open(100, query, db);
-	nextVar = sqlStream.describe_next_out_var();
+	query.append("select column_name from INFORMATION_SCHEMA.COLUMNS where table_name = \'");
+	query.append(TABLE);
+	query.append("\'");
+	sqlStream.open(100, query.c_str(), db);
+	outputLen = 10;
 
-	// Determine the datatype of each variable and append it to the result string (Datatypes that I don't know how to handle yet are commented out).
 	while (!sqlStream.eof())
 	{
-		switch (nextVar->ftype)
+		curResult = StreamToString(sqlStream);
+		tempResultWidth = curResult.size();
+		curResult.insert(tempResultWidth, outputLen - tempResultWidth, ' ');
+		result.append(curResult);
+		//sqlStream.skip_to_end_of_row();
+	}
+	result.append("\n");
+	sqlStream.close();
+	query.clear();
+	
+	query.append("SELECT * FROM ");
+	query.append(TABLE);
+	sqlStream.open(100, query.c_str(), db);
+	nextVar = sqlStream.describe_next_out_var();
+
+	while (!sqlStream.eof())
+	{
+		curResult = StreamToString(sqlStream);
+		tempResultWidth = curResult.size();
+		curResult.insert(tempResultWidth, outputLen - tempResultWidth, ' ');
+		result.append(curResult);
+		
+		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
+		// Else, add a whitespace character to seperate the column data.
+		try
+		{
+			sqlStream.check_end_of_row();
+			result.append("\n");
+			
+		}
+		// This block adds a space between elements of the row but this is handled elsewhere now.
+		catch (otl_exception& )
+		{
+			//result.append(" ");
+		}
+		nextVar = sqlStream.describe_next_out_var();
+		
+	}
+
+	// Remove the extra newline from the back of the string.
+	result.pop_back();
+
+	return result;
+}
+
+// For testing only
+void SelectFixedStructure()
+{
+	
+}
+
+// To be used when expecting a single response from a query (ie: Get a name, id, price, float, etc from a table).
+// Format: select VAL_TO_GET from TABLE where ID_VAL = CHECK_VAL
+std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
+												 const std::string TABLE,
+												 const std::string ID_VAL,
+												 const std::string CHECK_VAL)
+{
+	otl_stream sqlStream;
+	std::stringstream conversionStream;
+	std::string query;
+
+	query = "SELECT ";
+	query.append(VAL_TO_GET);
+	query.append(" FROM ");
+	query.append(TABLE);
+	query.append(" WHERE ");
+	query.append(ID_VAL);
+	query.append(" = \'");
+	query.append(CHECK_VAL);
+	query.append("\'");
+
+	sqlStream.open(100, query.c_str(), db);
+
+	return StreamToString(sqlStream);
+}
+
+// Returns an element from the response of the query.
+std::string StreamToString(otl_stream& sqlStream)
+{
+	std::string result;
+	int outputType = sqlStream.describe_next_out_var()->ftype;
+		switch (outputType)
 		{
 //#ifdef OTL_BIGINT
 //		case(20) : // BIG INT
@@ -40,12 +122,14 @@ std::string SelectAll(std::string TABLE)
 		//	break;
 		//}
 
-		case(1) :  // CHAR // CANNOT OUTPUT THE ENTIRE STRINGS OK
+		case(1) :  // CHAR (ALSO USED FOR VARCHARS)
 		{
 			unsigned short temp[25];
 			sqlStream >> (unsigned char*)temp;
-
-			result.append(reinterpret_cast<char*>(temp));
+			for (int x = 0; temp[x] != 0; x++)
+			{
+				result.push_back((char)(temp[x]));
+			}
 			break;
 		}
 		case(11) :  // CLOB
@@ -147,74 +231,25 @@ std::string SelectAll(std::string TABLE)
 			std::cerr << "Unknown output type detected.";
 		}
 
-		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
-		// Else, add a whitespace character to seperate the column data.
-		try
-		{
-			sqlStream.check_end_of_row();
-			result.append("\n");
-			
-		}
-		catch (otl_exception& )
-		{
-			result.append(" ");
-		}
-		nextVar = sqlStream.describe_next_out_var();
-		
-	}
-
-	// Remove the extra newline from the back of the string.
-	result.pop_back();
-
-	return result;
+		return result;
 }
 
-// Sample of how selections are collected(number indicates position in stream except for row and column labels)
-// So its on a row by row basis
-//	c1	c2	c3	c4	c5	c6	c7
-//r1 1	2	3	4	5	6	7
-//r2 8	9	10	11	12	13	14
-//r3 15	16	17	18	19	20	21
-//
-// Selects a table of row format INT CHAR
-void select(const std::string TABLE)
-{
-	char query[80];
-	strcpy(query, "SELECT * FROM ");
-	strcat(query, TABLE.c_str());
-
-
-	otl_stream test(64, query, db);
-
-	int f1;
-	unsigned short f2[320];
-
-	char output[100];
-
-	while (!test.eof())
-	{
-
-	}
-}
-
-// For testing purposes only
-void SelectFixedStructure()
-{
-	
-}
-
+// Playground for testing sql functions etc.
 void sqlTesting()
 {
 	otl_connect::otl_initialize();
+
 	try
 	{
 		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=localhost;PORT=3306;USER=root;PASSWORD="); // You will need to install the 32-bit oracle MySql Connector
 																										  // for this (and the entire program) to function
 		db.direct_exec("USE TEST");
 
+
 		std::cout << SelectAll("TEST");
-		
-		std::cout << "here";
+
+		std::cout << std::endl << std::endl;
+		std::cout << SelectSingleElementFromTableByString("ID","TEST", "SEX", "f");
 
 
 	}
@@ -224,6 +259,4 @@ void sqlTesting()
 		std::cout << e.code;
 	}
 	
-	std::cin.get();
-
 }

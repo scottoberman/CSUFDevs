@@ -5,6 +5,8 @@
 int main()
 {
 	sqlTesting();
+
+	// Pause execution
 	std::cout << "Press enter to continue...";
 	std::cin.get();
 

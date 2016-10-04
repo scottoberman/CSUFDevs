@@ -19,7 +19,11 @@
 
 
 std::string SelectAll(const std::string TABLE);
-void select(const std::string TABLE);
 void SelectFixedStructure();
+std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
+												 const std::string TABLE,
+												 const std::string ID_VAL,
+												 const std::string CHECK_VAL);
+std::string StreamToString(otl_stream& sqlStream);
 
 void sqlTesting();
