@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <otlv4.h> // ALL SQL FUNCTIONALITY WITHIN THIS HEADER FILE
+#include "otlv4.h" // ALL SQL FUNCTIONALITY WITHIN THIS HEADER FILE
 
 // Sample of how selections are collected(number indicates position in stream except for row and column labels)
 // So its on a row by row basis
@@ -25,5 +25,11 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 												 const std::string ID_VAL,
 												 const std::string CHECK_VAL);
 std::string StreamToString(otl_stream& sqlStream);
+
+std::string Select(const std::string SELECT_STATEMENT);
+
+bool ModifyingQuery(const std::string QUERY,
+					int& errorCode,
+					std::string& errorMessage);
 
 void sqlTesting();
