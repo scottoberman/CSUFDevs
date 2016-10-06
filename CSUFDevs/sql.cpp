@@ -19,7 +19,7 @@ std::string SelectAll(std::string TABLE)
 	query.append(TABLE);
 	query.append("\'");
 	sqlStream.open(100, query.c_str(), db);
-	outputLen = 10;
+	outputLen = 18;
 
 	while (!sqlStream.eof())
 	{
@@ -106,6 +106,7 @@ std::string StreamToString(otl_stream& sqlStream)
 	int outputType = sqlStream.describe_next_out_var()->ftype;
 		switch (outputType)
 		{
+
 //#ifdef OTL_BIGINT
 //		case(20) : // BIG INT
 //		{
@@ -182,8 +183,24 @@ std::string StreamToString(otl_stream& sqlStream)
 			result.append(std::to_string(temp));
 			break;
 		}
-		//case(19) : // LTZ TIMESTAMP
-		//	break;
+		case(19) : // LTZ TIMESTAMP
+		{
+			otl_datetime temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp.year));
+			result.append("-");
+			result.append(std::to_string(temp.month));
+			result.append("-");
+			result.append(std::to_string(temp.day));
+			result.append(" ");
+			result.append(std::to_string(temp.hour));
+			result.append(":");
+			result.append(std::to_string(temp.minute));
+			result.append(":");
+			result.append(std::to_string(temp.second));
+			break;
+		}
+			
 		//case(23) : // RAW
 		//	break;
 		//case(10) : // RAW LONG
@@ -195,8 +212,23 @@ std::string StreamToString(otl_stream& sqlStream)
 			result.append(std::to_string(temp));
 			break;
 		}
-		//case(8) : // TIMESTAMP
-		//	break;
+		case(8) : // TIMESTAMP
+		{
+			otl_datetime temp;
+			sqlStream >> temp;
+			result.append(std::to_string(temp.year));
+			result.append("-");
+			result.append(std::to_string(temp.month));
+			result.append("-");
+			result.append(std::to_string(temp.day));
+			result.append(" ");
+			result.append(std::to_string(temp.hour));
+			result.append(":");
+			result.append(std::to_string(temp.minute));
+			result.append(":");
+			result.append(std::to_string(temp.second));
+			break;
+		}
 		//case(18) : // TZ TIMESTAMP
 		//	break;
 //#ifdef OTL_BIGINT
@@ -228,6 +260,8 @@ std::string StreamToString(otl_stream& sqlStream)
 			break;
 		}
 		default:
+			std::cout << outputType;
+			std::cin.get();
 			std::cerr << "Unknown output type detected.";
 		}
 
@@ -249,7 +283,7 @@ std::string Select(const std::string SELECT_STATEMENT)
 
 	sqlStream.open(100, SELECT_STATEMENT.c_str(), db);
 	nextVar		= sqlStream.describe_next_out_var();
-	outputLen	= 10;
+	outputLen	= 18;
 
 	while (!sqlStream.eof())
 	{
