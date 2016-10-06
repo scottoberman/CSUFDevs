@@ -2,7 +2,8 @@
 
 otl_connect db; // connect object
 
-// Output all the contents of a table.
+// Output all the contents of a table. Includes column labels and some
+// whitespace formatting (currently each element is ten units wide).
 std::string SelectAll(std::string TABLE)
 {
 	std::string query;		// Contains the query sent to the SQL database
@@ -68,8 +69,10 @@ std::string SelectAll(std::string TABLE)
 	return result;
 }
 
-// To be used when expecting a single response from a query (ie: Get a name, id, price, float, etc from a table).
-// Use for primary keys only.
+// To be used when expecting a single response from a query (ie: Get a name,
+// id, price, float, etc from a table).
+// Use with primary keys only (CHECK_VAL should be a primary key since only
+// one element is returned).
 // Format: select VAL_TO_GET from TABLE where ID_VAL = CHECK_VAL
 std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 												 const std::string TABLE,
@@ -299,8 +302,6 @@ bool ModifyingQuery(const std::string QUERY,
 		errorCode = e.code;
 		errorMessage = (char*)(e.msg);
 		querySuccessful = false;
-
-
 	}
 	
 	return querySuccessful;
@@ -320,9 +321,9 @@ void sqlTesting()
 	try
 	{
 		// You will need to install the 32-bit oracle MySql Connector for this (and the entire program) to function
-		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=72.194.66.29;PORT=3306;USER=testUser2;PASSWORD=rawr");
+		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
 
-		db.direct_exec("USE TEST;");
+		db.direct_exec("USE ScottTest;");
 
 		std::cout << SelectAll("TEST");
 
@@ -334,16 +335,16 @@ void sqlTesting()
 		std::cout << SelectSingleElementFromTableByString("ID","TEST", "SEX", "f");
 		std::cout << std::endl;
 
-		if (ModifyingQuery("UPDATE TEST SET BLUR = \'q\' WHERE ID = \'4\'", errorCode, errorMessage))
-		{
-			std::cout << "query successful";
-		}
-		else
-		{
-			std::cout << "Query failed" << std::endl;
-			std::cout << "Error Code: " << errorCode << std::endl;
-			std::cout << "Error Message: " << errorMessage <<  std::endl;
-		}
+		//if (ModifyingQuery("UPDATE TEST SET BLUR = \'q\' WHERE ID = \'4\'", errorCode, errorMessage))
+		//{
+		//	std::cout << "query successful";
+		//}
+		//else
+		//{
+		//	std::cout << "Query failed" << std::endl;
+		//	std::cout << "Error Code: " << errorCode << std::endl;
+		//	std::cout << "Error Message: " << errorMessage <<  std::endl;
+		//}
 
 
 	}
