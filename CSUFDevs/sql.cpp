@@ -2,8 +2,22 @@
 
 otl_connect db; // connect object
 
-// Output all the contents of a table. Includes column labels and some
-// whitespace formatting (currently each element is ten units wide).
+/****************************************************************************
+* FUNCTION SelectAll
+* ---------------------------------------------------------------------------
+* Selects an entire table and returns a string with some formatting as
+* well as the column labels. If you wish to get the entire table without
+* the column labels, use the Select function instead.
+* ---------------------------------------------------------------------------
+* ARGS   : TABLE: The table to be selected.
+* OUTPUTS: Nothing
+* RETURNS: The table with minor formatting and column labels. If the table
+*		   does not exist, an empty string will be returned(NEEDS TO BE IMPLEMENTED TODO).
+* NOTES  : Do not use in cases where an element could be longer than 18
+*		   units.
+*		   If you wish to get the entire table without the column labels,
+*		   use the Select function instead.
+*****************************************************************************/
 std::string SelectAll(std::string TABLE)
 {
 	std::string query;		// Contains the query sent to the SQL database
@@ -97,9 +111,20 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 
 	return StreamToString(sqlStream);
 }
-
-// Returns an element from the response of the query.
-// Unsupported types are commented out within this function.
+/****************************************************************************
+* FUNCTION StreamToString
+* ---------------------------------------------------------------------------
+* When a query is executed that returns some value, this function converts
+* one element from the returned statement to a string. Used to help in
+* "select" functions.
+* ---------------------------------------------------------------------------
+* ARGS   : sqlStream: The stream from the sql query (THE STREAM CURSOR
+*					  POSITION IS SHIFTED FORWARD BY THIS FUNCTION).
+* OUTPUTS: Nothing
+* RETURNS: One element of an sql stream (from a query) as a string.
+* NOTES  : Unsupported types are commented out within the interior switch
+*		   statement.
+*****************************************************************************/
 std::string StreamToString(otl_stream& sqlStream)
 {
 	std::string result;
@@ -268,9 +293,21 @@ std::string StreamToString(otl_stream& sqlStream)
 		return result;
 }
 
-// More general function for using Select statements. The difference between
-// this and SelectAll is column names are not displayed above the table.
-// Still includes some formatting.
+/****************************************************************************
+* FUNCTION Select
+* ---------------------------------------------------------------------------
+* More general function for using Select statements.The difference between
+* this and SelectAll is column names are not displayed above the table.
+* Still includes some formatting.
+* ---------------------------------------------------------------------------
+* ARGS   : SELECT_STATEMENT: The statement query to be executed.
+* OUTPUTS: Nothing
+* RETURNS: The result of the query as a string with minor formatting. If the
+*		   statement is invalid, an empty string will be returned
+*		   (NEEDS TO BE IMPLEMENTED TODO).
+* NOTES  : Try not to use this function when output elements of large size
+*		   (size > 18 for now).
+*****************************************************************************/
 std::string Select(const std::string SELECT_STATEMENT)
 {
 	std::string query;		// Contains the query sent to the SQL database
@@ -315,15 +352,34 @@ std::string Select(const std::string SELECT_STATEMENT)
 	return result;
 }
 
-// For use with queries that will affect the database in some way:
-// inserts, deletes, drop, modify, update etc.
-// Returns true if the query was successful. Otherwise, returns false.
-// Error code and error message passed back by reference.
-// Error codes / message have varying usefulness and sometimes are
-// completely worthless.
+/****************************************************************************
+* FUNCTION Modifying Query
+* ---------------------------------------------------------------------------
+* For use with queries that will affect the database in some way:
+* inserts, deletes, drop, modify, update etc.
+* Returns true if the query was successful. Otherwise, returns false.
+* Error code and error message passed back by reference.
+* Error codes / message have varying usefulness and sometimes are
+* completely worthless.
+* ---------------------------------------------------------------------------
+* ARGS   : QUERY	: The query to be executed.
+		   errorCode: If the function throws an exception, the resulting
+					  error code will be placed here and passed back by
+					  reference.
+		   errorMsg : If the function throws an exception, the resulting
+					  error msg will be placed here and passed back by
+					  reference.
+* OUTPUTS: Nothing
+* RETURNS: A bool which is true if the query succeeded. If it was not
+*		   successful, the errorCode and errorMsg args will contain their
+*		   relevent exception information.
+*		   
+* NOTES  : This function is not meant for queries that will need their result
+*		   passed back (ie: select queries).
+*****************************************************************************/
 bool ModifyingQuery(const std::string QUERY,
 					int& errorCode,
-					std::string& errorMessage)
+					std::string& errorMsg)
 {
 	bool querySuccessful;
 	try
@@ -334,7 +390,7 @@ bool ModifyingQuery(const std::string QUERY,
 	catch(otl_exception& e)
 	{
 		errorCode = e.code;
-		errorMessage = (char*)(e.msg);
+		errorMsg = (char*)(e.msg);
 		querySuccessful = false;
 	}
 	
@@ -347,7 +403,7 @@ void sqlTesting()
 {
 	otl_connect::otl_initialize();
 
-	std::string errorMessage;
+	std::string errorMsg;
 	int			errorCode;
 
 	errorCode = 0;
@@ -369,7 +425,7 @@ void sqlTesting()
 		std::cout << SelectSingleElementFromTableByString("ID","TEST", "SEX", "f");
 		std::cout << std::endl;
 
-		//if (ModifyingQuery("UPDATE TEST SET BLUR = \'q\' WHERE ID = \'4\'", errorCode, errorMessage))
+		//if (ModifyingQuery("UPDATE TEST SET BLUR = \'q\' WHERE ID = \'4\'", errorCode, errorMsg))
 		//{
 		//	std::cout << "query successful";
 		//}
@@ -377,7 +433,7 @@ void sqlTesting()
 		//{
 		//	std::cout << "Query failed" << std::endl;
 		//	std::cout << "Error Code: " << errorCode << std::endl;
-		//	std::cout << "Error Message: " << errorMessage <<  std::endl;
+		//	std::cout << "Error Message: " << errorMsg <<  std::endl;
 		//}
 
 
