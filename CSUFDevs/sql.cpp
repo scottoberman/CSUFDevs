@@ -516,13 +516,13 @@ void ScottMenu()
 
 	do
 	{
-		std::cout << "CSUFDevs RBDMS Database 1.0\n\n"
-			"Please select an option:\n"
-			"1) Output inventory\n"
-			"2) Add Item to Inventory\n"
-			"3) Remove Item from Inventory\n"
-			"4) Modify Existing Item from Inventory\n"
-			"0) Exit\n";
+		std::cout << "CSUFDevs RDBMS Database 1.0\n\n"
+					 "Please select an option:\n"
+					 "1) Output inventory\n"
+					 "2) Add Item to Inventory\n"
+					 "3) Remove Item from Inventory\n"
+					 "4) Modify Existing Item from Inventory\n"
+					 "0) Exit\n";
 
 		std::cin >> menuInput;
 		std::cin.ignore(1000, '\n');
