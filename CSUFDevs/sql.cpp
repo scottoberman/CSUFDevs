@@ -310,7 +310,7 @@ std::string StreamToString(otl_stream& sqlStream)
 * NOTES  : 
 *****************************************************************************/
 std::string Select(const std::string SELECT_STATEMENT,
-				   const std::string::size_type FORMAT_WIDTH = 0)
+				   const std::string::size_type FORMAT_WIDTH)
 {
 	std::string query;		// Contains the query sent to the SQL database
 	std::string result;		// The "result" from the SQL database (rows are on seperate lines and columns are seperated by whitespace)
@@ -327,7 +327,7 @@ std::string Select(const std::string SELECT_STATEMENT,
 		curResult = StreamToString(sqlStream);
 		tempResultWidth = curResult.size();
 
-		for (int x = 0; x < FORMAT_WIDTH - tempResultWidth - 1; x++)
+		for (int x = 0; x < (int)FORMAT_WIDTH - tempResultWidth - 1; x++)
 		{
 			curResult.append(" ");
 		}
@@ -405,6 +405,87 @@ bool ModifyingQuery(const std::string QUERY,
 	return querySuccessful;
 }
 
+// MIGHT BE BAD STYLE TO RETURN BY REFERENCE IN THIS MANNER TODO
+std::map<std::string, Stock>& GetTableFromDatabase()
+{
+	std::map<std::string, Stock> tableMap;
+
+	otl_connect::otl_initialize();
+	otl_stream sqlStream;
+	db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
+
+	db.direct_exec("USE ims");
+	sqlStream.open(100, "SELECT * FROM item", db);
+
+	while (!sqlStream.eof())
+	{
+		Stock* newStock = new Stock();
+
+		unsigned short tempId[255];
+		unsigned short tempName[255];
+		int				tempQuantity;
+		unsigned short tempShelfNum[255];
+		unsigned short tempDescription[255];
+		double			tempPrice;
+		int				tempStatus;
+
+		string tempStr;
+
+		// Get ID from the stream
+		sqlStream >> (unsigned char*)tempId;
+		tempStr = (char*)tempId;
+		newStock->SetID(tempStr);
+
+		// Get name from the stream
+		sqlStream >> (unsigned char*)tempName;
+		tempStr = (char*)tempName;
+		newStock->SetName(tempStr);
+
+		// Get the description from the stream
+		sqlStream >> (unsigned char*)tempDescription;
+		tempStr = (char*)tempDescription;
+		newStock->SetDescription(tempStr);
+
+		// Get the price from the stream
+		sqlStream >> tempPrice;
+		newStock->SetPrice(tempPrice);
+
+		// Get the quantity from the stream
+		sqlStream >> tempQuantity;
+		newStock->SetQuantity(tempQuantity);
+
+		//// Get the status (NOT IN CLASS ATM TODO)
+		//sqlStream >> tempStatus;
+		//newStock->SetStatus(tempStatus);
+
+		// Get the shelf number from the stream
+		sqlStream >> (unsigned char*)tempShelfNum;
+		tempStr = (char*)tempShelfNum;
+		newStock->SetShelf(tempStr);
+
+		// Get the item timestamp from the stream
+		otl_datetime temp;
+		std::string timeStampStr;
+		sqlStream >> temp;
+		timeStampStr.append(std::to_string(temp.year));
+		timeStampStr.append("-");
+		timeStampStr.append(std::to_string(temp.month));
+		timeStampStr.append("-");
+		timeStampStr.append(std::to_string(temp.day));
+		timeStampStr.append(" ");
+		timeStampStr.append(std::to_string(temp.hour));
+		timeStampStr.append(":");
+		timeStampStr.append(std::to_string(temp.minute));
+		timeStampStr.append(":");
+		timeStampStr.append(std::to_string(temp.second));
+
+		tableMap.emplace(newStock->GetID(), *newStock);
+
+	}
+
+	return tableMap;
+}
+
 
 // Playground for testing sql functions etc.
 void sqlTesting()
@@ -427,7 +508,7 @@ void sqlTesting()
 
 		std::cout << std::endl << std::endl;
 
-		std::cout << Select("SELECT * FROM TEST WHERE SEX = 'f'");
+		std::cout << Select("SELECT * FROM TEST WHERE SEX = 'f'", 15);
 
 		std::cout << std::endl << std::endl;
 		std::cout << SelectSingleElementFromTableByString("ID","TEST", "SEX", "f");
