@@ -94,7 +94,6 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 												 const std::string CHECK_VAL)
 {
 	otl_stream sqlStream;
-	std::stringstream conversionStream;
 	std::string query;
 
 	query = "SELECT ";
@@ -111,6 +110,7 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 
 	return StreamToString(sqlStream);
 }
+
 /****************************************************************************
 * FUNCTION StreamToString
 * ---------------------------------------------------------------------------
@@ -132,14 +132,14 @@ std::string StreamToString(otl_stream& sqlStream)
 		switch (outputType)
 		{
 
-//#ifdef OTL_BIGINT
-//		case(20) : // BIG INT
-//		{
-//			OTL_UBIGINT temp;
-//			sqlStream >> temp;
-//			break;
-//		}
-//#endif
+
+		//case(20) : // BIG INT
+		//{
+		//	OTL_UBIGINT temp;
+		//	sqlStream >> temp;
+		//	break;
+		//}
+
 		//case(12) : // BLOB
 		//{
 		//	otl_lob_stream temp;
@@ -196,7 +196,7 @@ std::string StreamToString(otl_stream& sqlStream)
 		{
 			int temp;
 			char tempCh;
-				sqlStream >> temp;
+			sqlStream >> temp;
 			sqlStream >> tempCh;
 			result.append(std::to_string(temp));
 			break;
@@ -256,13 +256,11 @@ std::string StreamToString(otl_stream& sqlStream)
 		}
 		//case(18) : // TZ TIMESTAMP
 		//	break;
-//#ifdef OTL_BIGINT
-//		case(27) : // U BIG INT
-//
-//			OTL_UBIGINT temp;
-//			sqlStream >> temp;
-//			break;
-//#endif
+		//case(27) : // U BIG INT
+
+		//	OTL_UBIGINT temp;
+		//	sqlStream >> temp;
+		//	break;
 		case(5) : // UNSIGNED INT
 		{
 			unsigned temp;
