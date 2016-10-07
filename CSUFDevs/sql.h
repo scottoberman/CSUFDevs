@@ -20,7 +20,8 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 												 const std::string CHECK_VAL);
 std::string StreamToString(otl_stream& sqlStream);
 
-std::string Select(const std::string SELECT_STATEMENT);
+std::string Select(const std::string SELECT_STATEMENT,
+				   const std::string::size_type FORMAT_WIDTH = 0);
 
 bool ModifyingQuery(const std::string QUERY,
 					int& errorCode,

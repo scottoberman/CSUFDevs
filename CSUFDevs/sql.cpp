@@ -296,35 +296,45 @@ std::string StreamToString(otl_stream& sqlStream)
 * ---------------------------------------------------------------------------
 * More general function for using Select statements.The difference between
 * this and SelectAll is column names are not displayed above the table.
-* Still includes some formatting.
+* Formatting possible via FORMAT_WIDTH argument (defaults to 0);
 * ---------------------------------------------------------------------------
 * ARGS   : SELECT_STATEMENT: The statement query to be executed.
+*		   FORMAT_WIDTH	   : The optimal size of an element's output plus
+*							 whitespace. If the actual width is greater than
+*							 this value, the output will just contain a
+*							 single space after the element.
 * OUTPUTS: Nothing
 * RETURNS: The result of the query as a string with minor formatting. If the
 *		   statement is invalid, an empty string will be returned
 *		   (NEEDS TO BE IMPLEMENTED TODO).
-* NOTES  : Try not to use this function when output elements of large size
-*		   (size > 18 for now).
+* NOTES  : 
 *****************************************************************************/
-std::string Select(const std::string SELECT_STATEMENT)
+std::string Select(const std::string SELECT_STATEMENT,
+				   const std::string::size_type FORMAT_WIDTH = 0)
 {
 	std::string query;		// Contains the query sent to the SQL database
 	std::string result;		// The "result" from the SQL database (rows are on seperate lines and columns are seperated by whitespace)
 	std::string curResult;	// The individual output received from the stream.
 	otl_stream sqlStream;	// Raw source of SQL result
 	otl_var_desc* nextVar;	// Contains the information regarding the datatype of the next piece of data to be read from the database.
-	int outputLen;			// The "width" of each element of output.
 	int tempResultWidth;	// Size of output before padding is added (used for formatting).
 
 	sqlStream.open(100, SELECT_STATEMENT.c_str(), db);
 	nextVar		= sqlStream.describe_next_out_var();
-	outputLen	= 18;
 
 	while (!sqlStream.eof())
 	{
 		curResult = StreamToString(sqlStream);
 		tempResultWidth = curResult.size();
-		curResult.insert(tempResultWidth, outputLen - tempResultWidth, ' ');
+
+		for (int x = 0; x < FORMAT_WIDTH - tempResultWidth - 1; x++)
+		{
+			curResult.append(" ");
+		}
+
+		// One space is always placed after an element to prevent run-together elements.
+		result.append(" ");
+
 		result.append(curResult);
 		
 		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
