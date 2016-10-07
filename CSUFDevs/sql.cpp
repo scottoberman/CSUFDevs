@@ -239,15 +239,15 @@ std::string StreamToString(otl_stream& sqlStream)
 		break;
 	}
 
-				//case(23) : // RAW
-				//	break;
-				//case(10) : // RAW LONG
-				//	break;
-	case(6) : // SHORT
+	//case(23) : // RAW
+	//	break;
+	//case(10) : // RAW LONG
+	//	break;
+	case(6) : // SHORT (All shorts assumed to be unsigned)
 	{
 		short temp;
 		sqlStream >> temp;
-		result.append(std::to_string(temp));
+		result.append(std::to_string((unsigned short)temp));
 		break;
 	}
 	case(8) : // TIMESTAMP
