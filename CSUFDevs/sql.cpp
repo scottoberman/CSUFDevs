@@ -1,6 +1,6 @@
 #include "sql.h"
 
-otl_connect db; // connect object
+extern otl_connect db; // Connection to database
 
 /****************************************************************************
 * FUNCTION SelectAll
@@ -18,7 +18,8 @@ otl_connect db; // connect object
 *		   If you wish to get the entire table without the column labels,
 *		   use the Select function instead.
 *****************************************************************************/
-std::string SelectAll(std::string TABLE)
+std::string SelectAll(const std::string TABLE,
+					  const std::string::size_type FORMAT_WIDTH)
 {
 	std::string query;		// Contains the query sent to the SQL database
 	std::string colNames;	// Label for each column.
@@ -26,20 +27,23 @@ std::string SelectAll(std::string TABLE)
 	std::string curResult;	// The individual output received from the stream.
 	otl_stream sqlStream;	// Raw source of SQL result
 	otl_var_desc* nextVar;	// Contains the information regarding the datatype of the next piece of data to be read from the database.
-	int outputLen;			// The "width" of each element of output.
 	int tempResultWidth;	// Size of output before padding is added (used for formatting).
 
 	query.append("select column_name from INFORMATION_SCHEMA.COLUMNS where table_name = \'");
 	query.append(TABLE);
 	query.append("\'");
-	sqlStream.open(100, query.c_str(), db);
-	outputLen = 18;
+	sqlStream.open(1000, query.c_str(), db);
 
+	// Output table labels
 	while (!sqlStream.eof())
 	{
 		curResult = StreamToString(sqlStream);
 		tempResultWidth = curResult.size();
-		curResult.insert(tempResultWidth, outputLen - tempResultWidth, ' ');
+		for (int x = 0; x < (int)FORMAT_WIDTH - tempResultWidth - 1; x++)
+		{
+			curResult.append(" ");
+		}
+		curResult.append(" ");
 		result.append(curResult);
 		//sqlStream.skip_to_end_of_row();
 	}
@@ -57,7 +61,11 @@ std::string SelectAll(std::string TABLE)
 	{
 		curResult = StreamToString(sqlStream);
 		tempResultWidth = curResult.size();
-		curResult.insert(tempResultWidth, outputLen - tempResultWidth, ' ');
+		for (int x = 0; x < (int)FORMAT_WIDTH - tempResultWidth - 1; x++)
+		{
+			curResult.append(" ");
+		}
+		curResult.append(" ");
 		result.append(curResult);
 		
 		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
@@ -128,9 +136,14 @@ std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 std::string StreamToString(otl_stream& sqlStream)
 {
 	std::string result;
+
+	if (sqlStream.is_null())
+	{
+		result = "NULL";
+	}
 	int outputType = sqlStream.describe_next_out_var()->ftype;
-		switch (outputType)
-		{
+	switch (outputType)
+	{
 
 
 		//case(20) : // BIG INT
@@ -148,145 +161,149 @@ std::string StreamToString(otl_stream& sqlStream)
 		//	break;
 		//}
 
-		case(1) :  // CHAR (ALSO USED FOR VARCHARS)
+	case(1) :  // CHAR (ALSO USED FOR VARCHARS)
+	{
+		unsigned short temp[255];
+		sqlStream >> (unsigned char*)temp;
+		for (int x = 0; temp[x] != 0; x++)
 		{
-			unsigned short temp[25];
-			sqlStream >> (unsigned char*)temp;
-			for (int x = 0; temp[x] != 0; x++)
-			{
-				result.push_back((char)(temp[x]));
-			}
-			break;
+			result.push_back((char)(temp[x]));
 		}
-		case(11) :  // CLOB
-		{
-			otl_lob_stream temp;
-			sqlStream >> temp;
-			break;
-		}
-		//case(17) : // DB2DATE
-		//{
-		//	otl_datetime temp; // May not be correct type for this case
-		//	sqlStream >> temp;
-		//	result.append((std::string)temp)
-		//	break;
-		//}
+		break;
+	}
+	case(11) :  // CLOB
+	{
+		otl_lob_stream temp;
+		sqlStream >> temp;
+		break;
+	}
+				//case(17) : // DB2DATE
+				//{
+				//	otl_datetime temp; // May not be correct type for this case
+				//	sqlStream >> temp;
+				//	result.append((std::string)temp)
+				//	break;
+				//}
 
-		//case(16) : // DB2TIME
-		//{
-		//	otl_datetime temp; // May not be correct type for this case
-		//	sqlStream >> temp;
-		//	result.append((std::string)temp)
-		//	break;
-		//}
-		case(2) : // DOUBLE
-		{
-			double temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp));
-			break;
-		}
-		case(3) : // FLOAT
-		{
-			float temp;
-			sqlStream >> temp;
-			break;
-		}
-		case(4) : // INT
-		{
-			int temp;
-			char tempCh;
-			sqlStream >> temp;
-			sqlStream >> tempCh;
-			result.append(std::to_string(temp));
-			break;
-		}
-		case(7) : // LONG INT
-		{
-			long int temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp));
-			break;
-		}
-		case(19) : // LTZ TIMESTAMP
-		{
-			otl_datetime temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp.year));
-			result.append("-");
-			result.append(std::to_string(temp.month));
-			result.append("-");
-			result.append(std::to_string(temp.day));
-			result.append(" ");
-			result.append(std::to_string(temp.hour));
-			result.append(":");
-			result.append(std::to_string(temp.minute));
-			result.append(":");
-			result.append(std::to_string(temp.second));
-			break;
-		}
-			
-		//case(23) : // RAW
-		//	break;
-		//case(10) : // RAW LONG
-		//	break;
-		case(6) : // SHORT
-		{
-			short temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp));
-			break;
-		}
-		case(8) : // TIMESTAMP
-		{
-			otl_datetime temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp.year));
-			result.append("-");
-			result.append(std::to_string(temp.month));
-			result.append("-");
-			result.append(std::to_string(temp.day));
-			result.append(" ");
-			result.append(std::to_string(temp.hour));
-			result.append(":");
-			result.append(std::to_string(temp.minute));
-			result.append(":");
-			result.append(std::to_string(temp.second));
-			break;
-		}
-		//case(18) : // TZ TIMESTAMP
-		//	break;
-		//case(27) : // U BIG INT
+				//case(16) : // DB2TIME
+				//{
+				//	otl_datetime temp; // May not be correct type for this case
+				//	sqlStream >> temp;
+				//	result.append((std::string)temp)
+				//	break;
+				//}
+	case(2) : // DOUBLE
+	{
+		double temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp));
+		break;
+	}
+	case(3) : // FLOAT
+	{
+		float temp;
+		sqlStream >> temp;
+		break;
+	}
+	case(4) : // INT
+	{
+		int temp;
+		char tempCh;
+		sqlStream >> temp;
+		sqlStream >> tempCh;
+		result.append(std::to_string(temp));
+		break;
+	}
+	case(7) : // LONG INT
+	{
+		long int temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp));
+		break;
+	}
+	case(19) : // LTZ TIMESTAMP
+	{
+		otl_datetime temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp.year));
+		result.append("-");
+		result.append(std::to_string(temp.month));
+		result.append("-");
+		result.append(std::to_string(temp.day));
+		result.append(" ");
+		result.append(std::to_string(temp.hour));
+		result.append(":");
+		result.append(std::to_string(temp.minute));
+		result.append(":");
+		result.append(std::to_string(temp.second));
+		break;
+	}
 
-		//	OTL_UBIGINT temp;
-		//	sqlStream >> temp;
-		//	break;
-		case(5) : // UNSIGNED INT
-		{
-			unsigned temp;
-			sqlStream >> temp;
-			result.append(std::to_string(temp));
-			break;
-		}
-		case(9) : // VAR CHAR LONG
-		{
-			otl_long_unicode_string temp; // May not work
-			std::stringstream tempStream;
-			sqlStream >> temp;
-			for (int x = 0; x < temp.len(); x++)
-			{
-				tempStream<<(char)temp[x];
-			}
+				//case(23) : // RAW
+				//	break;
+				//case(10) : // RAW LONG
+				//	break;
+	case(6) : // SHORT
+	{
+		short temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp));
+		break;
+	}
+	case(8) : // TIMESTAMP
+	{
+		otl_datetime temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp.year));
+		result.append("-");
+		result.append(std::to_string(temp.month));
+		result.append("-");
+		result.append(std::to_string(temp.day));
+		result.append(" ");
+		result.append(std::to_string(temp.hour));
+		result.append(":");
+		result.append(std::to_string(temp.minute));
+		result.append(":");
+		result.append(std::to_string(temp.second));
+		break;
+	}
+				//case(18) : // TZ TIMESTAMP
+				//	break;
+				//case(27) : // U BIG INT
 
-			result.append(tempStream.str());
-			
-			break;
+				//	OTL_UBIGINT temp;
+				//	sqlStream >> temp;
+				//	break;
+	case(5) : // UNSIGNED INT
+	{
+		unsigned temp;
+		sqlStream >> temp;
+		result.append(std::to_string(temp));
+		break;
+	}
+	case(9) : // VAR CHAR LONG
+	{
+		otl_long_unicode_string temp; // May not work
+		std::stringstream tempStream;
+		sqlStream >> temp;
+		for (int x = 0; x < temp.len(); x++)
+		{
+			tempStream << (char)temp[x];
 		}
-		default:
-			std::cout << outputType;
-			std::cin.get();
-			std::cerr << "Unknown output type detected.";
-		}
+
+		result.append(tempStream.str());
+
+		break;
+	}
+	default:
+		std::cerr << "Unknown output type detected.";
+	}
+
+	if(sqlStream.is_null())
+	{
+		result = "NULL";
+	}
+	
 
 		return result;
 }
@@ -355,8 +372,11 @@ std::string Select(const std::string SELECT_STATEMENT,
 	}
 
 	// Remove the extra newline from the back of the string.
-	result.pop_back();
-
+	if (result.size() != 0)
+	{
+		result.pop_back();
+	}
+	
 	return result;
 }
 
@@ -406,131 +426,412 @@ bool ModifyingQuery(const std::string QUERY,
 }
 
 // MIGHT BE BAD STYLE TO RETURN BY REFERENCE IN THIS MANNER TODO
-std::map<std::string, Stock>& GetTableFromDatabase()
+// Fix this up once map class becomes accessible.
+//std::map<std::string, Stock>& GetTableFromDatabase()
+//{
+//	std::map<std::string, Stock> tableMap;
+//
+//	otl_connect::otl_initialize();
+//	otl_stream sqlStream;
+//	db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
+//
+//	db.direct_exec("USE ims");
+//	sqlStream.open(100, "SELECT * FROM item", db);
+//
+//	while (!sqlStream.eof())
+//	{
+//		Stock* newStock = new Stock();
+//
+//		unsigned short tempId[255];
+//		unsigned short tempName[255];
+//		int				tempQuantity;
+//		unsigned short tempShelfNum[255];
+//		unsigned short tempDescription[255];
+//		double			tempPrice;
+//		int				tempStatus;
+//
+//		string tempStr;
+//
+//		// Get ID from the stream
+//		sqlStream >> (unsigned char*)tempId;
+//		tempStr = (char*)tempId;
+//		newStock->SetID(tempStr);
+//
+//		// Get name from the stream
+//		sqlStream >> (unsigned char*)tempName;
+//		tempStr = (char*)tempName;
+//		newStock->SetName(tempStr);
+//
+//		// Get the description from the stream
+//		sqlStream >> (unsigned char*)tempDescription;
+//		tempStr = (char*)tempDescription;
+//		newStock->SetDescription(tempStr);
+//
+//		// Get the price from the stream
+//		sqlStream >> tempPrice;
+//		newStock->SetPrice(tempPrice);
+//
+//		// Get the quantity from the stream
+//		sqlStream >> tempQuantity;
+//		newStock->SetQuantity(tempQuantity);
+//
+//		//// Get the status (NOT IN CLASS ATM TODO)
+//		//sqlStream >> tempStatus;
+//		//newStock->SetStatus(tempStatus);
+//
+//		// Get the shelf number from the stream
+//		sqlStream >> (unsigned char*)tempShelfNum;
+//		tempStr = (char*)tempShelfNum;
+//		newStock->SetShelf(tempStr);
+//
+//		// Get the item timestamp from the stream
+//		otl_datetime temp;
+//		std::string timeStampStr;
+//		sqlStream >> temp;
+//		timeStampStr.append(std::to_string(temp.year));
+//		timeStampStr.append("-");
+//		timeStampStr.append(std::to_string(temp.month));
+//		timeStampStr.append("-");
+//		timeStampStr.append(std::to_string(temp.day));
+//		timeStampStr.append(" ");
+//		timeStampStr.append(std::to_string(temp.hour));
+//		timeStampStr.append(":");
+//		timeStampStr.append(std::to_string(temp.minute));
+//		timeStampStr.append(":");
+//		timeStampStr.append(std::to_string(temp.second));
+//
+//		tableMap.emplace(newStock->GetID(), *newStock);
+//
+//	}
+//
+//	return tableMap;
+//}
+
+// Temp menu
+void ScottMenu()
 {
-	std::map<std::string, Stock> tableMap;
-
-	otl_connect::otl_initialize();
-	otl_stream sqlStream;
-	db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
-
-	db.direct_exec("USE ims");
-	sqlStream.open(100, "SELECT * FROM item", db);
-
-	while (!sqlStream.eof())
-	{
-		Stock* newStock = new Stock();
-
-		unsigned short tempId[255];
-		unsigned short tempName[255];
-		int				tempQuantity;
-		unsigned short tempShelfNum[255];
-		unsigned short tempDescription[255];
-		double			tempPrice;
-		int				tempStatus;
-
-		string tempStr;
-
-		// Get ID from the stream
-		sqlStream >> (unsigned char*)tempId;
-		tempStr = (char*)tempId;
-		newStock->SetID(tempStr);
-
-		// Get name from the stream
-		sqlStream >> (unsigned char*)tempName;
-		tempStr = (char*)tempName;
-		newStock->SetName(tempStr);
-
-		// Get the description from the stream
-		sqlStream >> (unsigned char*)tempDescription;
-		tempStr = (char*)tempDescription;
-		newStock->SetDescription(tempStr);
-
-		// Get the price from the stream
-		sqlStream >> tempPrice;
-		newStock->SetPrice(tempPrice);
-
-		// Get the quantity from the stream
-		sqlStream >> tempQuantity;
-		newStock->SetQuantity(tempQuantity);
-
-		//// Get the status (NOT IN CLASS ATM TODO)
-		//sqlStream >> tempStatus;
-		//newStock->SetStatus(tempStatus);
-
-		// Get the shelf number from the stream
-		sqlStream >> (unsigned char*)tempShelfNum;
-		tempStr = (char*)tempShelfNum;
-		newStock->SetShelf(tempStr);
-
-		// Get the item timestamp from the stream
-		otl_datetime temp;
-		std::string timeStampStr;
-		sqlStream >> temp;
-		timeStampStr.append(std::to_string(temp.year));
-		timeStampStr.append("-");
-		timeStampStr.append(std::to_string(temp.month));
-		timeStampStr.append("-");
-		timeStampStr.append(std::to_string(temp.day));
-		timeStampStr.append(" ");
-		timeStampStr.append(std::to_string(temp.hour));
-		timeStampStr.append(":");
-		timeStampStr.append(std::to_string(temp.minute));
-		timeStampStr.append(":");
-		timeStampStr.append(std::to_string(temp.second));
-
-		tableMap.emplace(newStock->GetID(), *newStock);
-
-	}
-
-	return tableMap;
-}
-
-
-// Playground for testing sql functions etc.
-void sqlTesting()
-{
-	otl_connect::otl_initialize();
-
+	int menuInput = -1;
+	int errorCode;
 	std::string errorMsg;
-	int			errorCode;
 
-	errorCode = 0;
-	
-	try
+	do
 	{
-		// You will need to install the 32-bit oracle MySql Connector for this (and the entire program) to function
-		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
+		std::cout << "CSUFDevs RBDMS Database 1.0\n\n"
+			"Please select an option:\n"
+			"1) Output inventory\n"
+			"2) Add Item to Inventory\n"
+			"3) Remove Item from Inventory\n"
+			"4) Modify Existing Item from Inventory\n"
+			"0) Exit\n";
 
-		db.direct_exec("USE ScottTest;");
+		std::cin >> menuInput;
+		std::cin.ignore(1000, '\n');
 
-		std::cout << SelectAll("TEST");
+		switch (menuInput)
+		{
+			std::cout << endl;
+			// Select All
+			case 1:
+			{
+				std::cout << SelectAll("item", 25) << std::endl << std::endl;
+				break;
+			}
+			// Insert Values
+			case 2:
+			{
+				int id;
+				std::string name;
+				std::string description;
+				double price;
+				int count;
+				int status;
 
-		std::cout << std::endl << std::endl;
+				std::cout << "Enter an ID for the new item: ";
+				cin >> id;
+				std::cin.ignore(1000, '\n');
 
-		std::cout << Select("SELECT * FROM TEST WHERE SEX = 'f'", 15);
+				std::cout << "Enter a name for the new item: ";
+				std::getline(cin, name);
 
-		std::cout << std::endl << std::endl;
-		std::cout << SelectSingleElementFromTableByString("ID","TEST", "SEX", "f");
+				std::cout << "Enter a description for the new item: ";
+				std::getline(cin, description);
+
+				std::cout << "Enter a price of the new item: ";
+				cin >> price;
+
+				std::cout << "Enter the stock count of the new item: ";
+				cin >> count;
+
+				std::cout << "Enter the status code of the item: ";
+				cin >> status;
+				std::cin.ignore(1000, '\n');
+
+				std::string query;
+
+				query = "INSERT INTO item VALUES (";
+				query.append(std::to_string(id));
+				query.append(", \"");
+				query.append(name);
+				query.append("\", \"");
+				query.append(description);
+				query.append("\", ");
+				query.append(std::to_string(price));
+				query.append(", ");
+				query.append(std::to_string(count));
+				query.append(", ");
+				query.append(std::to_string(status));
+				query.append(", ");
+				query.append("CURRENT_TIMESTAMP)");
+
+				if (ModifyingQuery(query, errorCode, errorMsg))
+				{
+					std::cout << "Successfully added new item with id " << id << std::endl << std::endl;
+				}
+				else
+				{
+					std::cout << "Failed to add item.\n"
+								 "Error Code: " << errorCode << "\n"
+								 "Error Message: " << errorMsg << std::endl << std::endl;
+				}
+
+				break;
+
+			}
+			// Delete
+			case 3:
+			{
+				int idToRemove;
+				std::string query;
+
+				std::cout << "Enter the item ID of the item you wish to remove: ";
+				cin >> idToRemove;
+				std::cin.ignore(1000, '\n');
+
+				query = "DELETE FROM item WHERE item_id = ";
+				query.append(std::to_string(idToRemove));
+
+				// Even if the id is not in the table, the database considers the removal a success.
+				if (ModifyingQuery(query, errorCode, errorMsg))
+				{
+					std::cout << "Item of id " << idToRemove << " deleted.";
+				}
+				else
+				{
+					std::cout << "Item removal failed.";
+				}
+
+				break;
+			}
+			// Modify
+			case 4:
+			{
+				int idToChange;
+				std::string query;
+
+				std::cout << "Enter the item id of the item you wish to modify: ";
+				std::cin >> idToChange;
+				std::cin.ignore(1000, '\n');
+
+				query = "Select * FROM item WHERE item_id = ";
+				query.append(std::to_string(idToChange));
+
+				if (Select(query) != "")
+				{
+					int modifyChoice = -1;
+
+					std::cout << "Enter the value which corresponds to the value you would like to change: \n"
+								 "1) Item ID\n"
+								 "2) Item Name\n"
+								 "3) Item Description\n"
+								 "4) Price\n"
+								 "5) Stock Count\n"
+								 "6) Status Code\n";
+
+					std::cin >> modifyChoice;
+					std::cin.ignore(1000, '\n');
+
+					switch (modifyChoice)
+					{
+						// Update Item ID
+						case 1:
+						{
+							int newItemId;
+
+							std::cout << "Enter the new item id: ";
+							std::cin >> newItemId;
+							std::cin.ignore(1000, '\n');
+
+							query = "UPDATE item SET item_id = ";
+							query.append(std::to_string(newItemId));
+							query.append(" WHERE item_id =");
+							query.append(std::to_string(idToChange));
+
+							if(ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item id changed to " << newItemId;
+							}
+							else
+							{
+								std::cout << "Item ID could not be altered. The new item id was already taken.";
+							}
+							break;
+						}
+						// Update Item Name
+						case 2:
+						{
+							std::string newName;
+
+							std::cout << "Enter the new item name: ";
+							std::getline(std::cin, newName);
+
+							query = "UPDATE item SET item_name = \"";
+							query.append(newName);
+							query.append("\" WHERE item_id = ");
+							query.append(std::to_string(idToChange));
+
+							if (ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item name changed to " << newName;
+							}
+							else
+							{
+								std::cout << "Failed to change item name.";
+							}
+							break;
+						}
+						// Update Item Description
+						case 3:
+						{
+							std::string newDesc;
+
+							std::cout << "Enter the new item description: ";
+							std::getline(std::cin, newDesc);
+
+							query = "UPDATE item SET item_description = \"";
+							query.append(newDesc);
+							query.append("\" WHERE item_id = ");
+							query.append(std::to_string(idToChange));
+
+							if (ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item description changed to " << newDesc;
+							}
+							else
+							{
+								std::cout << "Failed to change item description.";
+							}
+							break;
+						}
+						// Update Price
+						case 4:
+						{
+							double newPrice;
+
+							std::cout << "Enter the new item price: ";
+							std::cin >> newPrice;
+							std::cin.ignore(1000, '\n');
+
+							query = "UPDATE item SET price = ";
+							query.append(std::to_string(newPrice));
+							query.append(" WHERE item_id =");
+							query.append(std::to_string(idToChange));
+
+							if (ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item price changed to " << newPrice;
+							}
+							else
+							{
+								std::cout << "Failed to change item price.";
+							}
+							break;
+						}
+						// Update Stock Count
+						case 5:
+						{
+							int newCount;
+
+							std::cout << "Enter the new item count: ";
+							std::cin >> newCount;
+							std::cin.ignore(1000, '\n');
+
+							query = "UPDATE item SET stock_count = ";
+							query.append(std::to_string(newCount));
+							query.append(" WHERE item_id =");
+							query.append(std::to_string(idToChange));
+
+							if (ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item count changed to " << newCount;
+							}
+							else
+							{
+								std::cout << "Failed to change item count.";
+							}
+							break;
+						}
+						// Update Status Code
+						case 6:
+						{
+							int newStatCode;
+
+							std::cout << "Enter the new item status code: ";
+							std::cin >> newStatCode;
+							std::cin.ignore(1000, '\n');
+
+							query = "UPDATE item SET status = ";
+							query.append(std::to_string(newStatCode));
+							query.append(" WHERE item_id =");
+							query.append(std::to_string(idToChange));
+
+							if (ModifyingQuery(query, errorCode, errorMsg))
+							{
+								std::cout << "Item status code changed to " << newStatCode;
+							}
+							else
+							{
+								std::cout << "Failed to change item count.";
+							}
+							break;
+						}
+						default:
+							std::cout << "Invalid choice.";
+					}
+				}
+				else
+				{
+					std::cout << "Item id not found.";
+				}
+
+
+
+
+				break;
+			}
+			case 0:
+			{
+				std::cout << "Execution complete.\n"
+							 "Press enter to continue.";
+				std::cin.get();
+				break;
+			}
+			default:
+			{
+				std::cout << "Invalid input. Selection a valid option.";
+			}
+		}
+
 		std::cout << std::endl;
 
-		//if (ModifyingQuery("UPDATE TEST SET BLUR = \'q\' WHERE ID = \'4\'", errorCode, errorMsg))
-		//{
-		//	std::cout << "query successful";
-		//}
-		//else
-		//{
-		//	std::cout << "Query failed" << std::endl;
-		//	std::cout << "Error Code: " << errorCode << std::endl;
-		//	std::cout << "Error Message: " << errorMsg <<  std::endl;
-		//}
+	} while (menuInput != 0);
 
 
-	}
-	catch(otl_exception& e)
-	{
-		std::cout << e.msg;
-		std::cout << e.code;
-	}
+				
+}
+
+// Acting as temporary menu. Playground for testing sql functions etc.
+void sqlTesting()
+{
+
 	
 }

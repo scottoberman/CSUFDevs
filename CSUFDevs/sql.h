@@ -14,41 +14,41 @@
 
 using namespace std;
 
+//class Stock // REPLACE THIS LATER WITH UPDATED VERSION TODO
+//{
+//	public:
+//		//constructors
+//		Stock();
+//		
+//		//Setters (Mutators)
+//		void SetID(const string itemID);									
+//		void SetName(const string itemName);
+//		void SetQuantity(const int itemAmount);
+//		void SetShelf(const string shelf);
+//		void SetDescription(const string description);
+//		void SetPrice(const double itemPrice);
+//
+//		//Getters (Accessors)
+//		string 	 GetID() const;
+//		string 	 GetName() const;
+//		int      	 GetQuantity() const;
+//		string 	 GetShelf() const;
+//		string 	 GetDescription() const;
+//		double GetPrice() const;
+//
+//		//Functions
+//		
+//	private:
+//		string 	 ID;
+//		string 	 name;
+//		int 	 quantity;
+//		string 	 shelfNum;
+//		string 	 description;
+//		double price;	
+//};
 
-class Stock // REPLACE THIS LATER WITH UPDATED VERSION TODO
-{
-	public:
-		//constructors
-		Stock();
-		
-		//Setters (Mutators)
-		void SetID(const string itemID);									
-		void SetName(const string itemName);
-		void SetQuantity(const int itemAmount);
-		void SetShelf(const string shelf);
-		void SetDescription(const string description);
-		void SetPrice(const double itemPrice);
-
-		//Getters (Accessors)
-		string 	 GetID() const;
-		string 	 GetName() const;
-		int      	 GetQuantity() const;
-		string 	 GetShelf() const;
-		string 	 GetDescription() const;
-		double GetPrice() const;
-
-		//Functions
-		
-	private:
-		string 	 ID;
-		string 	 name;
-		int 	 quantity;
-		string 	 shelfNum;
-		string 	 description;
-		double price;	
-};
-
-std::string SelectAll(const std::string TABLE);
+std::string SelectAll(const std::string TABLE,
+					  const std::string::size_type FORMAT_WIDTH = 0);
 std::string SelectSingleElementFromTableByString(const std::string VAL_TO_GET,
 												 const std::string TABLE,
 												 const std::string ID_VAL,
@@ -62,7 +62,9 @@ bool ModifyingQuery(const std::string QUERY,
 					int& errorCode,
 					std::string& errorMessage);
 
-std::map<std::string, Stock>& GetTableFromDatabase();
+//std::map<std::string, Stock>& GetTableFromDatabase();
+
+void ScottMenu();
 
 void sqlTesting();
 
