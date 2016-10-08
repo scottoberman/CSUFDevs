@@ -1,14 +1,28 @@
-﻿  ims.cpp
-c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(269): warning C4018: '<': signed/unsigned mismatch
-c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(305): warning C4018: '<': signed/unsigned mismatch
-c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(375): warning C4018: '<': signed/unsigned mismatch
-c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(595): warning C4018: '>': signed/unsigned mismatch
-  Generating Code...
-  Compiling...
+﻿  stock.cpp
   sql.cpp
 c:\users\scott\documents\github\csufdevs\csufdevs\otlv4.h(15501): warning C4297: 'otl_stream::~otl_stream': function assumed not to throw an exception but does
   c:\users\scott\documents\github\csufdevs\csufdevs\otlv4.h(15501): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
 c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(213): warning C4552: '>>': operator has no effect; expected operator with side-effect
+  ims.cpp
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(232): error C3867: 'Stock::GetName': non-standard syntax; use '&' to create a pointer to member
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(232): error C2672: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace': no matching overloaded function found
+          with
+          [
+              _Kty=std::string,
+              _Ty=Stock,
+              _Pr=std::less<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,Stock>>
+          ]
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(232): error C2228: left of '.second' must have class/struct/union
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(525): error C3861: 'Write_Item': identifier not found
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(534): error C2360: initialization of 'nameToFind' is skipped by 'case' label
+  c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(517): note: see declaration of 'nameToFind'
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(542): error C2360: initialization of 'nameToFind' is skipped by 'case' label
+  c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(517): note: see declaration of 'nameToFind'
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(548): error C2360: initialization of 'nameToFind' is skipped by 'case' label
+  c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(517): note: see declaration of 'nameToFind'
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(554): error C2360: initialization of 'nameToFind' is skipped by 'case' label
+  c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(517): note: see declaration of 'nameToFind'
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(560): error C2361: initialization of 'nameToFind' is skipped by 'default' label
+  c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(517): note: see declaration of 'nameToFind'
   Generating Code...
-  CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.exe
-  CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.pdb (Partial PDB)

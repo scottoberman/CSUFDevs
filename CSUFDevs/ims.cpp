@@ -5,7 +5,7 @@
 //sections have been commented out to comply with current iteration
 #include <iostream>
 #include <iomanip>
-#include <vector>
+#include <map>
 #include <string>
 #include "Stock.h"
 
@@ -14,20 +14,20 @@ using namespace std;
 enum { CHOICE1 = 1, CHOICE2, CHOICE3, CHOICE4, CHOICE5, CHOICE6 };
 
 void Print_Menu();
-void Get_Menu_Choice(vector<Stock>& warehouse);
+void Get_Menu_Choice(map<string, Stock>& warehouse);
 void Flush_Input(istream &inStream);
-void Insert_Item(vector<Stock>& warehouse);
-void Delete_Item(vector<Stock>& warehouse);
-void Update_Item(vector<Stock>& warehouse);
-void Find_Item();
-void Print_Inventory(const vector<Stock>& warehouse);
+void Insert_Item(map<string, Stock>& warehouse);
+void Delete_Item(map<string, Stock>& warehouse);
+void Update_Item(map<string, Stock>& warehouse);
+void Find_Item(map<string, Stock> warehouse);
+void Print_Inventory(const map<string, Stock>& warehouse);
 void Write_Line_Menu(int length = 50, char style = '_', string title = "");
 void Write_Line(int length = 50, char style = '_');
 
 int main()
 {
 	bool EndProgram = false;
-	vector<Stock> warehouse;
+	map<string, Stock> warehouse;
 
 	do
 	{
@@ -83,7 +83,7 @@ void Print_Menu()
   // Output: NONE
   //
   //==========================================================
-void Get_Menu_Choice(vector<Stock>& warehouse)
+void Get_Menu_Choice(map<string, Stock>& warehouse)
 {
 	int usersChoice;
 	bool validChoice = false;
@@ -188,7 +188,7 @@ void Flush_Input(istream &inStream)
   //                 a vector<Stock> in which we have access to
   //                 warehouse items
   //==========================================================
-void Insert_Item(vector<Stock>& warehouse)
+void Insert_Item(map<string, Stock>& warehouse)
 {
 	string tempname;
 	int tempq;
@@ -229,7 +229,16 @@ void Insert_Item(vector<Stock>& warehouse)
 	temp.SetShelfLocation(tempname);
 	//error-check temp
 	//success? push into vector
-	warehouse.push_back(temp);
+	if (warehouse.emplace(temp.GetName, temp).second)
+	{
+		cout << "New item added successfully!";
+	}
+	else
+	{
+		cout << "Item addition failed, item with ID already exists.";
+	}
+
+	cout << endl;
 
 } // end of Insert_Item(vector<Stock>&warehouse)
 
@@ -247,79 +256,58 @@ void Insert_Item(vector<Stock>& warehouse)
   // Output: NONE
   //
   //==========================================================
-void Delete_Item(vector<Stock>& warehouse)
+void Delete_Item(map<string, Stock>& warehouse)
 {
 	//Find_Item();
 	bool test;
-	int x;
+	string x; // The id number to delete (is an int currently but can convert in case its changed to string)
 	int y;
 	bool didAnythingPop = false;
 
 	Print_Inventory(warehouse);
 	do
 	{
-		cout << "Choice of stock to delete: ";
+		cout << "ID of stock to delete: ";
 		cin >> x;
 		if (cin.fail())
 		{
 			Flush_Input(cin);
 			test = false;
-			cout << "Invalid index choice! Please try again..." << endl;
-		}
-		else if (x >= 1 && x < (warehouse.size() + 1))
-		{
-			test = true;
-		}
-		else
-		{
-			test = false;
-			cout << "Invalid index choice! Please try again..." << endl;
+			cout << "Invalid ID choice! Please try again..." << endl;
 		}
 	} while (test == false);
-	x--;
 
-	do
+
+	cout << "Delete " << warehouse.at(x).GetName() << "?\n"
+		<< "Yes(1) No(0): ";
+	cin >> y;
+	if (cin.fail())
 	{
-		cout << "Delete " << warehouse[x].GetName() << "?\n"
-			<< "Yes(1) No(0): ";
-		cin >> y;
-		if (cin.fail())
-		{
-			Flush_Input(cin);
-			test = false;
-			cout << "Invalid entry! Please try again..." << endl;
-		}
-		else if (y > 1 || y < 0)
-		{
-			test = false;
-			cout << "Invalid entry! Please try again..." << endl;
-		}
-		else
-		{
-			test = true;
-		}
-	} while (test == false);
+		Flush_Input(cin);
+		test = false;
+		cout << "Invalid entry! Please try again..." << endl;
+	}
+	else if (y > 1 || y < 0)
+	{
+		test = false;
+		cout << "Invalid entry! Please try again..." << endl;
+	}
+	else
+	{
+		test = true;
+	}
 
 	if (y == 1)
 	{
-		for (int i = x; i < warehouse.size(); i++)
+		if (warehouse.erase(x))
 		{
-			if (i + 1 == warehouse.size()) //will we go out of bounds?
-			{
-				warehouse.pop_back(); //if last element was selected to be deleted
-				didAnythingPop = true;
-			}
-			else
-			{
-				warehouse[i] = warehouse[i + 1]; // ??? Use vector::erase instead probably
-			}
+			cout << "Item successfully deleted!\n";
 		}
-
-		if (!didAnythingPop)
+		else
 		{
-			warehouse.pop_back();
+			cout << "Item deletion failed. Item not found.\n";
 		}
-		cout << "Success\n";
+		
 	}
 } // end of Delete_Item(vector<Stock> & warehouse)
 
@@ -352,12 +340,13 @@ void Delete_Item(vector<Stock>& warehouse)
   // Output: NONE
   //
   //==========================================================
-void Update_Item(vector<Stock>& warehouse)
+void Update_Item(map<string, Stock>& warehouse)
 {
-	int x;
+	string x;
 	string tempname;	//may be subject to change, temp variables for getline and for set functions
 	int tempnum;
 	bool test;
+	map<string, Stock>::iterator itemToUpdate;
 
 	Print_Inventory(warehouse);
 
@@ -365,6 +354,7 @@ void Update_Item(vector<Stock>& warehouse)
 	do
 	{
 		cin >> x;
+		itemToUpdate = warehouse.find(x);
 		if (cin.fail())
 		{
 			Flush_Input(cin);
@@ -372,7 +362,7 @@ void Update_Item(vector<Stock>& warehouse)
 			cout << "Invalid entry! Please try again..." << endl;
 			cout << "entry to update: ";
 		}
-		else if ((x - 1) >= 0 && (x - 1) < warehouse.size())		//comparison to value printed in Print_Inventory (1 less)
+		else if (itemToUpdate != warehouse.end())//comparison to value printed in Print_Inventory (1 less)
 		{
 			test = true;
 		}
@@ -383,7 +373,6 @@ void Update_Item(vector<Stock>& warehouse)
 			test = false;
 		}
 	} while (test == false);
-	x--;		//So that the entered value corresponds to the actual index
 
 	Write_Line_Menu(50, '_', " UPDATE ITEM ");
 	cout << "1) Name Of Item        " << endl;
@@ -408,7 +397,7 @@ void Update_Item(vector<Stock>& warehouse)
 			cout << "Please enter a name: ";
 			Flush_Input(cin);
 			getline(cin, tempname);
-			warehouse[x].SetName(tempname);
+			itemToUpdate->second.SetName(tempname);
 			break;
 
 		case CHOICE2:
@@ -433,7 +422,7 @@ void Update_Item(vector<Stock>& warehouse)
 					test = true;
 				}
 			} while (test == false);
-			warehouse[x].SetQuantity(tempnum);
+			itemToUpdate->second.SetQuantity(tempnum);
 			break;
 
 		case CHOICE3:
@@ -441,7 +430,7 @@ void Update_Item(vector<Stock>& warehouse)
 			cout << "Please enter the new item location (new shelf identifier): ";
 			Flush_Input(cin);
 			getline(cin, tempname);
-			warehouse[x].SetShelfLocation(tempname);
+			itemToUpdate->second.SetShelfLocation(tempname);
 			break;
 
 			/*case CHOICE3:
@@ -496,8 +485,11 @@ void Update_Item(vector<Stock>& warehouse)
   // Output:
   //
   //==========================================================
-void Find_Item()
+void Find_Item(map<string, Stock>& warehouse)
 {
+	map<string, Stock>::const_iterator itemIterator;
+	bool itemFound;
+
 	cout << "How Would You Like To Search For An Item?" << endl;
 	cout << endl;
 
@@ -520,14 +512,33 @@ void Find_Item()
 		switch (usersChoice)
 		{
 		case CHOICE1:
+		{
+			string nameToFind;
 			validChoice = true;
 			cout << "FINDING ITEM BY NAME" << endl;
+			cout << "Enter the name of the item to find: ";
+			Flush_Input(cin);
+			getline(cin, nameToFind);
 			//INSERT FUNCTION CALL HERE?
+			while (itemIterator != warehouse.end() && !itemFound)
+			{
+				if (itemIterator->second.GetName() == nameToFind)
+				{
+					Write_Item(itemIterator->second);
+				}
+				else
+				{
+					itemIterator++;
+				}
+			}
 			break;
-
+		}
+		// LEFT OFF HERE - Scott 10-8-16 TODO
 		case CHOICE2:
 			validChoice = true;
 			cout << "FINDING ITEM BY NUMBER OF ITEMS" << endl;
+			int quantityToFind;
+
 			//INSERT FUNCTION CALL HERE?
 			break;
 
@@ -587,17 +598,17 @@ void Find_Item()
   // Output: NONE
   //
   //==========================================================
-void Print_Inventory(const vector<Stock>& warehouse)
+void Print_Inventory(const map<string, Stock>& warehouse)
 {
 	//for loop displays all elements of the vector
-	cout << left << "index" << "___________________" << "name" << "____________________" << "quantity" << "____________________"
-		<< "location" << endl;
-	for (int i = 0; warehouse.size() > i; i++)
+	cout << left << "id" << "___________________" << "name" << "____________________" << "quantity" << "____________________"
+		 << "location" << endl;
+	for (map<string, Stock>::const_iterator i = warehouse.begin(); i != warehouse.end() ; i++)
 	{
-		cout << left << "[" << i + 1 << setw(22) << "] ";
-		cout << left << setw(24) << warehouse[i].GetName();
-		cout << left << setw(28) << warehouse[i].GetQuantity();
-		cout << left << warehouse[i].GetShelfLocation();
+		cout << left << "[" << i->first << setw(25) << "] ";
+		cout << left << setw(24) << i->second.GetName();
+		cout << left << setw(28) << i->second.GetQuantity();
+		cout << left << i->second.GetShelfLocation();
 		cout << endl;
 	}
 
@@ -652,5 +663,11 @@ void Write_Line(int length, char style)
 	cout << setfill(' ') << endl;
 } // end of void Write_Line(int lenght, char style)
 
-
+void Write_Item(Stock item)
+{
+	std::cout << "ID      : " << item.GetID()			 << '\n' 
+			  << "Name    : " << item.GetName()			 << '\n'
+			  << "Quantity: " << item.GetQuantity()		 << '\n'
+			  << "Location: " << item.GetShelfLocation() << '\n';
+}
 
