@@ -9,7 +9,8 @@ extern otl_connect db; // Connection to database
 * well as the column labels. If you wish to get the entire table without
 * the column labels, use the Select function instead.
 * ---------------------------------------------------------------------------
-* ARGS   : TABLE: The table to be selected.
+* ARGS   : TABLE	   : The table to be selected.
+*		   FORMAT_WIDTH: Size of each column
 * OUTPUTS: Nothing
 * RETURNS: The table with minor formatting and column labels. If the table
 *		   does not exist, an empty string will be returned(NEEDS TO BE IMPLEMENTED TODO).
@@ -91,6 +92,106 @@ std::string SelectAll(const std::string TABLE,
 	return result;
 }
 
+/****************************************************************************
+* FUNCTION SelectAllFromItem
+* ---------------------------------------------------------------------------
+* Gets the Item table from the database and places it in a string.
+* ---------------------------------------------------------------------------
+* ARGS   : FORMAT_WIDTH: Size of each column
+* OUTPUTS: Nothing
+* RETURNS: The item table with minor formatting and column labels.
+* NOTES  : Needs to be altered when table schema is changed.
+*****************************************************************************/
+std::string SelectAllFromItem(const std::string::size_type FORMAT_WIDTH)
+{
+	std::string query;		// Contains the query sent to the SQL database
+	std::string colNames;	// Label for each column.
+	std::string result;		// The "result" from the SQL database (rows are on seperate lines and columns are seperated by whitespace)
+	std::string curResult;	// The individual output received from the stream.
+	otl_stream sqlStream;	// Raw source of SQL result
+	otl_var_desc* nextVar;	// Contains the information regarding the datatype of the next piece of data to be read from the database.
+	int tempResultWidth;	// Size of output before padding is added (used for formatting).
+
+	query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name = \'item\'";
+	sqlStream.open(1000, query.c_str(), db);
+
+	// Output table labels
+	curResult = "Item ID";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Item Name";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Item Desc.";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Price";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Stock Count";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Shelf Number";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+
+	curResult = "Update Time";
+	curResult.insert(curResult.end(), FORMAT_WIDTH - curResult.size() - 1, ' ');
+	curResult.append(" ");
+	result.append(curResult);
+	
+	result.append("\n");
+	sqlStream.close();
+
+	query = "SELECT * FROM item";
+	sqlStream.open(100, query.c_str(), db);
+	nextVar = sqlStream.describe_next_out_var();
+
+	while (!sqlStream.eof())
+	{
+		curResult = StreamToString(sqlStream);
+		tempResultWidth = curResult.size();
+		for (int x = 0; x < (int)FORMAT_WIDTH - tempResultWidth - 1; x++)
+		{
+			curResult.append(" ");
+		}
+		curResult.append(" ");
+		result.append(curResult);
+
+		// If the end of the row has been reached, enter a newline char so the next row will be on its own line.
+		// Else, add a whitespace character to seperate the column data.
+		try
+		{
+			sqlStream.check_end_of_row();
+			result.append("\n");
+
+		}
+		// This block adds a space between elements of the row but this is handled elsewhere now.
+		catch (otl_exception&)
+		{
+			//result.append(" ");
+		}
+		nextVar = sqlStream.describe_next_out_var();
+
+	}
+
+	// Remove the extra newline from the back of the string.
+	result.pop_back();
+
+	return result;
+}
+
 // To be used when expecting a single response from a query (ie: Get a name,
 // id, price, float, etc from a table).
 // Use with primary keys only (CHECK_VAL should be a primary key since only
@@ -144,23 +245,19 @@ std::string StreamToString(otl_stream& sqlStream)
 	int outputType = sqlStream.describe_next_out_var()->ftype;
 	switch (outputType)
 	{
-
-
-		//case(20) : // BIG INT
-		//{
-		//	OTL_UBIGINT temp;
-		//	sqlStream >> temp;
-		//	break;
-		//}
-
-		//case(12) : // BLOB
-		//{
-		//	otl_lob_stream temp;
-		//	sqlStream >> temp;
-		//	result.append((std::string)temp)
-		//	break;
-		//}
-
+	//case(20) : // BIG INT
+	//{
+	//	OTL_UBIGINT temp;
+	//	sqlStream >> temp;
+	//	break;
+	//}
+	//case(12) : // BLOB
+	//{
+	//	otl_lob_stream temp;
+	//	sqlStream >> temp;
+	//	result.append((std::string)temp)
+	//	break;
+	//}
 	case(1) :  // CHAR (ALSO USED FOR VARCHARS)
 	{
 		unsigned short temp[255];
@@ -177,26 +274,32 @@ std::string StreamToString(otl_stream& sqlStream)
 		sqlStream >> temp;
 		break;
 	}
-				//case(17) : // DB2DATE
-				//{
-				//	otl_datetime temp; // May not be correct type for this case
-				//	sqlStream >> temp;
-				//	result.append((std::string)temp)
-				//	break;
-				//}
+	//case(17) : // DB2DATE
+	//{
+	//	otl_datetime temp; // May not be correct type for this case
+	//	sqlStream >> temp;
+	//	result.append((std::string)temp)
+	//	break;
+	//}
 
-				//case(16) : // DB2TIME
-				//{
-				//	otl_datetime temp; // May not be correct type for this case
-				//	sqlStream >> temp;
-				//	result.append((std::string)temp)
-				//	break;
-				//}
+	//case(16) : // DB2TIME
+	//{
+	//	otl_datetime temp; // May not be correct type for this case
+	//	sqlStream >> temp;
+	//	result.append((std::string)temp)
+	//	break;
+	//}
 	case(2) : // DOUBLE
 	{
 		double temp;
+		stringstream tempStr;
+		
 		sqlStream >> temp;
-		result.append(std::to_string(temp));
+
+		tempStr.precision(2);
+
+		tempStr << std::fixed << temp;
+		result.append(tempStr.str());
 		break;
 	}
 	case(3) : // FLOAT
@@ -239,15 +342,15 @@ std::string StreamToString(otl_stream& sqlStream)
 		break;
 	}
 
-				//case(23) : // RAW
-				//	break;
-				//case(10) : // RAW LONG
-				//	break;
-	case(6) : // SHORT
+	//case(23) : // RAW
+	//	break;
+	//case(10) : // RAW LONG
+	//	break;
+	case(6) : // SHORT (All shorts assumed to be unsigned)
 	{
 		short temp;
 		sqlStream >> temp;
-		result.append(std::to_string(temp));
+		result.append(std::to_string((unsigned short)temp));
 		break;
 	}
 	case(8) : // TIMESTAMP
@@ -525,6 +628,13 @@ void ScottMenu()
 					 "0) Exit\n";
 
 		std::cin >> menuInput;
+
+		if (std::cin.fail())
+		{
+			std::cin.clear();
+			menuInput = -1;
+		}
+		
 		std::cin.ignore(1000, '\n');
 
 		switch (menuInput)
@@ -533,7 +643,7 @@ void ScottMenu()
 			// Select All
 			case 1:
 			{
-				std::cout << SelectAll("item", 25) << std::endl << std::endl;
+				std::cout << SelectAllFromItem(25) << std::endl << std::endl;
 				break;
 			}
 			// Insert Values
@@ -544,10 +654,22 @@ void ScottMenu()
 				std::string description;
 				double price;
 				int count;
-				int status;
+				int shelf;
 
-				std::cout << "Enter an ID for the new item: ";
-				cin >> id;
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input.\n";
+					}
+					std::cout << "Enter an ID for the new item: ";
+					cin >> id;
+
+					
+				} while (std::cin.fail());
+
 				std::cin.ignore(1000, '\n');
 
 				std::cout << "Enter a name for the new item: ";
@@ -556,14 +678,48 @@ void ScottMenu()
 				std::cout << "Enter a description for the new item: ";
 				std::getline(cin, description);
 
-				std::cout << "Enter a price of the new item: ";
-				cin >> price;
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input.\n";
+					}
 
-				std::cout << "Enter the stock count of the new item: ";
-				cin >> count;
+					std::cout << "Enter a price of the new item: ";
+					cin >> price;
 
-				std::cout << "Enter the status code of the item: ";
-				cin >> status;
+				} while (std::cin.fail());
+
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input.\n";
+					}
+
+					std::cout << "Enter the stock count of the new item: ";
+					cin >> count;
+
+				} while (std::cin.fail());
+
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input.\n";
+					}
+
+					std::cout << "Enter the shelf number of the item: ";
+					cin >> shelf;
+
+				} while (std::cin.fail());
+
 				std::cin.ignore(1000, '\n');
 
 				std::string query;
@@ -579,7 +735,7 @@ void ScottMenu()
 				query.append(", ");
 				query.append(std::to_string(count));
 				query.append(", ");
-				query.append(std::to_string(status));
+				query.append(std::to_string(shelf));
 				query.append(", ");
 				query.append("CURRENT_TIMESTAMP)");
 
@@ -603,8 +759,19 @@ void ScottMenu()
 				int idToRemove;
 				std::string query;
 
-				std::cout << "Enter the item ID of the item you wish to remove: ";
-				cin >> idToRemove;
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input\n";
+					}
+					std::cout << "Enter the item ID of the item you wish to remove: ";
+					cin >> idToRemove;
+
+				} while (std::cin.fail());
+
 				std::cin.ignore(1000, '\n');
 
 				query = "DELETE FROM item WHERE item_id = ";
@@ -628,8 +795,20 @@ void ScottMenu()
 				int idToChange;
 				std::string query;
 
-				std::cout << "Enter the item id of the item you wish to modify: ";
-				std::cin >> idToChange;
+				do
+				{
+					if (std::cin.fail())
+					{
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						std::cout << "Invalid input.\n";
+					}
+
+					std::cout << "Enter the item id of the item you wish to modify: ";
+					std::cin >> idToChange;
+
+				} while (std::cin.fail());
+
 				std::cin.ignore(1000, '\n');
 
 				query = "Select * FROM item WHERE item_id = ";
@@ -638,16 +817,25 @@ void ScottMenu()
 				if (Select(query) != "")
 				{
 					int modifyChoice = -1;
-
-					std::cout << "Enter the value which corresponds to the value you would like to change: \n"
-								 "1) Item ID\n"
-								 "2) Item Name\n"
-								 "3) Item Description\n"
-								 "4) Price\n"
-								 "5) Stock Count\n"
-								 "6) Status Code\n";
+					do
+					{
+						if (std::cin.fail())
+						{
+							std::cin.clear();
+							std::cin.ignore(1000, '\n');
+							std::cout << "Invalid input.\n";
+						}
+						std::cout << "Enter the value which corresponds to the value you would like to change: \n"
+									 "1) Item ID\n"
+									 "2) Item Name\n"
+									 "3) Item Description\n"
+									 "4) Price\n"
+									 "5) Stock Count\n"
+									 "6) Shelf Number\n";
 
 					std::cin >> modifyChoice;
+					} while (std::cin.fail());
+
 					std::cin.ignore(1000, '\n');
 
 					switch (modifyChoice)
@@ -656,9 +844,20 @@ void ScottMenu()
 						case 1:
 						{
 							int newItemId;
+							do
+							{
+								if (std::cin.fail())
+								{
+									std::cin.clear();
+									std::cin.ignore(1000, '\n');
+									std::cout << "Invalid input.\n";
+								}
 
-							std::cout << "Enter the new item id: ";
-							std::cin >> newItemId;
+								std::cout << "Enter the new item id: ";
+								std::cin >> newItemId;
+
+							} while (std::cin.fail());
+
 							std::cin.ignore(1000, '\n');
 
 							query = "UPDATE item SET item_id = ";
@@ -726,9 +925,20 @@ void ScottMenu()
 						case 4:
 						{
 							double newPrice;
+							do
+							{
+								if (std::cin.fail())
+								{
+									std::cin.clear();
+									std::cin.ignore(1000, '\n');
+									std::cout << "Invalid input.\n";
+								}
 
-							std::cout << "Enter the new item price: ";
-							std::cin >> newPrice;
+								std::cout << "Enter the new item price: ";
+								std::cin >> newPrice;
+
+							} while (std::cin.fail());
+
 							std::cin.ignore(1000, '\n');
 
 							query = "UPDATE item SET price = ";
@@ -750,9 +960,20 @@ void ScottMenu()
 						case 5:
 						{
 							int newCount;
+							do
+							{
+								if (std::cin.fail())
+								{
+									std::cin.clear();
+									std::cin.ignore(1000, '\n');
+									std::cout << "Invalid input.\n";
+								}
 
-							std::cout << "Enter the new item count: ";
-							std::cin >> newCount;
+								std::cout << "Enter the new item count: ";
+								std::cin >> newCount;
+
+							} while (std::cin.fail());
+
 							std::cin.ignore(1000, '\n');
 
 							query = "UPDATE item SET stock_count = ";
@@ -770,23 +991,34 @@ void ScottMenu()
 							}
 							break;
 						}
-						// Update Status Code
+						// Update Shelf Number
 						case 6:
 						{
-							int newStatCode;
+							int newShelfNum;
+							do
+							{
+								if (std::cin.fail())
+								{
+									std::cin.clear();
+									std::cin.ignore(1000, '\n');
+									std::cout << "Invalid input.\n";
+								}
 
-							std::cout << "Enter the new item status code: ";
-							std::cin >> newStatCode;
+								std::cout << "Enter the new item shelf number: ";
+								std::cin >> newShelfNum;
+
+							} while (std::cin.fail());
+
 							std::cin.ignore(1000, '\n');
 
 							query = "UPDATE item SET status = ";
-							query.append(std::to_string(newStatCode));
+							query.append(std::to_string(newShelfNum));
 							query.append(" WHERE item_id =");
 							query.append(std::to_string(idToChange));
 
 							if (ModifyingQuery(query, errorCode, errorMsg))
 							{
-								std::cout << "Item status code changed to " << newStatCode;
+								std::cout << "Item shelf number changed to " << newShelfNum;
 							}
 							else
 							{
@@ -817,7 +1049,7 @@ void ScottMenu()
 			}
 			default:
 			{
-				std::cout << "Invalid input. Selection a valid option.";
+				std::cout << "Invalid input. Select a valid option.";
 			}
 		}
 
