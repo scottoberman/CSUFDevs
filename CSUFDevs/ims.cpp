@@ -1,5 +1,5 @@
 //updated 10-7-16 @ 2:34pm by Austin Blanke
-//updated 10-7-16 @ 10:00pm by Cristopher Hernandez
+//updated 10-8-16 @ 11:00am by Cristopher Hernandez
 //current status: Basic functionality is there, several sections need handling for bad user input
 //the Find_Item function needs to be modified to work
 //sections have been commented out to comply with current iteration
@@ -191,8 +191,6 @@ void Flush_Input(istream &inStream)
 void Insert_Item(vector<Stock>& warehouse)
 {
 	string tempname;
-	int tempshelfn;
-	char tempshelfl;
 	int tempq;
 	Stock temp;
 	bool test;
@@ -225,11 +223,10 @@ void Insert_Item(vector<Stock>& warehouse)
 		}
 	} while (test == false);
 
-	cout << "Store onto shelf (please enter a letter followed by a number): ";
-	cin >> tempshelfl;
-	temp.SetShelfLetter(tempshelfl);
-	cin >> tempshelfn;
-	temp.SetShelfNumber(tempshelfn);
+	cout << "Store onto shelf (please enter shelf identifier): ";
+	Flush_Input(cin);
+	getline(cin, tempname);
+	temp.SetShelfLocation(tempname);
 	//error-check temp
 	//success? push into vector
 	warehouse.push_back(temp);
@@ -314,7 +311,7 @@ void Delete_Item(vector<Stock>& warehouse)
 			}
 			else
 			{
-				warehouse[i] = warehouse[i + 1];
+				warehouse[i] = warehouse[i + 1]; // ??? Use vector::erase instead probably
 			}
 		}
 
@@ -360,7 +357,6 @@ void Update_Item(vector<Stock>& warehouse)
 	int x;
 	string tempname;	//may be subject to change, temp variables for getline and for set functions
 	int tempnum;
-	char tempc;
 	bool test;
 
 	Print_Inventory(warehouse);
@@ -442,11 +438,10 @@ void Update_Item(vector<Stock>& warehouse)
 
 		case CHOICE3:
 			validChoice = true;
-			cout << "Please enter the new item location (letter followed by a number): ";
-			cin >> tempc;
-			cin >> tempnum;
-			warehouse[x].SetShelfNumber(tempnum);
-			warehouse[x].SetShelfLetter(tempc);
+			cout << "Please enter the new item location (new shelf identifier): ";
+			Flush_Input(cin);
+			getline(cin, tempname);
+			warehouse[x].SetShelfLocation(tempname);
 			break;
 
 			/*case CHOICE3:
@@ -602,7 +597,7 @@ void Print_Inventory(const vector<Stock>& warehouse)
 		cout << left << "[" << i + 1 << setw(22) << "] ";
 		cout << left << setw(24) << warehouse[i].GetName();
 		cout << left << setw(28) << warehouse[i].GetQuantity();
-		warehouse[i].PrintLocation();
+		cout << left << warehouse[i].GetShelfLocation();
 		cout << endl;
 	}
 

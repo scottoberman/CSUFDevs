@@ -1,6 +1,6 @@
 #include "sql.h"
 
-extern otl_connect db; // Connection to database
+otl_connect db; // Connection to database
 
 /****************************************************************************
 * FUNCTION SelectAll

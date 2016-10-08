@@ -1,6 +1,14 @@
-﻿  sql.cpp
+﻿  ims.cpp
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(269): warning C4018: '<': signed/unsigned mismatch
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(305): warning C4018: '<': signed/unsigned mismatch
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(375): warning C4018: '<': signed/unsigned mismatch
+c:\users\scott\documents\github\csufdevs\csufdevs\ims.cpp(595): warning C4018: '>': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  sql.cpp
 c:\users\scott\documents\github\csufdevs\csufdevs\otlv4.h(15501): warning C4297: 'otl_stream::~otl_stream': function assumed not to throw an exception but does
   c:\users\scott\documents\github\csufdevs\csufdevs\otlv4.h(15501): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
 c:\users\scott\documents\github\csufdevs\csufdevs\sql.cpp(213): warning C4552: '>>': operator has no effect; expected operator with side-effect
+  Generating Code...
   CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.exe
   CSUFDevs.vcxproj -> C:\Users\scott\Documents\GitHub\CSUFDevs\Debug\CSUFDevs.pdb (Partial PDB)

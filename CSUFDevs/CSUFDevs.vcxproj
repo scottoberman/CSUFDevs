@@ -112,8 +112,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ims.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="sql.cpp" />
+    <ClCompile Include="stock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="otlv4.h" />
