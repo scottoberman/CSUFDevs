@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 #include "Stock.h"
-#include "sql.h"
 
 using namespace std;
 //Five functional requirements: menu, insert, delete, print, database
@@ -25,29 +24,10 @@ void Print_Inventory(const vector<Stock>& warehouse);
 void Write_Line_Menu(int length = 50, char style = '_', string title = "");
 void Write_Line(int length = 50, char style = '_');
 
-otl_connect db; // Connection to database
-
 int main()
 {
 	bool EndProgram = false;
 	vector<Stock> warehouse;
-
-	// You will need to install the 32-bit oracle MySql Connector for this (and the entire program) to function
-	// Connect to server
-	try
-	{
-		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
-
-		// Select "ims" database
-		db.direct_exec("USE ims");
-	}
-	catch (otl_exception& e)
-	{
-		std::cout << "Failed to connect to server.\n"
-					 "Error Message: " << e.msg <<  "\n"
-					 "Error Code: " << e.code << "\n";
-	}
-
 
 	do
 	{
@@ -325,13 +305,6 @@ void Delete_Item(vector<Stock>& warehouse)
 
 	if (y == 1)
 	{
-		// Remove the element from the database
-		string query;
-		query = "DELETE FROM ims WHERE item_name = \'";
-		query.append(warehouse[x].GetName());
-		query.append("\'");
-		db.direct_exec(query.c_str());
-
 		for (int i = x; i < warehouse.size(); i++)
 		{
 			if (i + 1 == warehouse.size()) //will we go out of bounds?
@@ -341,9 +314,7 @@ void Delete_Item(vector<Stock>& warehouse)
 			}
 			else
 			{
-				// Might want to to use vector::erase instead. Current method makes a duplicate of element [i + 1] pretty sure.
 				warehouse[i] = warehouse[i + 1];
-				
 			}
 		}
 
@@ -685,62 +656,6 @@ void Write_Line(int length, char style)
 	cout << setw(length) << setfill(style) << "";
 	cout << setfill(' ') << endl;
 } // end of void Write_Line(int lenght, char style)
-
-void ItemTableToVector(vector<Stock>& warehouse)
-{
-	otl_stream sqlStream;
-	int item_id;
-	string item_name;
-	string item_description;
-	double price;
-	int stock_count;
-	int status;
-	string update_ts;
-
-	unsigned short tempStr[255];
-
-	sqlStream.open(1000, "SELECT * FROM ims", db);
-
-	while (!sqlStream.eof())
-	{
-		// Might cause scope\undefined behavior problems.
-		Stock item;
-
-		// Get the item_id from the table
-		sqlStream >> item_id;
-		item.SetID(to_string(item_id));
-
-		// Get the item_name from the table
-		sqlStream >> (unsigned char*)tempStr;
-		for (int x = 0; tempStr[x] != 0; x++)
-		{
-			item_name.push_back((char)(tempStr[x]));
-		}
-		item.SetName(item_name);
-
-		// Get the item_description from the table
-		sqlStream >> (unsigned char*)tempStr;
-		for (int x = 0; tempStr[x] != 0; x++)
-		{
-			item_description.push_back((char)tempStr[x]);
-		}
-		item.SetDescription(item_description);
-
-		// Get the price from the table
-		sqlStream >> price;
-		item.SetPrice(price);
-
-		// Get the stock_count from the table
-		sqlStream >> stock_count;
-		item.SetQuantity(stock_count);
-
-		// The way item is declared may cause undefined behavior.
-		warehouse.push_back(item);
-	}
-
-
-
-}
 
 
 

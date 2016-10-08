@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ims.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="sql.cpp" />
   </ItemGroup>
   <ItemGroup>
