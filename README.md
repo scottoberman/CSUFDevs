@@ -1,12 +1,3 @@
-# CSUFDEVS - RDBMS Inventory Management System
+# CSUFDEVS - RDBMS Inventory Management System (ScottInterface Branch)
 
-For a list of features, things to do, and notices, view the [TODO](https://github.com/scottoberman/CSUFDevs/blob/master/todo.md)
-
-
-## Developed by:
-Scott Oberman  
-Richard McNeley  
-Christopher Hernandez  
-Rick Alonzo  
-Robert Hare  
-Austin Blanke
+This branch does not include the front end interface to be used with a vector of table elements. Currently, this branch simply acts as a placeholder for a relatively stable build.
