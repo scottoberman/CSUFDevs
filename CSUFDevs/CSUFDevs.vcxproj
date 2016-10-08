@@ -111,12 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ims.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sql.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="otlv4.h" />
     <ClInclude Include="sql.h" />
+    <ClInclude Include="stock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

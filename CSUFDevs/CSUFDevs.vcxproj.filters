@@ -21,12 +21,18 @@
     <ClCompile Include="sql.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ims.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="otlv4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sql.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
