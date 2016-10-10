@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include "Stock.h"
+#include "sql.h"
 
 using namespace std;
 //Five functional requirements: menu, insert, delete, print, database
@@ -194,6 +195,7 @@ void Insert_Item(map<string, Stock>& warehouse)
 	int tempq;
 	Stock temp;
 	bool test;
+	string query;
 
 	cout << "Enter name of new item: ";
 
@@ -227,6 +229,19 @@ void Insert_Item(map<string, Stock>& warehouse)
 	Flush_Input(cin);
 	getline(cin, tempname);
 	temp.SetShelfLocation(tempname);
+
+	// Create the query for the MySQL database
+	query = "INSERT INTO item (item_id, item_name, item_desc, price, stock_count, status, update_ts) VALUES (\'";
+	query.append(tempname);
+	query.append("\', \'");
+	// "Generate" an id for the new item
+	query.append(to_string(std::stoi(Select("SELECT item_id from item ORDER BY item_id DESC LIMIT 1")) + 1));
+	query.append("\', \'");
+	query.append(tempname);
+	// Need to have a description input
+	query.append("\', \'TODO\', ");
+	// Need to have a price input
+	query.append(to_string(0));
 	//error-check temp
 	//success? push into vector
 	if (warehouse.emplace(temp.GetName, temp).second)
