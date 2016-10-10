@@ -25,17 +25,29 @@ void Print_Inventory(const map<string, Stock>& warehouse);
 void Write_Line_Menu(int length = 50, char style = '_', string title = "");
 void Write_Line(int length = 50, char style = '_');
 
+extern otl_connect db; // Connection to database
+
 int main()
 {
 	bool EndProgram = false;
 	map<string, Stock> warehouse;
 
-	do
+	// Connect to MySql Server
+	// If this fails, the program will terminate.
+	if (InitConnection())
 	{
-		Print_Menu();
-		Get_Menu_Choice(warehouse);
+		GetItemsFromDatabase(warehouse); // Fill the warehouse map with items from the database (uncaught exception on failure)
 
-	} while (!EndProgram);
+		do
+		{
+			Print_Menu();
+			Get_Menu_Choice(warehouse);
+
+		} while (!EndProgram);
+	}
+	
+
+
 
 	cout << "REACHED END OF MAIN()" << endl;
 	return 0;
@@ -128,7 +140,7 @@ void Get_Menu_Choice(map<string, Stock>& warehouse)
 		case CHOICE4:
 			validChoice = true;
 			cout << "QUITING PROGRAM GOODBYE" << endl;
-			exit(EXIT_SUCCESS);
+			exit(EXIT_SUCCESS); // This need to be altered; could be dangerous to SQL Connection and program in general.
 
 		default:
 			//this occurs when invalid choice and get new valid choice
@@ -192,10 +204,21 @@ void Flush_Input(istream &inStream)
 void Insert_Item(map<string, Stock>& warehouse)
 {
 	string tempname;
+	string tempShelf;
 	int tempq;
 	Stock temp;
 	bool test;
 	string query;
+	string tempId;
+
+	// For outputing errors with MySQL database
+	int errorCode;
+	string errorMsg;
+	bool sqlInsertSucceed;
+
+	// For outputing errors with c++ warehouse map
+	bool warehouseEmplaceSucceed;
+
 
 	cout << "Enter name of new item: ";
 
@@ -227,29 +250,62 @@ void Insert_Item(map<string, Stock>& warehouse)
 
 	cout << "Store onto shelf (please enter shelf identifier): ";
 	Flush_Input(cin);
-	getline(cin, tempname);
-	temp.SetShelfLocation(tempname);
+	getline(cin, tempShelf);
+	temp.SetShelfLocation(tempShelf);
+
+	
+	tempId = (to_string(std::stoi(Select("SELECT item_id from item ORDER BY item_id DESC LIMIT 1")) + 1)); // "Generate" an id for the new item (Should have option to input ID probably somewhere instead)
+	temp.SetID(tempId);   // Insert Item Id into warehouse map
 
 	// Create the query for the MySQL database
-	query = "INSERT INTO item (item_id, item_name, item_desc, price, stock_count, status, update_ts) VALUES (\'";
-	query.append(tempname);
+	query = "INSERT INTO item (item_id, item_name, item_description, price, stock_count, status, update_ts) VALUES (\'";
+	query.append(tempId); // Insert Item Id
 	query.append("\', \'");
-	// "Generate" an id for the new item
-	query.append(to_string(std::stoi(Select("SELECT item_id from item ORDER BY item_id DESC LIMIT 1")) + 1));
+	query.append(tempname); // Insert Item Name
 	query.append("\', \'");
-	query.append(tempname);
-	// Need to have a description input
-	query.append("\', \'TODO\', ");
-	// Need to have a price input
-	query.append(to_string(0));
+	query.append("DESC TODO"); // Insert item description. Need to have a description input
+	query.append("\', \'");
+	query.append(to_string(0));// Need to have a price input
+	query.append("\', \'");
+	query.append(to_string(tempq)); // Insert into item quantity
+	query.append("\', \'");
+	query.append(tempShelf); // Insert into Shelf Location
+	query.append("\', CURRENT_TIMESTAMP)"); // Insert the date that the item was added (now).
 	//error-check temp
+
+	cout << endl << query << endl; // REMOVE. FOR DEBUGGING ATM
+
+	warehouseEmplaceSucceed = warehouse.emplace(temp.GetName(), temp).second;
+	sqlInsertSucceed = ModifyingQuery(query, errorCode, errorMsg);
 	//success? push into vector
-	if (warehouse.emplace(temp.GetName, temp).second)
+	// Need considerable error checking for this. The new item could
+	// be added to just the database or just the warehouse map. Need
+	// error checks on every case.
+	// Also need to add more error checks for the nested conditions.
+	// BEWARE OF SERVER/MAP DESYNC
+	if (warehouseEmplaceSucceed && sqlInsertSucceed)
 	{
 		cout << "New item added successfully!";
 	}
+	else if (warehouseEmplaceSucceed && !sqlInsertSucceed)
+	{
+		cout << "ERROR: New item was added to warehouse but could not be added to MySQL Database.\n"
+			    "Removing element from warehouse...";
+		warehouse.erase(tempname);
+	}
+	else if (!warehouseEmplaceSucceed && sqlInsertSucceed)
+	{
+		cout << "ERROR: New item was added to MySQL database but could not be added to warehouse.\n"
+				"Removing element from MySQL database...";
+
+		query = "DELETE * FROM item where item_id = ";
+		query.append(tempId);
+		// Might need some more error checking on this func call too. Nested error checks on error checks...
+		ModifyingQuery(query, errorCode, errorMsg);
+	}
 	else
 	{
+		// This message is not strictly true but if the connection is active, this is the most likely problem.
 		cout << "Item addition failed, item with ID already exists.";
 	}
 
@@ -312,6 +368,7 @@ void Delete_Item(map<string, Stock>& warehouse)
 		test = true;
 	}
 
+	// Like with the function Insert_Item, both the status of the server and the map need to be checked for errors. Could cause desync otherwise.
 	if (y == 1)
 	{
 		if (warehouse.erase(x))
@@ -365,7 +422,7 @@ void Update_Item(map<string, Stock>& warehouse)
 
 	Print_Inventory(warehouse);
 
-	cout << "What Would You Like To Update?" << endl;
+	cout << "What Would You Like To Update (enter item id)? " << endl;
 	do
 	{
 		cin >> x;
@@ -377,7 +434,7 @@ void Update_Item(map<string, Stock>& warehouse)
 			cout << "Invalid entry! Please try again..." << endl;
 			cout << "entry to update: ";
 		}
-		else if (itemToUpdate != warehouse.end())//comparison to value printed in Print_Inventory (1 less)
+		else if (itemToUpdate != warehouse.end())
 		{
 			test = true;
 		}
@@ -399,10 +456,18 @@ void Update_Item(map<string, Stock>& warehouse)
 
 	int usersChoice;
 	bool validChoice = false;
+	string query;
+	
+	// These vars are used for determining database issues.
+	int errorCode;
+	string errorMsg;
+
+	query = "UPDATE item SET ";
 
 	cout << "Enter Choice: ";
 	cin >> usersChoice;
 
+	// Like with the function Insert_Item, both the status of the server and the map need to be checked for errors. Could cause desync otherwise.
 	do
 	{
 		switch (usersChoice)
@@ -413,6 +478,15 @@ void Update_Item(map<string, Stock>& warehouse)
 			Flush_Input(cin);
 			getline(cin, tempname);
 			itemToUpdate->second.SetName(tempname);
+
+			// Change MySQL Data (might be able to make nicer with a function)
+			query.append("item_name = \'");
+			query.append(tempname);
+			query.append("\' WHERE item_id = ");
+			query.append(x);
+			// Need error check to see if element was added to database (duplicate element etc)
+			ModifyingQuery(query, errorCode, errorMsg);
+
 			break;
 
 		case CHOICE2:
@@ -438,6 +512,14 @@ void Update_Item(map<string, Stock>& warehouse)
 				}
 			} while (test == false);
 			itemToUpdate->second.SetQuantity(tempnum);
+
+			// Change MySQL Data (might be able to make nicer with a function)
+			query.append("stock_count = \'");
+			query.append(to_string(tempnum));
+			query.append("\' WHERE item_id = ");
+			query.append(x);
+			// Need error check to see if element was added to database (duplicate element etc)
+			ModifyingQuery(query, errorCode, errorMsg);
 			break;
 
 		case CHOICE3:
@@ -446,6 +528,14 @@ void Update_Item(map<string, Stock>& warehouse)
 			Flush_Input(cin);
 			getline(cin, tempname);
 			itemToUpdate->second.SetShelfLocation(tempname);
+
+			// Change MySQL Data (might be able to make nicer with a function)
+			query.append("status = \'");
+			query.append(tempname);
+			query.append("\' WHERE item_id = ");
+			query.append(x);
+			// Need error check to see if element was added to database (duplicate element etc)
+			ModifyingQuery(query, errorCode, errorMsg);
 			break;
 
 			/*case CHOICE3:
@@ -500,101 +590,101 @@ void Update_Item(map<string, Stock>& warehouse)
   // Output:
   //
   //==========================================================
-void Find_Item(map<string, Stock>& warehouse)
-{
-	map<string, Stock>::const_iterator itemIterator;
-	bool itemFound;
-
-	cout << "How Would You Like To Search For An Item?" << endl;
-	cout << endl;
-
-	Write_Line_Menu(50, '_', " FIND ITEM ");
-	cout << "1) Name Of Item        " << endl;
-	cout << "2) Number Of Items     " << endl;
-	cout << "3) Item ID             " << endl;
-	cout << "4) Number Of Item Sold " << endl;
-	cout << "5) Popularity of Item  " << endl;
-	Write_Line();
-
-	int usersChoice;
-	bool validChoice = false;
-
-	cout << "Enter Choice: ";
-	cin >> usersChoice;
-
-	do
-	{
-		switch (usersChoice)
-		{
-		case CHOICE1:
-		{
-			string nameToFind;
-			validChoice = true;
-			cout << "FINDING ITEM BY NAME" << endl;
-			cout << "Enter the name of the item to find: ";
-			Flush_Input(cin);
-			getline(cin, nameToFind);
-			//INSERT FUNCTION CALL HERE?
-			while (itemIterator != warehouse.end() && !itemFound)
-			{
-				if (itemIterator->second.GetName() == nameToFind)
-				{
-					Write_Item(itemIterator->second);
-				}
-				else
-				{
-					itemIterator++;
-				}
-			}
-			break;
-		}
-		// LEFT OFF HERE - Scott 10-8-16 TODO
-		case CHOICE2:
-			validChoice = true;
-			cout << "FINDING ITEM BY NUMBER OF ITEMS" << endl;
-			int quantityToFind;
-
-			//INSERT FUNCTION CALL HERE?
-			break;
-
-		case CHOICE3:
-			validChoice = true;
-			cout << "FINDING ITEM BY ITEM ID" << endl;
-			//INSERT FUNCTION CALL HERE?
-			break;
-
-		case CHOICE4:
-			validChoice = true;
-			cout << "FINDING ITEM BY NUMBER OF ITEMS SOLD" << endl;
-			//INSERT FUNCTION CALL HERE?
-			break;
-
-		case CHOICE5:
-			validChoice = true;
-			cout << "FINDING ITEM BY POPULARITY OF ITEM" << endl;
-			//INSERT FUNCTION CALL HERE?
-			break;
-
-		default:
-			//this occurs when invalid choice and get new valid choice
-			Flush_Input(cin);
-			cout << endl << endl;
-			Write_Line_Menu(50, '_', " FIND ITEM ");
-			cout << "1) Name Of Item        " << endl;
-			cout << "2) Number Of Items     " << endl;
-			cout << "3) Item ID             " << endl;
-			cout << "4) Number Of Item Sold " << endl;
-			cout << "5) Popularity of Item  " << endl;
-			Write_Line();
-			cout << endl;
-			cout << "Invalid Choice..." << endl;
-			cout << "Please Enter A Valid Choice To An Item By: ";
-			cin >> usersChoice;
-		}
-
-	} while (!validChoice);
-
-} // end of Find_Item()
+//void Find_Item(map<string, Stock>& warehouse)
+//{
+//	map<string, Stock>::const_iterator itemIterator;
+//	bool itemFound;
+//
+//	cout << "How Would You Like To Search For An Item?" << endl;
+//	cout << endl;
+//
+//	Write_Line_Menu(50, '_', " FIND ITEM ");
+//	cout << "1) Name Of Item        " << endl;
+//	cout << "2) Number Of Items     " << endl;
+//	cout << "3) Item ID             " << endl;
+//	cout << "4) Number Of Item Sold " << endl;
+//	cout << "5) Popularity of Item  " << endl;
+//	Write_Line();
+//
+//	int usersChoice;
+//	bool validChoice = false;
+//
+//	cout << "Enter Choice: ";
+//	cin >> usersChoice;
+//
+//	do
+//	{
+//		switch (usersChoice)
+//		{
+//		case CHOICE1:
+//		{
+//			string nameToFind;
+//			validChoice = true;
+//			cout << "FINDING ITEM BY NAME" << endl;
+//			cout << "Enter the name of the item to find: ";
+//			Flush_Input(cin);
+//			getline(cin, nameToFind);
+//			//INSERT FUNCTION CALL HERE?
+//			while (itemIterator != warehouse.end() && !itemFound)
+//			{
+//				if (itemIterator->second.GetName() == nameToFind)
+//				{
+//					Write_Item(itemIterator->second);
+//				}
+//				else
+//				{
+//					itemIterator++;
+//				}
+//			}
+//			break;
+//		}
+//		// LEFT OFF HERE - Scott 10-8-16 TODO
+//		case CHOICE2:
+//			validChoice = true;
+//			cout << "FINDING ITEM BY NUMBER OF ITEMS" << endl;
+//			int quantityToFind;
+//
+//			//INSERT FUNCTION CALL HERE?
+//			break;
+//
+//		case CHOICE3:
+//			validChoice = true;
+//			cout << "FINDING ITEM BY ITEM ID" << endl;
+//			//INSERT FUNCTION CALL HERE?
+//			break;
+//
+//		case CHOICE4:
+//			validChoice = true;
+//			cout << "FINDING ITEM BY NUMBER OF ITEMS SOLD" << endl;
+//			//INSERT FUNCTION CALL HERE?
+//			break;
+//
+//		case CHOICE5:
+//			validChoice = true;
+//			cout << "FINDING ITEM BY POPULARITY OF ITEM" << endl;
+//			//INSERT FUNCTION CALL HERE?
+//			break;
+//
+//		default:
+//			//this occurs when invalid choice and get new valid choice
+//			Flush_Input(cin);
+//			cout << endl << endl;
+//			Write_Line_Menu(50, '_', " FIND ITEM ");
+//			cout << "1) Name Of Item        " << endl;
+//			cout << "2) Number Of Items     " << endl;
+//			cout << "3) Item ID             " << endl;
+//			cout << "4) Number Of Item Sold " << endl;
+//			cout << "5) Popularity of Item  " << endl;
+//			Write_Line();
+//			cout << endl;
+//			cout << "Invalid Choice..." << endl;
+//			cout << "Please Enter A Valid Choice To An Item By: ";
+//			cin >> usersChoice;
+//		}
+//
+//	} while (!validChoice);
+//
+//} // end of Find_Item()
 
 
 

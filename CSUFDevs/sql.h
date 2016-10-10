@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include "otlv4.h" // ALL SQL FUNCTIONALITY WITHIN THIS HEADER FILE
+#include "stock.h"
 
 using namespace std;
 
@@ -29,9 +30,11 @@ bool ModifyingQuery(const std::string QUERY,
 					int& errorCode,
 					std::string& errorMessage);
 
-//std::map<std::string, Stock>& GetTableFromDatabase();
+void GetItemsFromDatabase(map<std::string, Stock>& WAREHOUSE);
 
 void ScottMenu();
+
+bool InitConnection();
 
 void sqlTesting();
 

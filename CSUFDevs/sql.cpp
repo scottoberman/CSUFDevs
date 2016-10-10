@@ -1,6 +1,6 @@
 #include "sql.h"
 
-otl_connect db; // Connection to database
+otl_connect db;
 
 /****************************************************************************
 * FUNCTION SelectAll
@@ -425,87 +425,57 @@ bool ModifyingQuery(const std::string QUERY,
 	return querySuccessful;
 }
 
-// MIGHT BE BAD STYLE TO RETURN BY REFERENCE IN THIS MANNER TODO
-// Fix this up once map class becomes accessible.
-//std::map<std::string, Stock>& GetTableFromDatabase()
-//{
-//	std::map<std::string, Stock> tableMap;
-//
-//	otl_connect::otl_initialize();
-//	otl_stream sqlStream;
-//	db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
-//
-//	db.direct_exec("USE ims");
-//	sqlStream.open(100, "SELECT * FROM item", db);
-//
-//	while (!sqlStream.eof())
-//	{
-//		Stock* newStock = new Stock();
-//
-//		unsigned short tempId[255];
-//		unsigned short tempName[255];
-//		int				tempQuantity;
-//		unsigned short tempShelfNum[255];
-//		unsigned short tempDescription[255];
-//		double			tempPrice;
-//		int				tempStatus;
-//
-//		string tempStr;
-//
-//		// Get ID from the stream
-//		sqlStream >> (unsigned char*)tempId;
-//		tempStr = (char*)tempId;
-//		newStock->SetID(tempStr);
-//
-//		// Get name from the stream
-//		sqlStream >> (unsigned char*)tempName;
-//		tempStr = (char*)tempName;
-//		newStock->SetName(tempStr);
-//
-//		// Get the description from the stream
-//		sqlStream >> (unsigned char*)tempDescription;
-//		tempStr = (char*)tempDescription;
-//		newStock->SetDescription(tempStr);
-//
-//		// Get the price from the stream
-//		sqlStream >> tempPrice;
-//		newStock->SetPrice(tempPrice);
-//
-//		// Get the quantity from the stream
-//		sqlStream >> tempQuantity;
-//		newStock->SetQuantity(tempQuantity);
-//
-//		//// Get the status (NOT IN CLASS ATM TODO)
-//		//sqlStream >> tempStatus;
-//		//newStock->SetStatus(tempStatus);
-//
-//		// Get the shelf number from the stream
-//		sqlStream >> (unsigned char*)tempShelfNum;
-//		tempStr = (char*)tempShelfNum;
-//		newStock->SetShelf(tempStr);
-//
-//		// Get the item timestamp from the stream
-//		otl_datetime temp;
-//		std::string timeStampStr;
-//		sqlStream >> temp;
-//		timeStampStr.append(std::to_string(temp.year));
-//		timeStampStr.append("-");
-//		timeStampStr.append(std::to_string(temp.month));
-//		timeStampStr.append("-");
-//		timeStampStr.append(std::to_string(temp.day));
-//		timeStampStr.append(" ");
-//		timeStampStr.append(std::to_string(temp.hour));
-//		timeStampStr.append(":");
-//		timeStampStr.append(std::to_string(temp.minute));
-//		timeStampStr.append(":");
-//		timeStampStr.append(std::to_string(temp.second));
-//
-//		tableMap.emplace(newStock->GetID(), *newStock);
-//
-//	}
-//
-//	return tableMap;
-//}
+
+
+void GetItemsFromDatabase(map<std::string, Stock>& warehouse)
+{
+
+	otl_stream sqlStream;
+
+	db.direct_exec("USE ims");
+
+	sqlStream.open(100, "SELECT * FROM item", db);
+
+	while (!sqlStream.eof())
+	{
+		Stock* newStock = new Stock();
+
+		int			   tempId;
+		unsigned short tempName[255];
+		int				tempQuantity;
+		unsigned short tempShelfNum[255];
+		unsigned short tempDescription[255];
+		double			tempPrice;
+		int				tempStatus;
+
+		string tempStr;
+
+		// Get ID from the stream
+		newStock->SetID(StreamToString(sqlStream));
+
+		// Get name from the stream
+		newStock->SetName(StreamToString(sqlStream));
+
+		// Get the description from the stream
+		newStock->SetDescription(StreamToString(sqlStream));
+
+		// Get the price from the stream
+		newStock->SetPrice(std::stod(StreamToString(sqlStream)));
+
+		// Get the quantity from the stream
+		newStock->SetPrice(std::stoi(StreamToString(sqlStream)));
+
+		// Get the shelf number from the stream (TABLE HAS STATUS BUT JUST TREATING AS SHELF LOCATION. Table column status needs to have its name changed as well as its data type changed to varchar to reflect this.)
+		newStock->SetShelfLocation(StreamToString(sqlStream));
+
+		// Get the item timestamp from the stream (CURRENT INTERFACE DOES NOT OUTPUT TIMESTAMP SO MIGHT BE USELESS)
+		//newStock->SetTimeModified?orsomethingStreamToString(sqlStream);
+		StreamToString(sqlStream);
+
+		warehouse.emplace(newStock->GetID(), *newStock);
+
+	}
+}
 
 // Temp menu
 void ScottMenu()
@@ -829,7 +799,22 @@ void ScottMenu()
 				
 }
 
-// Acting as temporary menu. Playground for testing sql functions etc.
+bool InitConnection()
+{
+	try
+	{
+		otl_connect::otl_initialize();
+		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
+		return true;
+	}
+	catch(otl_exception& e)
+	{
+		return false;
+	}
+
+}
+
+// Playground for testing sql functions etc.
 void sqlTesting()
 {
 
