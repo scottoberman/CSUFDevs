@@ -432,8 +432,6 @@ void GetItemsFromDatabase(map<std::string, Stock>& warehouse)
 
 	otl_stream sqlStream;
 
-	db.direct_exec("USE ims");
-
 	sqlStream.open(100, "SELECT * FROM item", db);
 
 	while (!sqlStream.eof())
@@ -463,7 +461,7 @@ void GetItemsFromDatabase(map<std::string, Stock>& warehouse)
 		newStock->SetPrice(std::stod(StreamToString(sqlStream)));
 
 		// Get the quantity from the stream
-		newStock->SetPrice(std::stoi(StreamToString(sqlStream)));
+		newStock->SetQuantity(std::stoi(StreamToString(sqlStream)));
 
 		// Get the shelf number from the stream (TABLE HAS STATUS BUT JUST TREATING AS SHELF LOCATION. Table column status needs to have its name changed as well as its data type changed to varchar to reflect this.)
 		newStock->SetShelfLocation(StreamToString(sqlStream));
@@ -805,6 +803,7 @@ bool InitConnection()
 	{
 		otl_connect::otl_initialize();
 		db.rlogon("DRIVER=MySQL ODBC 5.3 Unicode Driver;SERVER=ims.cj2zvsooupan.us-west-2.rds.amazonaws.com;PORT=3306;USER=imsmaster;PASSWORD=S0ftwareEngineeringDog!");
+		db.direct_exec("USE ims");
 		return true;
 	}
 	catch(otl_exception& e)
@@ -812,6 +811,17 @@ bool InitConnection()
 		return false;
 	}
 
+}
+
+void DeleteItemByID(const int ID)
+{
+	string query;
+
+	query = "DELETE FROM item where item_id = \'";
+	query.append(std::to_string(ID));
+	query.append("\'");
+
+	db.direct_exec(query.c_str());
 }
 
 // Playground for testing sql functions etc.

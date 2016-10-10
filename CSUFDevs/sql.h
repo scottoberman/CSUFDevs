@@ -36,6 +36,8 @@ void ScottMenu();
 
 bool InitConnection();
 
+void DeleteItemByID(const int ID);
+
 void sqlTesting();
 
 #endif

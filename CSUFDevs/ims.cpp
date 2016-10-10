@@ -258,7 +258,7 @@ void Insert_Item(map<string, Stock>& warehouse)
 	temp.SetID(tempId);   // Insert Item Id into warehouse map
 
 	// Create the query for the MySQL database
-	query = "INSERT INTO item (item_id, item_name, item_description, price, stock_count, status, update_ts) VALUES (\'";
+	query = "INSERT INTO item (item_id, item_name, item_description, price, stock_count, `status`, update_ts) VALUES (\'";
 	query.append(tempId); // Insert Item Id
 	query.append("\', \'");
 	query.append(tempname); // Insert Item Name
@@ -273,9 +273,7 @@ void Insert_Item(map<string, Stock>& warehouse)
 	query.append("\', CURRENT_TIMESTAMP)"); // Insert the date that the item was added (now).
 	//error-check temp
 
-	cout << endl << query << endl; // REMOVE. FOR DEBUGGING ATM
-
-	warehouseEmplaceSucceed = warehouse.emplace(temp.GetName(), temp).second;
+	warehouseEmplaceSucceed = warehouse.emplace(temp.GetID(), temp).second;
 	sqlInsertSucceed = ModifyingQuery(query, errorCode, errorMsg);
 	//success? push into vector
 	// Need considerable error checking for this. The new item could
@@ -346,6 +344,10 @@ void Delete_Item(map<string, Stock>& warehouse)
 			test = false;
 			cout << "Invalid ID choice! Please try again..." << endl;
 		}
+		else
+		{
+			test = true;
+		}
 	} while (test == false);
 
 
@@ -371,6 +373,8 @@ void Delete_Item(map<string, Stock>& warehouse)
 	// Like with the function Insert_Item, both the status of the server and the map need to be checked for errors. Could cause desync otherwise.
 	if (y == 1)
 	{
+		DeleteItemByID(stoi(x));
+
 		if (warehouse.erase(x))
 		{
 			cout << "Item successfully deleted!\n";
