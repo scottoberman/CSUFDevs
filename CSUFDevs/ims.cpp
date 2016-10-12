@@ -15,7 +15,7 @@ using namespace std;
 enum { CHOICE1 = 1, CHOICE2, CHOICE3, CHOICE4, CHOICE5, CHOICE6 };
 
 void Print_Menu();
-void Get_Menu_Choice(map<string, Stock>& warehouse);
+bool Get_Menu_Choice(map<string, Stock>& warehouse);
 void Flush_Input(istream &inStream);
 void Insert_Item(map<string, Stock>& warehouse);
 void Delete_Item(map<string, Stock>& warehouse);
@@ -41,7 +41,7 @@ int main()
 		do
 		{
 			Print_Menu();
-			Get_Menu_Choice(warehouse);
+			EndProgram = Get_Menu_Choice(warehouse);
 
 		} while (!EndProgram);
 	}
@@ -93,10 +93,12 @@ void Print_Menu()
   //                  vector<Stock> in which we have access
   //                  to the warehouse items
   //
-  // Output: NONE
+  // Output: returns true if the program is the end and 
+  //		 returns false if the program is to continue 
+  //		 running
   //
   //==========================================================
-void Get_Menu_Choice(map<string, Stock>& warehouse)
+bool Get_Menu_Choice(map<string, Stock>& warehouse)
 {
 	int usersChoice;
 	bool validChoice = false;
@@ -140,7 +142,7 @@ void Get_Menu_Choice(map<string, Stock>& warehouse)
 		case CHOICE4:
 			validChoice = true;
 			cout << "QUITING PROGRAM GOODBYE" << endl;
-			exit(EXIT_SUCCESS); // This need to be altered; could be dangerous to SQL Connection and program in general.
+			return true;	//return true for program to stop running
 
 		default:
 			//this occurs when invalid choice and get new valid choice
@@ -155,6 +157,7 @@ void Get_Menu_Choice(map<string, Stock>& warehouse)
 	} while (!validChoice);
 
 	cout << endl << endl;
+	return false;	//return false for program to continue running
 } // end of Get_Menu_Choice(vector<Stack> & warehouse
 
 
@@ -710,15 +713,22 @@ void Update_Item(map<string, Stock>& warehouse)
 void Print_Inventory(const map<string, Stock>& warehouse)
 {
 	//for loop displays all elements of the vector
-	cout << left << "id" << "___________________" << "name" << "____________________" << "quantity" << "____________________"
-		 << "location" << endl;
-	for (map<string, Stock>::const_iterator i = warehouse.begin(); i != warehouse.end() ; i++)
+	if (warehouse.size() > 0) //we have items to display
 	{
-		cout << left << "[" << i->first << setw(25) << "] ";
-		cout << left << setw(24) << i->second.GetName();
-		cout << left << setw(28) << i->second.GetQuantity();
-		cout << left << i->second.GetShelfLocation();
-		cout << endl;
+		cout << left << "id" << "___________________" << "name" << "____________________" << "quantity" << "____________________"
+			<< "location" << endl;
+		for (map<string, Stock>::const_iterator i = warehouse.begin(); i != warehouse.end(); i++)
+		{
+			cout << left << "[" << i->first << setw(25) << "] ";
+			cout << left << setw(24) << i->second.GetName();
+			cout << left << setw(28) << i->second.GetQuantity();
+			cout << left << i->second.GetShelfLocation();
+			cout << endl;
+		}
+	}
+	else
+	{
+		cout << "No Items To Display..." << endl;
 	}
 
 } // end of void Print_Inventory(const vector<Stock>& warehouse
