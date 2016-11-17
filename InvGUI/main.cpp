@@ -1,31 +1,32 @@
+// QT Headers
 #include "mainwindow.h"
 #include <QApplication>
 
+// MySQL Connector Headers
 #include <mysql_connection.h>
-
 #include <cppconn\driver.h>
 #include <cppconn\exception.h>
 #include <cppconn\resultset.h>
 #include <cppconn\statement.h>
 
+// Standard Headers
 #include <iostream>
 
-// Put these in a header prob.
-sql::Driver		*driver;
-sql::Connection *con;
-sql::Statement	*stmt;
-sql::ResultSet	*result;
+// User Defined Headers
+#include "ims.h"
+
+Ims db;
+
 
 int main(int argc, char *argv[])
 {
 	try
 	{
-		driver = get_driver_instance();
-		con = driver->connect("ims.cj2zvsooupan.us-west-2.rds.amazonaws.com", "imsmaster", "S0ftwareEngineeringDog!");
+		db.connect();
 	}
 	catch (sql::SQLException &e)
 	{
-
+		// Error TODO
 	}
 
     QApplication a(argc, argv);

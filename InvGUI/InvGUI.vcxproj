@@ -162,6 +162,7 @@
     <ClCompile Include="Debug\moc_p5extra.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ims.cpp" />
     <ClCompile Include="invmain.cpp" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="main.cpp" />
@@ -379,6 +380,7 @@
     <ClInclude Include="GeneratedFiles\ui_p3mod.h" />
     <ClInclude Include="GeneratedFiles\ui_p4print.h" />
     <ClInclude Include="GeneratedFiles\ui_p5extra.h" />
+    <ClInclude Include="ims.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

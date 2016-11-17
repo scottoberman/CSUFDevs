@@ -122,6 +122,9 @@
     <ClCompile Include="Release\moc_p5extra.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="ims.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="invmain.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p5extra.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ims.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
