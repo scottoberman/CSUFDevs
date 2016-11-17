@@ -1,6 +1,8 @@
 #include "invmain.h"
 #include "ui_invmain.h"
 
+#include "ims.h"
+
 
 InvMain::InvMain(QWidget *parent) :
     QWidget(parent),
@@ -57,9 +59,6 @@ void InvMain::on_pushButton_clicked()
 {
     GoToPage(3);
 }
-
-
-
 
 void InvMain::on_pushButton_2_clicked()
 {

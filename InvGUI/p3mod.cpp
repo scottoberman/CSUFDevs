@@ -1,5 +1,6 @@
 #include "p3mod.h"
 #include "ui_p3mod.h"
+#include "ims.h"
 
 P3mod::P3mod(QWidget *parent) :
     QWidget(parent),

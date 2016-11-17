@@ -1,5 +1,6 @@
 #include "p5extra.h"
 #include "ui_p5extra.h"
+#include "ims.h"
 
 P5extra::P5extra(QWidget *parent) :
     QWidget(parent),

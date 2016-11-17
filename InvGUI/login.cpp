@@ -1,5 +1,8 @@
 #include "login.h"
 #include "ui_login.h"
+#include "ims.h"
+
+extern Ims db;
 
 Login::Login(QWidget *parent, QStackedWidget *handle) :
     QWidget(parent),
@@ -16,6 +19,8 @@ Login::~Login()
 
 void Login::on_pushButton_clicked()
 {
-   if(ui->Sn->toPlainText()=="1" && ui->Pass->toPlainText()=="2")
-        outerHandle->setCurrentIndex(1);
+	if (db.login(ui->Sn->toPlainText().toStdString(), ui->Pass->toPlainText().toStdString()))
+	{
+		outerHandle->setCurrentIndex(1);
+	}        
 }

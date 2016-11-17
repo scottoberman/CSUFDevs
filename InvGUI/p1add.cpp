@@ -1,5 +1,8 @@
 #include "p1add.h"
 #include "ui_p1add.h"
+#include "ims.h"
+
+extern Ims db;
 
 P1add::P1add(QWidget *parent) :
     QWidget(parent),
@@ -15,11 +18,10 @@ P1add::~P1add()
 
 void P1add::on_pushButton_clicked()
 {
-    if(true)
+    if(db.add_item(ui->ItemName->toPlainText().toStdString(), ui->ItemDesc->toPlainText().toStdString(), stod(ui->price->toPlainText().toStdString()), stoi(ui->StockCount->toPlainText().toStdString()), stoi(ui->Status->toPlainText().toStdString())))
     {
         ui->label_3->setText("SUCCESS!");
         ui->label_5->setText(ui->price->toPlainText());
-
     }
     else
     {

@@ -15,6 +15,7 @@
 // User Defined Headers
 #include "ims.h"
 
+// Making global to make everyone's life easier
 Ims db;
 
 

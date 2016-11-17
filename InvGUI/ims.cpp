@@ -150,13 +150,13 @@ Ims::~Ims() {
 // Scott's Stuff
 bool Ims::login(const string NAME, const string PASSWORD)
 {
-	pstmt = con->prepareStatement("SELECT * FROM user WHERE user_id = ? AND user_password = ?");
+	pstmt = con->prepareStatement("SELECT * FROM user WHERE user_id_name = ? AND user_password = ?");
 	pstmt->setString(1, NAME);
 	pstmt->setString(2, PASSWORD);
 
 	res = pstmt->executeQuery();
 
-	return res->next();
+	return res->rowsCount() >= 1;
 }
 
 bool Ims::add_item(const string NAME, const string DESC, const double PRICE, const int COUNT, const int STATUS)
@@ -169,18 +169,15 @@ bool Ims::add_item(const string NAME, const string DESC, const double PRICE, con
 	pstmt->setInt(4, COUNT);
 	pstmt->setInt(5, STATUS);
 
-	res = pstmt->executeQuery();
-
-	return res->rowInserted();
+	return pstmt->executeUpdate();
 }
 
 bool Ims::delete_item(const int ID)
 {
 	pstmt = con->prepareStatement("UPDATE item SET status = 7 WHERE item_id = ?");
 	pstmt->setInt(1, ID);
-	res = pstmt->executeQuery();
 
-	return res->rowUpdated();
+	return pstmt->executeUpdate();
 }
 
 sql::ResultSet *Ims::print_all_items()
