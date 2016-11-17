@@ -34,6 +34,11 @@ public:
     QLabel *label_2;
     QLabel *label_8;
     QLabel *label;
+    QTextEdit *LastName;
+    QTextEdit *FirstName;
+    QLabel *label_3;
+    QLabel *label_4;
+    QLabel *label_5;
 
     void setupUi(QWidget *P5extra)
     {
@@ -42,34 +47,49 @@ public:
         P5extra->resize(471, 424);
         pushButton = new QPushButton(P5extra);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(75, 310, 75, 23));
+        pushButton->setGeometry(QRect(220, 330, 75, 23));
         Email = new QTextEdit(P5extra);
         Email->setObjectName(QStringLiteral("Email"));
-        Email->setGeometry(QRect(55, 135, 181, 26));
+        Email->setGeometry(QRect(10, 220, 181, 26));
         label_7 = new QLabel(P5extra);
         label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(55, 175, 71, 16));
+        label_7->setGeometry(QRect(10, 250, 71, 16));
         label_6 = new QLabel(P5extra);
         label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(55, 115, 71, 16));
+        label_6->setGeometry(QRect(10, 200, 71, 16));
         UserName = new QTextEdit(P5extra);
         UserName->setObjectName(QStringLiteral("UserName"));
-        UserName->setGeometry(QRect(55, 80, 181, 26));
+        UserName->setGeometry(QRect(10, 50, 181, 26));
         Password = new QTextEdit(P5extra);
         Password->setObjectName(QStringLiteral("Password"));
-        Password->setGeometry(QRect(55, 195, 181, 26));
+        Password->setGeometry(QRect(10, 270, 181, 26));
         ConfPass = new QTextEdit(P5extra);
         ConfPass->setObjectName(QStringLiteral("ConfPass"));
-        ConfPass->setGeometry(QRect(55, 255, 181, 26));
+        ConfPass->setGeometry(QRect(10, 330, 181, 26));
         label_2 = new QLabel(P5extra);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(55, 60, 71, 16));
+        label_2->setGeometry(QRect(15, 30, 71, 16));
         label_8 = new QLabel(P5extra);
         label_8->setObjectName(QStringLiteral("label_8"));
-        label_8->setGeometry(QRect(55, 235, 91, 16));
+        label_8->setGeometry(QRect(10, 310, 91, 16));
         label = new QLabel(P5extra);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(55, 30, 71, 16));
+        label->setGeometry(QRect(60, 10, 71, 16));
+        LastName = new QTextEdit(P5extra);
+        LastName->setObjectName(QStringLiteral("LastName"));
+        LastName->setGeometry(QRect(10, 160, 181, 26));
+        FirstName = new QTextEdit(P5extra);
+        FirstName->setObjectName(QStringLiteral("FirstName"));
+        FirstName->setGeometry(QRect(10, 100, 181, 26));
+        label_3 = new QLabel(P5extra);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(10, 80, 71, 16));
+        label_4 = new QLabel(P5extra);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 140, 71, 16));
+        label_5 = new QLabel(P5extra);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(210, 200, 171, 111));
 
         retranslateUi(P5extra);
 
@@ -85,6 +105,9 @@ public:
         label_2->setText(QApplication::translate("P5extra", "User Name", 0));
         label_8->setText(QApplication::translate("P5extra", "Confirm Password", 0));
         label->setText(QApplication::translate("P5extra", "Create User", 0));
+        label_3->setText(QApplication::translate("P5extra", "First Name", 0));
+        label_4->setText(QApplication::translate("P5extra", "Last Name", 0));
+        label_5->setText(QString());
     } // retranslateUi
 
 };

@@ -20,10 +20,10 @@ void P2del::on_pushButton_clicked()
 {
 	if (db.delete_item(stoi(ui->textEdit->toPlainText().toStdString())))
 	{
-		// Change a text box to success
+		ui->label->setText("Item successfully removed!");
 	}
 	else
 	{
-		// Output a deletion failed
+		ui->label->setText("Item removal failed!");
 	}
 }

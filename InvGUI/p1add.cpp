@@ -20,8 +20,8 @@ void P1add::on_pushButton_clicked()
 {
     if(db.add_item(ui->ItemName->toPlainText().toStdString(), ui->ItemDesc->toPlainText().toStdString(), stod(ui->price->toPlainText().toStdString()), stoi(ui->StockCount->toPlainText().toStdString()), stoi(ui->Status->toPlainText().toStdString())))
     {
-        ui->label_3->setText("SUCCESS!");
-        ui->label_5->setText(ui->price->toPlainText());
+        ui->label_3->setText("Item successfully added to inventory!");
+        //ui->label_5->setText(ui->price->toPlainText());
     }
     else
     {

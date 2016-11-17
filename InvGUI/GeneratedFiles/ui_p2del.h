@@ -28,6 +28,7 @@ public:
     QPushButton *pushButton;
     QLabel *label_2;
     QTextEdit *textEdit;
+    QLabel *label;
 
     void setupUi(QWidget *P2del)
     {
@@ -46,6 +47,9 @@ public:
         textEdit = new QTextEdit(P2del);
         textEdit->setObjectName(QStringLiteral("textEdit"));
         textEdit->setGeometry(QRect(105, 65, 101, 26));
+        label = new QLabel(P2del);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(150, 180, 141, 21));
 
         retranslateUi(P2del);
 
@@ -58,6 +62,7 @@ public:
         label_3->setText(QApplication::translate("P2del", "P_id", 0));
         pushButton->setText(QApplication::translate("P2del", "Submit", 0));
         label_2->setText(QApplication::translate("P2del", "Delete Product", 0));
+        label->setText(QString());
     } // retranslateUi
 
 };

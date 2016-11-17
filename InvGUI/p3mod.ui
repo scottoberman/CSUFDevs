@@ -120,6 +120,19 @@
     <string>Enter New Value</string>
    </property>
   </widget>
+  <widget class="QLabel" name="modOut">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>300</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

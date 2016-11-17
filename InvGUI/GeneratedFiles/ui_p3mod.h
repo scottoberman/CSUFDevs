@@ -32,6 +32,7 @@ public:
     QLabel *label;
     QComboBox *comboBox;
     QLabel *label_7;
+    QLabel *modOut;
 
     void setupUi(QWidget *P3mod)
     {
@@ -59,6 +60,9 @@ public:
         label_7 = new QLabel(P3mod);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(60, 95, 91, 16));
+        modOut = new QLabel(P3mod);
+        modOut->setObjectName(QStringLiteral("modOut"));
+        modOut->setGeometry(QRect(170, 300, 181, 16));
 
         retranslateUi(P3mod);
 
@@ -80,6 +84,7 @@ public:
          << QApplication::translate("P3mod", "Description", 0)
         );
         label_7->setText(QApplication::translate("P3mod", "Enter New Value", 0));
+        modOut->setText(QString());
     } // retranslateUi
 
 };

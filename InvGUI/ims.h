@@ -2,6 +2,8 @@
 #define IMS_H
 #include "mysql_connection.h"
 
+#include <QtWidgets>
+
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
@@ -26,16 +28,18 @@ public:
 	void connect();
 	void print_info();
 	void test_fuction();
-	void add_user(const string user_id_name, const string user_fname, const string user_lname, const string user_email, const string user_password, const int user_priv_level);
+	bool add_user(const string user_id_name, const string user_fname, const string user_lname, const string user_email, const string user_password, const int user_priv_level);
 
 	// Scott's Stuff
 	bool login(const string NAME, const string PASSWORD);
 	bool add_item(const string NAME, const string DESC, const double PRICE, const int COUNT, const int STATUS);
 	bool delete_item(const int ID);
-	sql::ResultSet *print_all_items();
-	sql::ResultSet *print_item_by_name(const string NAME);
-	sql::ResultSet *print_item_by_id(const int ID);
+	void print_all_items();
+	void print_item_by_name(const string NAME);
+	void print_item_by_id(const string ID);
 	bool modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const string NEW_VAL);
+	void print_result_set(QTextBrowser *text);
+	void white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length);
 	// End Scott's Stuff
 
 private:

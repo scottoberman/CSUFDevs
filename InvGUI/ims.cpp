@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "ims.h"
 #include <cstring>
+#include <qdebug.h>
 
 using namespace std;
 
@@ -32,8 +33,11 @@ void Ims::print_info() {
 
 }
 
-void Ims::add_user(const string user_id_name, const string user_fname, const string user_lname,
+bool Ims::add_user(const string user_id_name, const string user_fname, const string user_lname,
 	const string user_email, const string user_password, const int user_priv_level) {
+
+	bool addedUser = false;
+
 	try {
 		if (this->con->isClosed())
 			this->connect();
@@ -71,13 +75,15 @@ void Ims::add_user(const string user_id_name, const string user_fname, const str
 		this->pstmt->setString(4, user_email);
 		this->pstmt->setString(5, user_password);
 		this->pstmt->setInt(6, 10);
-		this->pstmt->executeUpdate();
+		addedUser = this->pstmt->executeUpdate();
 		delete this->pstmt;
 
 	}
 	catch (sql::SQLException &e) {
 		this->log_error(e);
 	}
+
+	return addedUser;
 }
 
 void Ims::connect() {
@@ -180,69 +186,65 @@ bool Ims::delete_item(const int ID)
 	return pstmt->executeUpdate();
 }
 
-sql::ResultSet *Ims::print_all_items()
+void Ims::print_all_items()
 {
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT * FROM item");
+	res = stmt->executeQuery("SELECT item_id, item_name, price, stock_count FROM item WHERE status != 7");
 
-	// May change to string or vector of strings
-	return res;
 }
 
-sql::ResultSet *Ims::print_item_by_name(const string NAME)
+void Ims::print_item_by_name(const string NAME)
 {
-	pstmt = con->prepareStatement("SELECT * FROM item WHERE item_name = ?)");
+	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_name = ? AND status != 7");
 	pstmt->setString(1, NAME);
 	res = pstmt->executeQuery();
-
-	return res;
 }
 
-sql::ResultSet *Ims::print_item_by_id(const int ID)
+void Ims::print_item_by_id(const string ID)
 {
-	pstmt = con->prepareStatement("SELECT * FROM item WHERE item_id = ?)");
-	pstmt->setInt(1, ID);
+	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_id = ? AND status != 7");
+	pstmt->setString(1, ID);
 	res = pstmt->executeQuery();
-
-	return res;
 }
 
 bool Ims::modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const string NEW_VAL)
 {
 	bool itemModified;
 
-	pstmt = con->prepareStatement("UPDATE item SET ? = ? WHERE item_id = ?");
-	pstmt->setString(1, ATTRIBUTE_TO_MODIFY);
-
 	if (ATTRIBUTE_TO_MODIFY == "Product Name")
 	{
-		pstmt->setString(2, "item_name");
-		pstmt->setString(3, NEW_VAL);
-		itemModified = res->rowUpdated();
+		pstmt = con->prepareStatement("UPDATE item SET item_name = ? WHERE item_id = ?");
+		pstmt->setString(1, NEW_VAL);
+		pstmt->setInt(2, ID);
+		itemModified = pstmt->executeUpdate();
 	}
 	else if (ATTRIBUTE_TO_MODIFY == "Price")
 	{
-		pstmt->setString(2, "price");
-		pstmt->setString(3, NEW_VAL);
-		itemModified = res->rowUpdated();
+		pstmt = con->prepareStatement("UPDATE item SET price = ? WHERE item_id = ?");
+		pstmt->setString(1, NEW_VAL);
+		pstmt->setInt(2, ID);
+		itemModified = pstmt->executeUpdate();
 	}
 	else if (ATTRIBUTE_TO_MODIFY == "Stock_count")
 	{
-		pstmt->setString(2, "stock_count");
-		pstmt->setString(3, NEW_VAL);
-		itemModified = res->rowUpdated();
+		pstmt = con->prepareStatement("UPDATE item SET stock_count = ? WHERE item_id = ?");
+		pstmt->setString(1, NEW_VAL);
+		pstmt->setInt(2, ID);
+		itemModified = pstmt->executeUpdate();
 	}
 	else if (ATTRIBUTE_TO_MODIFY == "Status")
 	{
-		pstmt->setString(2, "status");
-		pstmt->setString(3, NEW_VAL);
-		itemModified = res->rowUpdated();
+		pstmt = con->prepareStatement("UPDATE item SET status = ? WHERE item_id = ?");
+		pstmt->setString(1, NEW_VAL);
+		pstmt->setInt(2, ID);
+		itemModified = pstmt->executeUpdate();
 	}
 	else if (ATTRIBUTE_TO_MODIFY == "Description")
 	{
-		pstmt->setString(2, "item_description");
-		pstmt->setString(3, NEW_VAL);
-		itemModified = res->rowUpdated();
+		pstmt = con->prepareStatement("UPDATE item SET item_description = ? WHERE item_id = ?");
+		pstmt->setString(1, NEW_VAL);
+		pstmt->setInt(2, ID);
+		itemModified = pstmt->executeUpdate();
 	}
 	else
 	{
@@ -252,6 +254,54 @@ bool Ims::modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const stri
 
 	return itemModified;
 }
+
+void Ims::print_result_set(QTextBrowser *text)
+{
+	QString print;
+	
+	print.append("Id  ");
+	print.append("Item Name      ");
+	print.append("Price    ");
+	print.append("Count  ");
+	print.append("\n");
+	print.append("____________________________________");
+	print.append("\n");
+
+	while (res->next())
+	{
+		qDebug() << "1";
+		print.append(QString::fromStdString(res->getString("item_id").asStdString()));
+		white_space_format(res->getString("item_id"), print, 4);
+		qDebug() << "2";
+		print.append(QString::fromStdString(res->getString("item_name").asStdString()));
+		white_space_format(res->getString("item_name"), print, 15);
+		qDebug() << "3";
+		print.append(QString::fromStdString(res->getString("price").asStdString()));
+		white_space_format(res->getString("price"), print, 9);
+		qDebug() << "4";
+		print.append(QString::fromStdString(res->getString("stock_count").asStdString()));
+		white_space_format(res->getString("stock_count"), print, 8);
+		qDebug() << "5";
+		// The sql does not recognize "item_description" as a valid column for some reason.
+		//print.append(QString::fromStdString(res->getString("item_description").asStdString()));
+		print.append("\n");
+	}
+
+	text->setText(print);
+}
+
+void Ims::white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length)
+{
+	if (desired_length > str.length())
+	{
+		for (int x = 0; x < desired_length - str.length(); x++)
+		{
+			str_to_append_to.append(" ");
+		}
+	}
+}
+
+
 // End Scott's Stuff
 
 void Ims::log_error(sql::SQLException &e) {

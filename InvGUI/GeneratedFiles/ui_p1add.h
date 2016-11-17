@@ -33,9 +33,7 @@ public:
     QLabel *label;
     QTextEdit *StockCount;
     QTextEdit *Status;
-    QTextEdit *ItemID;
     QTextEdit *ItemName;
-    QLabel *label_6;
     QLabel *label_7;
     QLabel *label_8;
     QLabel *label_9;
@@ -74,15 +72,9 @@ public:
         Status = new QTextEdit(P1add);
         Status->setObjectName(QStringLiteral("Status"));
         Status->setGeometry(QRect(130, 210, 71, 26));
-        ItemID = new QTextEdit(P1add);
-        ItemID->setObjectName(QStringLiteral("ItemID"));
-        ItemID->setGeometry(QRect(130, 90, 71, 26));
         ItemName = new QTextEdit(P1add);
         ItemName->setObjectName(QStringLiteral("ItemName"));
         ItemName->setGeometry(QRect(130, 50, 181, 26));
-        label_6 = new QLabel(P1add);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(60, 95, 71, 16));
         label_7 = new QLabel(P1add);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(60, 135, 71, 16));
@@ -113,7 +105,6 @@ public:
         label_4->setText(QString());
         label_5->setText(QString());
         label->setText(QApplication::translate("P1add", "Add Product", 0));
-        label_6->setText(QApplication::translate("P1add", "Item Id", 0));
         label_7->setText(QApplication::translate("P1add", "Price", 0));
         label_8->setText(QApplication::translate("P1add", "Stock_count", 0));
         label_9->setText(QApplication::translate("P1add", "Status", 0));

@@ -57,6 +57,9 @@ public:
         textBrowser = new QTextBrowser(P4print);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
         textBrowser->setGeometry(QRect(155, 15, 281, 306));
+        QFont font;
+        font.setFamily(QStringLiteral("Courier"));
+        textBrowser->setFont(font);
         textEdit = new QTextEdit(P4print);
         textEdit->setObjectName(QStringLiteral("textEdit"));
         textEdit->setGeometry(QRect(25, 125, 106, 26));
