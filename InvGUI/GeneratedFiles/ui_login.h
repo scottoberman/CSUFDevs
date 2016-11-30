@@ -15,8 +15,8 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -25,10 +25,10 @@ class Ui_Login
 {
 public:
     QPushButton *pushButton;
-    QTextEdit *Sn;
-    QTextEdit *Pass;
     QLabel *label;
     QLabel *label_2;
+    QLineEdit *Pass;
+    QLineEdit *Sn;
 
     void setupUi(QWidget *Login)
     {
@@ -38,20 +38,26 @@ public:
         pushButton = new QPushButton(Login);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(120, 190, 75, 23));
-        Sn = new QTextEdit(Login);
-        Sn->setObjectName(QStringLiteral("Sn"));
-        Sn->setGeometry(QRect(40, 50, 151, 26));
-        Pass = new QTextEdit(Login);
-        Pass->setObjectName(QStringLiteral("Pass"));
-        Pass->setGeometry(QRect(40, 120, 151, 26));
         label = new QLabel(Login);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(40, 100, 47, 13));
         label_2 = new QLabel(Login);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(40, 30, 61, 16));
+        Pass = new QLineEdit(Login);
+        Pass->setObjectName(QStringLiteral("Pass"));
+        Pass->setGeometry(QRect(40, 120, 151, 31));
+        Pass->setEchoMode(QLineEdit::Password);
+        Sn = new QLineEdit(Login);
+        Sn->setObjectName(QStringLiteral("Sn"));
+        Sn->setGeometry(QRect(40, 50, 151, 31));
+        QWidget::setTabOrder(Sn, Pass);
+        QWidget::setTabOrder(Pass, pushButton);
 
         retranslateUi(Login);
+
+        pushButton->setDefault(true);
+
 
         QMetaObject::connectSlotsByName(Login);
     } // setupUi

@@ -19,7 +19,7 @@ Login::~Login()
 
 void Login::on_pushButton_clicked()
 {
-	if (db.login(ui->Sn->toPlainText().toStdString(), ui->Pass->toPlainText().toStdString()))
+	if (db.login(ui->Sn->text().toStdString(), ui->Pass->text().toStdString()))
 	{
 		outerHandle->setCurrentIndex(1);
 	}        

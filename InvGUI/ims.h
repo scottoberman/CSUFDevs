@@ -39,6 +39,7 @@ public:
 	void print_item_by_id(const string ID);
 	bool modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const string NEW_VAL);
 	void print_result_set(QTextBrowser *text);
+	void print_items_to_table(QTableWidget* table);
 	void white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length);
 	// End Scott's Stuff
 

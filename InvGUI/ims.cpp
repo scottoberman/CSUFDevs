@@ -290,6 +290,36 @@ void Ims::print_result_set(QTextBrowser *text)
 	text->setText(print);
 }
 
+void Ims::print_items_to_table(QTableWidget* table)
+{
+	print_all_items();
+
+	int col = 0;
+	int row = 0;
+	while (res->next())
+	{
+		table->insertRow(row);
+
+		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_id").c_str())));
+		col++;
+
+		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_name").c_str())));
+		col++;
+
+		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("price").c_str())));
+		col++;
+
+		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("stock_count").c_str())));
+		col++;
+
+		//table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_description").c_str())));
+
+		row++;
+		col = 0;
+	}
+	
+}
+
 void Ims::white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length)
 {
 	if (desired_length > str.length())

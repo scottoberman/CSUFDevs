@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ItemMain</class>
+ <widget class="QWidget" name="ItemMain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1198</width>
+    <height>709</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ItemMain</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>1191</width>
+     <height>581</height>
+    </rect>
+   </property>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>100</number>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+    <property name="toolTip">
+     <string extracomment="The id of the specified item1"/>
+    </property>
+    <property name="whatsThis">
+     <string extracomment="The id of the specified item2"/>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Price</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Quantity</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Description</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

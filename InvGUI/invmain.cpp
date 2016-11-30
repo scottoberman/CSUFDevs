@@ -15,12 +15,12 @@ InvMain::InvMain(QWidget *parent) :
 // The QStackedWidget allows only one widget
 // to be displayed at once.
     pages = new QStackedWidget;
-    pages->addWidget(new P1add);
-    pages->addWidget(new P2del);
-    pages->addWidget(new P3mod);
-    pages->addWidget(new P4print);
-    pages->addWidget(new P5extra);
-    pages->addWidget(new QStackedWidget);
+    pages->addWidget(new ItemMain(this));
+    pages->addWidget(new P2del(this));
+    pages->addWidget(new P3mod(this));
+    pages->addWidget(new P4print(this));
+    pages->addWidget(new P5extra(this));
+    pages->addWidget(new QStackedWidget(this));
 
 
 // The pages will be stored in a StackedQWidget Class

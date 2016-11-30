@@ -9,6 +9,7 @@
 #include "P3mod.h"
 #include "P4print.h"
 #include "P5extra.h"
+#include "ItemMain.h"
 
 namespace Ui {
 class InvMain;

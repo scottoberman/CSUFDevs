@@ -23,40 +23,53 @@ QT_BEGIN_NAMESPACE
 class Ui_InvMain
 {
 public:
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout;
     QPushButton *Page3Button;
     QPushButton *Page1Button;
     QPushButton *Page2Button;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout;
 
     void setupUi(QWidget *InvMain)
     {
         if (InvMain->objectName().isEmpty())
             InvMain->setObjectName(QStringLiteral("InvMain"));
-        InvMain->resize(640, 480);
-        horizontalLayoutWidget = new QWidget(InvMain);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(130, 40, 491, 431));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        InvMain->resize(1377, 692);
+        InvMain->setMinimumSize(QSize(1377, 692));
+        InvMain->setMaximumSize(QSize(1377, 692));
         Page3Button = new QPushButton(InvMain);
         Page3Button->setObjectName(QStringLiteral("Page3Button"));
-        Page3Button->setGeometry(QRect(20, 140, 91, 23));
+        Page3Button->setGeometry(QRect(20, 160, 91, 23));
+        Page3Button->setMinimumSize(QSize(91, 23));
+        Page3Button->setMaximumSize(QSize(91, 23));
         Page1Button = new QPushButton(InvMain);
         Page1Button->setObjectName(QStringLiteral("Page1Button"));
-        Page1Button->setGeometry(QRect(20, 40, 75, 23));
+        Page1Button->setGeometry(QRect(20, 60, 75, 23));
+        Page1Button->setMinimumSize(QSize(75, 23));
+        Page1Button->setMaximumSize(QSize(75, 23));
         Page2Button = new QPushButton(InvMain);
         Page2Button->setObjectName(QStringLiteral("Page2Button"));
-        Page2Button->setGeometry(QRect(20, 90, 91, 23));
+        Page2Button->setGeometry(QRect(20, 110, 91, 23));
+        Page2Button->setMinimumSize(QSize(91, 23));
+        Page2Button->setMaximumSize(QSize(91, 23));
         pushButton = new QPushButton(InvMain);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(20, 235, 91, 23));
+        pushButton->setGeometry(QRect(20, 255, 91, 23));
+        pushButton->setMinimumSize(QSize(91, 23));
+        pushButton->setMaximumSize(QSize(91, 23));
         pushButton_2 = new QPushButton(InvMain);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(20, 190, 75, 23));
+        pushButton_2->setGeometry(QRect(20, 210, 75, 23));
+        pushButton_2->setMinimumSize(QSize(75, 23));
+        pushButton_2->setMaximumSize(QSize(75, 23));
+        horizontalLayoutWidget = new QWidget(InvMain);
+        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(120, 50, 1221, 531));
+        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setContentsMargins(1, 0, 0, 0);
 
         retranslateUi(InvMain);
 
