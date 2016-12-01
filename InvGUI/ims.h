@@ -48,4 +48,7 @@ private:
 
 };
 
+extern Ims db;
+extern int userPriv;
+
 #endif // !IMS_H

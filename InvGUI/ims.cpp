@@ -162,6 +162,12 @@ bool Ims::login(const string NAME, const string PASSWORD)
 
 	res = pstmt->executeQuery();
 
+	if (res->rowsCount() >= 1)
+	{
+		res->next();
+		userPriv = res->getInt("user_privilege_level");
+	}
+
 	return res->rowsCount() >= 1;
 }
 
@@ -189,7 +195,7 @@ bool Ims::delete_item(const int ID)
 void Ims::print_all_items()
 {
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT item_id, item_name, price, stock_count FROM item WHERE status != 7");
+	res = stmt->executeQuery("SELECT item_id, item_name, price, stock_count, item_description FROM item WHERE status != 7");
 
 }
 
@@ -296,27 +302,46 @@ void Ims::print_items_to_table(QTableWidget* table)
 
 	int col = 0;
 	int row = 0;
-	while (res->next())
+
+	QTableWidgetItem *item; // Beware of memory leak when table is reloaded/edited
+							// May need to make function to cleanup table when being
+							// modified.
+
+	try
 	{
-		table->insertRow(row);
+		while (res->next())
+		{
+			table->insertRow(row);
 
-		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_id").c_str())));
-		col++;
+			item = new QTableWidgetItem;
+			item->setData(Qt::EditRole, (res->getInt("item_id")));
+			table->setItem(row, col, item);
+			col++;
 
-		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_name").c_str())));
-		col++;
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_name").c_str())));
+			col++;
 
-		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("price").c_str())));
-		col++;
+			item = new QTableWidgetItem;
+			item->setData(Qt::EditRole, (double)(res->getDouble("price")));
+			table->setItem(row, col, item);
+			col++;
 
-		table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("stock_count").c_str())));
-		col++;
+			item = new QTableWidgetItem;
+			item->setData(Qt::EditRole, (res->getInt("stock_count")));
+			table->setItem(row, col, item);
+			col++;
 
-		//table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_description").c_str())));
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_description").c_str())));
 
-		row++;
-		col = 0;
+			row++;
+			col = 0;
+		}
 	}
+	catch (sql::SQLException &e)
+	{
+		qDebug() << e.getErrorCode() << " " << e.what();
+	}
+	
 	
 }
 

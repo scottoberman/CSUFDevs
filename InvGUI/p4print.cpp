@@ -2,8 +2,6 @@
 #include "ui_p4print.h"
 #include "ims.h"
 
-extern Ims db;
-
 P4print::P4print(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::P4print)

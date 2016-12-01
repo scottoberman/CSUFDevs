@@ -2,8 +2,6 @@
 #include "ui_p3mod.h"
 #include "ims.h"
 
-extern Ims db;
-
 P3mod::P3mod(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::P3mod)

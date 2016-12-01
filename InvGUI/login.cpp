@@ -2,8 +2,6 @@
 #include "ui_login.h"
 #include "ims.h"
 
-extern Ims db;
-
 Login::Login(QWidget *parent, QStackedWidget *handle) :
     QWidget(parent),
     ui(new Ui::Login)

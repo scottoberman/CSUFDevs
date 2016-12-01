@@ -2,8 +2,6 @@
 #include "ui_p1add.h"
 #include "ims.h"
 
-extern Ims db;
-
 P1add::P1add(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::P1add)

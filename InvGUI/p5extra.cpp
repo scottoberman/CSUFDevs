@@ -2,8 +2,6 @@
 #include "ui_p5extra.h"
 #include "ims.h"
 
-extern Ims db;
-
 P5extra::P5extra(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::P5extra)

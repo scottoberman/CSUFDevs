@@ -18,6 +18,8 @@
 // Making global to make everyone's life easier
 Ims db;
 
+int userPriv;
+
 
 int main(int argc, char *argv[])
 {

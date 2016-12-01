@@ -2,8 +2,6 @@
 #include "ui_p2del.h"
 #include "ims.h"
 
-extern Ims db;
-
 P2del::P2del(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::P2del)
