@@ -12,13 +12,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     stack = new QStackedWidget();
 
-    stack->addWidget(new Login(this, stack));
-    stack->addWidget(new InvMain(this));
+	Login *loginPage = new Login(this, stack);
+	InvMain *invMain = new InvMain(this);
+
+    stack->addWidget(loginPage);
+    stack->addWidget(invMain);
 
     ui->horizontalLayout->addWidget(stack);
+
+	connect(invMain, &InvMain::LogoutPressed,
+			this, &MainWindow::ChangeToLoginScreen);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::ChangeToLoginScreen()
+{
+	stack->setCurrentIndex(0);
 }

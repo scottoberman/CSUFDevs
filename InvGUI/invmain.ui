@@ -177,7 +177,7 @@
     </property>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="Logout">
    <property name="geometry">
     <rect>
      <x>20</x>

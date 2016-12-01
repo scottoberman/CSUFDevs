@@ -10,7 +10,6 @@ InvMain::InvMain(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
 // Add each page to the widget stack.
 // The QStackedWidget allows only one widget
 // to be displayed at once.
@@ -62,5 +61,10 @@ void InvMain::on_pushButton_clicked()
 
 void InvMain::on_pushButton_2_clicked()
 {
-        GoToPage(4);
+	GoToPage(4);
+}
+
+void InvMain::on_Logout_clicked()
+{
+	emit LogoutPressed();
 }

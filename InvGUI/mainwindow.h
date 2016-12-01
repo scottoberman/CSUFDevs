@@ -23,6 +23,8 @@ private:
     Ui::MainWindow *ui;
     QStackedWidget* handle;
     QStackedWidget* stack;
+private slots:
+	void ChangeToLoginScreen();
 };
 
 #endif // MAINWINDOW_H

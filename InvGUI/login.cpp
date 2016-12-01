@@ -19,6 +19,8 @@ void Login::on_pushButton_clicked()
 {
 	if (db.login(ui->Sn->text().toStdString(), ui->Pass->text().toStdString()))
 	{
+		ui->Sn->clear();
+		ui->Pass->clear();
 		outerHandle->setCurrentIndex(1);
 	}        
 }

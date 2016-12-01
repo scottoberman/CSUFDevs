@@ -37,6 +37,11 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_Logout_clicked();
+
+signals:
+	void LogoutPressed();
+
 private:
     Ui::InvMain *ui;
 
