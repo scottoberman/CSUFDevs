@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(invMain, &InvMain::LogoutPressed,
 			this, &MainWindow::ChangeToLoginScreen);
+
+	connect(loginPage, &Login::LoginPressed,
+			this, &MainWindow::ChangeToInvMainScreen);
 }
 
 MainWindow::~MainWindow()
@@ -31,5 +34,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::ChangeToLoginScreen()
 {
+	this->setFixedSize(300, 300);
 	stack->setCurrentIndex(0);
+}
+
+void MainWindow::ChangeToInvMainScreen()
+{
+	this->setFixedSize(1275, 746);
+	stack->setCurrentIndex(1);
 }

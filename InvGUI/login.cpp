@@ -21,6 +21,9 @@ void Login::on_pushButton_clicked()
 	{
 		ui->Sn->clear();
 		ui->Pass->clear();
-		outerHandle->setCurrentIndex(1);
+		//outerHandle->setCurrentIndex(1); // Trying to avoid this sort of stuff
+										   // with the ill formed "outerHandle"
+										   // and instead use signals and slots.
+		emit LoginPressed();
 	}        
 }

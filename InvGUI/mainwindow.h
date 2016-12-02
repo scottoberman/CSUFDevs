@@ -25,6 +25,7 @@ private:
     QStackedWidget* stack;
 private slots:
 	void ChangeToLoginScreen();
+	void ChangeToInvMainScreen();
 };
 
 #endif // MAINWINDOW_H

@@ -22,6 +22,8 @@ private slots:
 private:
     Ui::Login *ui;
     QStackedWidget *outerHandle;
+signals:
+	void LoginPressed();
 };
 
 #endif // LOGIN_H
