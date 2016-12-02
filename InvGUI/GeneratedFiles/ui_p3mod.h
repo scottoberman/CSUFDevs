@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
 class Ui_P3mod
 {
 public:
-    QPushButton *pushButton;
+    QPushButton *SubmitButton;
     QLabel *label;
     QLabel *modOut;
     QLineEdit *NameInput;
@@ -33,7 +33,7 @@ public:
     QLineEdit *QuantityInput;
     QLineEdit *MakeInput;
     QLineEdit *DescriptionInput;
-    QPushButton *pushButton_2;
+    QPushButton *CancelButton;
     QLabel *label_2;
     QLabel *label_3;
     QLabel *label_4;
@@ -47,9 +47,9 @@ public:
         if (P3mod->objectName().isEmpty())
             P3mod->setObjectName(QStringLiteral("P3mod"));
         P3mod->resize(481, 391);
-        pushButton = new QPushButton(P3mod);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(30, 350, 131, 23));
+        SubmitButton = new QPushButton(P3mod);
+        SubmitButton->setObjectName(QStringLiteral("SubmitButton"));
+        SubmitButton->setGeometry(QRect(30, 350, 131, 23));
         label = new QLabel(P3mod);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(60, 10, 81, 16));
@@ -73,9 +73,9 @@ public:
         DescriptionInput->setGeometry(QRect(50, 250, 211, 91));
         DescriptionInput->setMaxLength(256);
         DescriptionInput->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-        pushButton_2 = new QPushButton(P3mod);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(380, 350, 75, 23));
+        CancelButton = new QPushButton(P3mod);
+        CancelButton->setObjectName(QStringLiteral("CancelButton"));
+        CancelButton->setGeometry(QRect(380, 350, 75, 23));
         label_2 = new QLabel(P3mod);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(50, 40, 47, 13));
@@ -97,15 +97,17 @@ public:
         label_7 = new QLabel(P3mod);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(180, 90, 161, 16));
-        QWidget::setTabOrder(NameInput, PriceInput);
-        QWidget::setTabOrder(PriceInput, QuantityInput);
-        QWidget::setTabOrder(QuantityInput, MakeInput);
+        QWidget::setTabOrder(NameInput, MakeInput);
         QWidget::setTabOrder(MakeInput, comboBox);
-        QWidget::setTabOrder(comboBox, DescriptionInput);
-        QWidget::setTabOrder(DescriptionInput, pushButton);
-        QWidget::setTabOrder(pushButton, pushButton_2);
+        QWidget::setTabOrder(comboBox, QuantityInput);
+        QWidget::setTabOrder(QuantityInput, PriceInput);
+        QWidget::setTabOrder(PriceInput, DescriptionInput);
+        QWidget::setTabOrder(DescriptionInput, SubmitButton);
+        QWidget::setTabOrder(SubmitButton, CancelButton);
 
         retranslateUi(P3mod);
+        QObject::connect(SubmitButton, SIGNAL(clicked()), P3mod, SLOT(SubmitChangesButtonPressed()));
+        QObject::connect(CancelButton, SIGNAL(clicked(bool)), P3mod, SLOT(close()));
 
         QMetaObject::connectSlotsByName(P3mod);
     } // setupUi
@@ -113,10 +115,10 @@ public:
     void retranslateUi(QWidget *P3mod)
     {
         P3mod->setWindowTitle(QApplication::translate("P3mod", "Form", 0));
-        pushButton->setText(QApplication::translate("P3mod", "Submit Changes", 0));
+        SubmitButton->setText(QApplication::translate("P3mod", "Submit Changes", 0));
         label->setText(QApplication::translate("P3mod", "Modify Product", 0));
         modOut->setText(QString());
-        pushButton_2->setText(QApplication::translate("P3mod", "Cancel", 0));
+        CancelButton->setText(QApplication::translate("P3mod", "Cancel", 0));
         label_2->setText(QApplication::translate("P3mod", "Name", 0));
         label_3->setText(QApplication::translate("P3mod", "Make", 0));
         label_4->setText(QApplication::translate("P3mod", "Price", 0));

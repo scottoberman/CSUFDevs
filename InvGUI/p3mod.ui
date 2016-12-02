@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="SubmitButton">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -108,7 +108,7 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="CancelButton">
    <property name="geometry">
     <rect>
      <x>380</x>
@@ -212,14 +212,50 @@
  </widget>
  <tabstops>
   <tabstop>NameInput</tabstop>
-  <tabstop>PriceInput</tabstop>
-  <tabstop>QuantityInput</tabstop>
   <tabstop>MakeInput</tabstop>
   <tabstop>comboBox</tabstop>
+  <tabstop>QuantityInput</tabstop>
+  <tabstop>PriceInput</tabstop>
   <tabstop>DescriptionInput</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
+  <tabstop>SubmitButton</tabstop>
+  <tabstop>CancelButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>SubmitButton</sender>
+   <signal>clicked()</signal>
+   <receiver>P3mod</receiver>
+   <slot>SubmitChangesButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>102</x>
+     <y>368</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>357</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CancelButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>P3mod</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>411</x>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>289</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>SubmitChangesButtonPressed()</slot>
+ </slots>
 </ui>

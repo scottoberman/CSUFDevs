@@ -7,7 +7,7 @@ ItemMain::ItemMain(QWidget *parent)
 	ui.setupUi(this);
 	
 	// This column is made extra long for the "item description"
-	ui.tableWidget->setColumnWidth(5, 610);
+	ui.tableWidget->setColumnWidth(5, 544);
 
 	// Only rows can be selected from the table.
 	ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -26,6 +26,15 @@ ItemMain::ItemMain(QWidget *parent)
 
 	// Populate the table with items from the database.
 	db.print_items_to_table(ui.tableWidget);
+
+	// If a cell is clicked, activate the buttons to allow item modification and deletion
+	connect(ui.tableWidget, &QTableWidget::cellClicked,
+			this, &ItemMain::cellClicked);
+
+	// Disable the buttons that control item deletion and modification.
+	// This prevents trying to modify/delete when nothing is selected.
+	ui.DeleteSelectedItemButton->setDisabled(true);
+	ui.ModifySelectedItemButton->setDisabled(true);
 }
 
 ItemMain::~ItemMain()
@@ -50,4 +59,10 @@ void ItemMain::on_ModifySelectedItemButton_clicked()
 void ItemMain::on_DeleteSelectedItemButton_clicked()
 {
 	emit ChangePageToDeleteSelectedItem();
+}
+
+void ItemMain::cellClicked()
+{
+	ui.DeleteSelectedItemButton->setDisabled(false);
+	ui.ModifySelectedItemButton->setDisabled(false);
 }

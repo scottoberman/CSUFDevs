@@ -32,9 +32,13 @@ InvMain::InvMain(QWidget *parent) :
 // to be displayed at once.
 ui->horizontalLayout->addWidget(pages);
 
+// Signal-Slot connection to change the active widget
+// to the modify item page
 connect(itemMain, &ItemMain::ChangePageToModifySelectedItem,
 		this, &InvMain::ModifySelectedItemClicked);
 
+// Signal-Slot connection to auto-fill the
+// line edits of the modify item page
 connect(this, &InvMain::ModifySelectedItem,
 		p3mod, &P3mod::ModifySelectedItem);
 

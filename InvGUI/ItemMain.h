@@ -13,10 +13,11 @@ public:
 
 private slots:
     void on_AddItemButton_clicked();
-
     void on_ModifySelectedItemButton_clicked();
-
     void on_DeleteSelectedItemButton_clicked();
+
+public slots:
+	void cellClicked();
 
 private:
 	Ui::ItemMain ui;
