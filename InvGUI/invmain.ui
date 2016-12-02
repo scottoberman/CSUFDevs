@@ -72,7 +72,7 @@
     </size>
    </property>
    <property name="text">
-    <string>Add Product</string>
+    <string>Inventory</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Page2Button">
@@ -80,24 +80,24 @@
     <rect>
      <x>20</x>
      <y>110</y>
-     <width>91</width>
+     <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>91</width>
+     <width>75</width>
      <height>23</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>91</width>
+     <width>75</width>
      <height>23</height>
     </size>
    </property>
    <property name="text">
-    <string>Delete Product</string>
+    <string>Users</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">

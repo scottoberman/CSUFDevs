@@ -39,8 +39,11 @@ private slots:
 
     void on_Logout_clicked();
 
+	void ModifySelectedItemClicked(QModelIndexList);
+
 signals:
 	void LogoutPressed();
+	void ModifySelectedItem(QModelIndexList);
 
 private:
     Ui::InvMain *ui;

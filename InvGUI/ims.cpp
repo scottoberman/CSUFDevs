@@ -195,7 +195,7 @@ bool Ims::delete_item(const int ID)
 void Ims::print_all_items()
 {
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT item_id, item_name, price, stock_count, item_description FROM item WHERE status != 7");
+	res = stmt->executeQuery("SELECT item_id, item_name, make, price, stock_count, item_description FROM item WHERE status != 7");
 
 }
 
@@ -319,6 +319,9 @@ void Ims::print_items_to_table(QTableWidget* table)
 			col++;
 
 			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("item_name").c_str())));
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("make").c_str())));
 			col++;
 
 			item = new QTableWidgetItem;

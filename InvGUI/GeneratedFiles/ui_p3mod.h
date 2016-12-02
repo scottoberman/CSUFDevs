@@ -16,8 +16,8 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,13 +26,21 @@ class Ui_P3mod
 {
 public:
     QPushButton *pushButton;
-    QTextEdit *ItemID;
-    QLabel *label_6;
-    QTextEdit *NewVal;
     QLabel *label;
+    QLabel *modOut;
+    QLineEdit *NameInput;
+    QLineEdit *PriceInput;
+    QLineEdit *QuantityInput;
+    QLineEdit *MakeInput;
+    QLineEdit *DescriptionInput;
+    QPushButton *pushButton_2;
+    QLabel *label_2;
+    QLabel *label_3;
+    QLabel *label_4;
+    QLabel *label_5;
+    QLabel *label_6;
     QComboBox *comboBox;
     QLabel *label_7;
-    QLabel *modOut;
 
     void setupUi(QWidget *P3mod)
     {
@@ -41,28 +49,61 @@ public:
         P3mod->resize(481, 391);
         pushButton = new QPushButton(P3mod);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(310, 245, 75, 23));
-        ItemID = new QTextEdit(P3mod);
-        ItemID->setObjectName(QStringLiteral("ItemID"));
-        ItemID->setGeometry(QRect(310, 65, 71, 26));
-        label_6 = new QLabel(P3mod);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(265, 70, 41, 16));
-        NewVal = new QTextEdit(P3mod);
-        NewVal->setObjectName(QStringLiteral("NewVal"));
-        NewVal->setGeometry(QRect(60, 115, 321, 111));
+        pushButton->setGeometry(QRect(30, 350, 131, 23));
         label = new QLabel(P3mod);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(60, 35, 81, 16));
-        comboBox = new QComboBox(P3mod);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setGeometry(QRect(60, 65, 161, 22));
-        label_7 = new QLabel(P3mod);
-        label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(60, 95, 91, 16));
+        label->setGeometry(QRect(60, 10, 81, 16));
         modOut = new QLabel(P3mod);
         modOut->setObjectName(QStringLiteral("modOut"));
         modOut->setGeometry(QRect(170, 300, 181, 16));
+        NameInput = new QLineEdit(P3mod);
+        NameInput->setObjectName(QStringLiteral("NameInput"));
+        NameInput->setGeometry(QRect(50, 60, 113, 20));
+        PriceInput = new QLineEdit(P3mod);
+        PriceInput->setObjectName(QStringLiteral("PriceInput"));
+        PriceInput->setGeometry(QRect(50, 200, 113, 20));
+        QuantityInput = new QLineEdit(P3mod);
+        QuantityInput->setObjectName(QStringLiteral("QuantityInput"));
+        QuantityInput->setGeometry(QRect(50, 160, 113, 20));
+        MakeInput = new QLineEdit(P3mod);
+        MakeInput->setObjectName(QStringLiteral("MakeInput"));
+        MakeInput->setGeometry(QRect(50, 110, 113, 20));
+        DescriptionInput = new QLineEdit(P3mod);
+        DescriptionInput->setObjectName(QStringLiteral("DescriptionInput"));
+        DescriptionInput->setGeometry(QRect(50, 250, 211, 91));
+        DescriptionInput->setMaxLength(256);
+        DescriptionInput->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        pushButton_2 = new QPushButton(P3mod);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(380, 350, 75, 23));
+        label_2 = new QLabel(P3mod);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(50, 40, 47, 13));
+        label_3 = new QLabel(P3mod);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(50, 90, 47, 13));
+        label_4 = new QLabel(P3mod);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(50, 180, 47, 13));
+        label_5 = new QLabel(P3mod);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(50, 230, 61, 16));
+        label_6 = new QLabel(P3mod);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(50, 140, 47, 13));
+        comboBox = new QComboBox(P3mod);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setGeometry(QRect(200, 110, 111, 22));
+        label_7 = new QLabel(P3mod);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(180, 90, 161, 16));
+        QWidget::setTabOrder(NameInput, PriceInput);
+        QWidget::setTabOrder(PriceInput, QuantityInput);
+        QWidget::setTabOrder(QuantityInput, MakeInput);
+        QWidget::setTabOrder(MakeInput, comboBox);
+        QWidget::setTabOrder(comboBox, DescriptionInput);
+        QWidget::setTabOrder(DescriptionInput, pushButton);
+        QWidget::setTabOrder(pushButton, pushButton_2);
 
         retranslateUi(P3mod);
 
@@ -72,19 +113,16 @@ public:
     void retranslateUi(QWidget *P3mod)
     {
         P3mod->setWindowTitle(QApplication::translate("P3mod", "Form", 0));
-        pushButton->setText(QApplication::translate("P3mod", "Submit", 0));
-        label_6->setText(QApplication::translate("P3mod", "Item Id", 0));
+        pushButton->setText(QApplication::translate("P3mod", "Submit Changes", 0));
         label->setText(QApplication::translate("P3mod", "Modify Product", 0));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
-         << QApplication::translate("P3mod", "Product Name", 0)
-         << QApplication::translate("P3mod", "Price", 0)
-         << QApplication::translate("P3mod", "Stock_count", 0)
-         << QApplication::translate("P3mod", "Status", 0)
-         << QApplication::translate("P3mod", "Description", 0)
-        );
-        label_7->setText(QApplication::translate("P3mod", "Enter New Value", 0));
         modOut->setText(QString());
+        pushButton_2->setText(QApplication::translate("P3mod", "Cancel", 0));
+        label_2->setText(QApplication::translate("P3mod", "Name", 0));
+        label_3->setText(QApplication::translate("P3mod", "Make", 0));
+        label_4->setText(QApplication::translate("P3mod", "Price", 0));
+        label_5->setText(QApplication::translate("P3mod", "Description", 0));
+        label_6->setText(QApplication::translate("P3mod", "Quantity", 0));
+        label_7->setText(QApplication::translate("P3mod", "Existing Makes to Choose From", 0));
     } // retranslateUi
 
 };

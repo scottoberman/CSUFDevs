@@ -30,7 +30,7 @@ public:
 	void test_fuction();
 	bool add_user(const string user_id_name, const string user_fname, const string user_lname, const string user_email, const string user_password, const int user_priv_level);
 
-	// Scott's Stuff
+
 	bool login(const string NAME, const string PASSWORD);
 	bool add_item(const string NAME, const string DESC, const double PRICE, const int COUNT, const int STATUS);
 	bool delete_item(const int ID);
@@ -41,7 +41,7 @@ public:
 	void print_result_set(QTextBrowser *text);
 	void print_items_to_table(QTableWidget* table);
 	void white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length);
-	// End Scott's Stuff
+	
 
 private:
 	void log_error(sql::SQLException &e);

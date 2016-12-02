@@ -51,9 +51,9 @@ public:
         Page1Button->setMaximumSize(QSize(75, 23));
         Page2Button = new QPushButton(InvMain);
         Page2Button->setObjectName(QStringLiteral("Page2Button"));
-        Page2Button->setGeometry(QRect(20, 110, 91, 23));
-        Page2Button->setMinimumSize(QSize(91, 23));
-        Page2Button->setMaximumSize(QSize(91, 23));
+        Page2Button->setGeometry(QRect(20, 110, 75, 23));
+        Page2Button->setMinimumSize(QSize(75, 23));
+        Page2Button->setMaximumSize(QSize(75, 23));
         pushButton = new QPushButton(InvMain);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(20, 255, 91, 23));
@@ -84,8 +84,8 @@ public:
     {
         InvMain->setWindowTitle(QApplication::translate("InvMain", "Form", 0));
         Page3Button->setText(QApplication::translate("InvMain", "Modify Product", 0));
-        Page1Button->setText(QApplication::translate("InvMain", "Add Product", 0));
-        Page2Button->setText(QApplication::translate("InvMain", "Delete Product", 0));
+        Page1Button->setText(QApplication::translate("InvMain", "Inventory", 0));
+        Page2Button->setText(QApplication::translate("InvMain", "Users", 0));
         pushButton->setText(QApplication::translate("InvMain", "Print Database", 0));
         pushButton_2->setText(QApplication::translate("InvMain", "Create User", 0));
         Logout->setText(QApplication::translate("InvMain", "Logout", 0));

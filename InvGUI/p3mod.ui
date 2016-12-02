@@ -16,108 +16,27 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>245</y>
-     <width>75</width>
+     <x>30</x>
+     <y>350</y>
+     <width>131</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Submit</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="ItemID">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>65</y>
-     <width>71</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>265</x>
-     <y>70</y>
-     <width>41</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Item Id</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="NewVal">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>115</y>
-     <width>321</width>
-     <height>111</height>
-    </rect>
+    <string>Submit Changes</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>35</y>
+     <y>10</y>
      <width>81</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>Modify Product</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>65</y>
-     <width>161</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>Product Name</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Price</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Stock_count</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Status</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Description</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>95</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Enter New Value</string>
    </property>
   </widget>
   <widget class="QLabel" name="modOut">
@@ -133,7 +52,174 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLineEdit" name="NameInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>60</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="PriceInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>200</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="QuantityInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>160</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="MakeInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="DescriptionInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>250</y>
+     <width>211</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="maxLength">
+    <number>256</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>350</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>40</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>90</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Make</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>180</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Price</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>230</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Description</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>140</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quantity</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>110</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>90</y>
+     <width>161</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Existing Makes to Choose From</string>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>NameInput</tabstop>
+  <tabstop>PriceInput</tabstop>
+  <tabstop>QuantityInput</tabstop>
+  <tabstop>MakeInput</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>DescriptionInput</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

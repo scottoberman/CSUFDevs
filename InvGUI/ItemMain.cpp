@@ -7,10 +7,10 @@ ItemMain::ItemMain(QWidget *parent)
 	ui.setupUi(this);
 	
 	// This column is made extra long for the "item description"
-	ui.tableWidget->setColumnWidth(4, 500);
+	ui.tableWidget->setColumnWidth(5, 610);
 
 	// Only rows can be selected from the table.
-	//ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+	ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	// Only one row can be selected from the table.
 	ui.tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -18,15 +18,36 @@ ItemMain::ItemMain(QWidget *parent)
 	// Disable the ability to edit elements of the table.
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+	// Allow the table to be sorted
 	ui.tableWidget->setSortingEnabled(true);
 	
+	// Set the number of columns in the table.
+	ui.tableWidget->setColumnCount(6);
 
-	ui.tableWidget->setColumnCount(5);
-	ui.tableWidget->setRowCount(500);
-
+	// Populate the table with items from the database.
 	db.print_items_to_table(ui.tableWidget);
 }
 
 ItemMain::~ItemMain()
 {
+}
+
+void ItemMain::on_AddItemButton_clicked()
+{
+	emit ChangePageToAddItem();
+}
+
+void ItemMain::on_ModifySelectedItemButton_clicked()
+{
+	qDebug() << "how many rows/cols/indices are selected?";
+	qDebug() << ui.tableWidget->selectionModel()->selectedRows().size();
+	qDebug() << ui.tableWidget->selectionModel()->selectedColumns().size();
+	qDebug() << ui.tableWidget->selectionModel()->selectedIndexes().size();
+
+	emit ChangePageToModifySelectedItem(ui.tableWidget->selectionModel()->selectedIndexes());
+}
+
+void ItemMain::on_DeleteSelectedItemButton_clicked()
+{
+	emit ChangePageToDeleteSelectedItem();
 }

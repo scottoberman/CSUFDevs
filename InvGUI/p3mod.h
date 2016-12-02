@@ -2,6 +2,7 @@
 #define P3MOD_H
 
 #include <QWidget>
+#include "invmain.h"
 
 namespace Ui {
 class P3mod;
@@ -16,7 +17,10 @@ public:
     ~P3mod();
 
 private slots:
-    void on_pushButton_clicked();
+    //void on_pushButton_clicked();
+
+public slots:
+	void ModifySelectedItem(QModelIndexList);
 
 private:
     Ui::P3mod *ui;

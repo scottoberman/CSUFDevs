@@ -11,6 +11,18 @@ public:
 	ItemMain(QWidget *parent = Q_NULLPTR);
 	~ItemMain();
 
+private slots:
+    void on_AddItemButton_clicked();
+
+    void on_ModifySelectedItemButton_clicked();
+
+    void on_DeleteSelectedItemButton_clicked();
+
 private:
 	Ui::ItemMain ui;
+
+signals:
+	void ChangePageToAddItem();
+	void ChangePageToModifySelectedItem(QModelIndexList);
+	void ChangePageToDeleteSelectedItem();
 };

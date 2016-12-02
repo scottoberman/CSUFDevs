@@ -2,12 +2,11 @@
 #include "ui_login.h"
 #include "ims.h"
 
-Login::Login(QWidget *parent, QStackedWidget *handle) :
+Login::Login(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Login)
 {
     ui->setupUi(this);
-    outerHandle = handle;
 }
 
 Login::~Login()
@@ -21,9 +20,6 @@ void Login::on_pushButton_clicked()
 	{
 		ui->Sn->clear();
 		ui->Pass->clear();
-		//outerHandle->setCurrentIndex(1); // Trying to avoid this sort of stuff
-										   // with the ill formed "outerHandle"
-										   // and instead use signals and slots.
 		emit LoginPressed();
 	}        
 }

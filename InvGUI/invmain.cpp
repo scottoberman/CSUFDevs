@@ -10,13 +10,16 @@ InvMain::InvMain(QWidget *parent) :
 {
     ui->setupUi(this);
 
+	ItemMain *itemMain = new ItemMain(this);
+	P3mod *p3mod = new P3mod(this);
+
 // Add each page to the widget stack.
 // The QStackedWidget allows only one widget
 // to be displayed at once.
     pages = new QStackedWidget;
-    pages->addWidget(new ItemMain(this));
+    pages->addWidget(itemMain);
     pages->addWidget(new P2del(this));
-    pages->addWidget(new P3mod(this));
+    pages->addWidget(p3mod);
     pages->addWidget(new P4print(this));
     pages->addWidget(new P5extra(this));
     pages->addWidget(new QStackedWidget(this));
@@ -28,6 +31,15 @@ InvMain::InvMain(QWidget *parent) :
 // The StackedQWidget class allows only one widget
 // to be displayed at once.
 ui->horizontalLayout->addWidget(pages);
+
+connect(itemMain, &ItemMain::ChangePageToModifySelectedItem,
+		this, &InvMain::ModifySelectedItemClicked);
+
+connect(this, &InvMain::ModifySelectedItem,
+		p3mod, &P3mod::ModifySelectedItem);
+
+
+
 }
 InvMain::~InvMain()
 {
@@ -62,6 +74,12 @@ void InvMain::on_pushButton_clicked()
 void InvMain::on_pushButton_2_clicked()
 {
 	GoToPage(4);
+}
+
+void InvMain::ModifySelectedItemClicked(QModelIndexList selectedRow)
+{
+	emit ModifySelectedItem(selectedRow);
+	pages->setCurrentIndex(2);
 }
 
 void InvMain::on_Logout_clicked()

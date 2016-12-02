@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     p2del.cpp \
     p3mod.cpp \
     p4print.cpp \
-    p5extra.cpp
+    p5extra.cpp \
+    ItemMain.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     p2del.h \
     p3mod.h \
     p4print.h \
-    p5extra.h
+    p5extra.h \
+    ItemMain.h
 
 FORMS    += mainwindow.ui \
     login.ui \
@@ -38,4 +40,5 @@ FORMS    += mainwindow.ui \
     p2del.ui \
     p3mod.ui \
     p4print.ui \
-    p5extra.ui
+    p5extra.ui \
+    ItemMain.ui

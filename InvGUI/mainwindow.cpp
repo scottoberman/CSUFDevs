@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     stack = new QStackedWidget();
 
-	Login *loginPage = new Login(this, stack);
+	Login *loginPage = new Login(this);
 	InvMain *invMain = new InvMain(this);
 
     stack->addWidget(loginPage);
@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(loginPage, &Login::LoginPressed,
 			this, &MainWindow::ChangeToInvMainScreen);
+
 }
 
 MainWindow::~MainWindow()
