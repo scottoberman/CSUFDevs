@@ -28,20 +28,34 @@ ItemMain::ItemMain(QWidget *parent)
 	connect(deletePrompt, &ItemDeletionPrompt::ItemDeleted,
 			this, &ItemMain::LoadItemMainPage);
 
+	// If the user clicks the add item button, open the add item window
+	// (which is the same as the modify item window, there can be a
+	// unification of their signal-slot relationships probably).
+	connect(ui.AddItemButton, &QPushButton::clicked,
+			this, &ItemMain::AddItemButtonClicked);
+	connect(this, &ItemMain::ChangePageToAddItem,
+			p3mod, &P3mod::AddItemClicked);
+
 }
 
 ItemMain::~ItemMain()
 {
 }
 
+void ItemMain::AddItemButtonClicked()
+{
+	emit ChangePageToAddItem();
+}
+
+
 void ItemMain::on_AddItemButton_clicked()
 {
 	emit ChangePageToAddItem();
 }
 
+// Uses QT creator method of signaling
 void ItemMain::on_ModifySelectedItemButton_clicked()
 {
-	p3mod = new P3mod();
 	qDebug() << "how many rows/cols/indices are selected?";
 	qDebug() << ui.tableWidget->selectionModel()->selectedRows().size();
 	qDebug() << ui.tableWidget->selectionModel()->selectedColumns().size();

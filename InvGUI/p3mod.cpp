@@ -15,20 +15,38 @@ P3mod::~P3mod()
     delete ui;
 }
 
-//void P3mod::on_pushButton_clicked()
-//{
-//	if (db.modify_item(ui->comboBox->currentText().toStdString(), (stoi(ui->ItemID->toPlainText().toStdString())), ui->NewVal->toPlainText().toStdString()))
-//	{
-//		ui->modOut->setText("Item successfully modified!");
-//	}
-//	else
-//	{
-//		ui->modOut->setText("No modifications executed!");
-//	}
-//}
+void P3mod::AddItemClicked()
+{
+	itemMode = 0;
+
+	// Populate combo box of unique item makes
+	vector<string> makes;
+	db.get_vector_of_unique_makes(makes);
+
+	// Make sure the combobox is empty
+	// (Prevents duplicate makes on repeated executions.
+	ui->comboBox->clear();
+
+	while (!makes.empty())
+	{
+		ui->comboBox->insertItem(0, QString::fromStdString(makes.back()));
+		makes.pop_back();
+	}
+
+	// Ensure all input boxes are empty
+	ui->NameInput->clear();
+	ui->MakeInput->clear();
+	ui->PriceInput->clear();
+	ui->QuantityInput->clear();
+	ui->DescriptionInput->clear();
+
+	show();
+}
 
 void P3mod::ModifySelectedItemClicked(QModelIndexList itemRow)
 {
+	itemMode = 1;
+
 	// Populate combo box of unique item makes
 	vector<string> makes;
 	db.get_vector_of_unique_makes(makes);
@@ -63,10 +81,24 @@ void P3mod::CancelButtonPressed()
 
 void P3mod::SubmitButtonPressed()
 {
-	qDebug() << "Submit button pressed in modify window";
-	emit ReturnToItemMain(db.modify_item(ui->IdInput->text().toInt(), ui->NameInput->text().toStdString(), ui->MakeInput->text().toStdString(), ui->PriceInput->text().toDouble(), ui->QuantityInput->text().toInt(), ui->DescriptionInput->text().toStdString()));
+	qDebug() << "Submit button pressed in product management window";
+	if (itemMode == 0)
+	{
+		qDebug() << "Item mode: add";
+		emit ReturnToItemMain(db.add_item(ui->NameInput->text().toStdString(), ui->MakeInput->text().toStdString(), ui->DescriptionInput->toPlainText().toStdString(), ui->PriceInput->text().toDouble(), ui->QuantityInput->text().toInt(), 1));
+	}
+	else if (itemMode == 1)
+	{
+		qDebug() << "Item mode: modify";
+		emit ReturnToItemMain(db.modify_item(ui->IdInput->text().toInt(), ui->NameInput->text().toStdString(), ui->MakeInput->text().toStdString(), ui->PriceInput->text().toDouble(), ui->QuantityInput->text().toInt(), ui->DescriptionInput->toPlainText().toStdString()));
+	}
+	else
+	{
+		qDebug() << "INVALID ITEM MODE";
+	}
+	
 
 	hide();
 	
-	qDebug() << "End of submit modify button function";
+	qDebug() << "End of submit item function";
 }

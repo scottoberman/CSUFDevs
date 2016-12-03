@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -32,7 +33,6 @@ public:
     QLineEdit *PriceInput;
     QLineEdit *QuantityInput;
     QLineEdit *MakeInput;
-    QLineEdit *DescriptionInput;
     QPushButton *CancelButton;
     QLabel *label_2;
     QLabel *label_3;
@@ -43,6 +43,7 @@ public:
     QLabel *label_7;
     QLineEdit *IdInput;
     QLabel *ModSuccessfulLabel;
+    QTextEdit *DescriptionInput;
 
     void setupUi(QWidget *P3mod)
     {
@@ -72,11 +73,6 @@ public:
         MakeInput = new QLineEdit(P3mod);
         MakeInput->setObjectName(QStringLiteral("MakeInput"));
         MakeInput->setGeometry(QRect(50, 110, 113, 20));
-        DescriptionInput = new QLineEdit(P3mod);
-        DescriptionInput->setObjectName(QStringLiteral("DescriptionInput"));
-        DescriptionInput->setGeometry(QRect(50, 250, 211, 91));
-        DescriptionInput->setMaxLength(256);
-        DescriptionInput->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         CancelButton = new QPushButton(P3mod);
         CancelButton->setObjectName(QStringLiteral("CancelButton"));
         CancelButton->setGeometry(QRect(380, 350, 75, 23));
@@ -108,12 +104,14 @@ public:
         ModSuccessfulLabel = new QLabel(P3mod);
         ModSuccessfulLabel->setObjectName(QStringLiteral("ModSuccessfulLabel"));
         ModSuccessfulLabel->setGeometry(QRect(330, 190, 101, 61));
+        DescriptionInput = new QTextEdit(P3mod);
+        DescriptionInput->setObjectName(QStringLiteral("DescriptionInput"));
+        DescriptionInput->setGeometry(QRect(50, 250, 211, 91));
         QWidget::setTabOrder(NameInput, MakeInput);
         QWidget::setTabOrder(MakeInput, comboBox);
         QWidget::setTabOrder(comboBox, QuantityInput);
         QWidget::setTabOrder(QuantityInput, PriceInput);
-        QWidget::setTabOrder(PriceInput, DescriptionInput);
-        QWidget::setTabOrder(DescriptionInput, SubmitButton);
+        QWidget::setTabOrder(PriceInput, SubmitButton);
         QWidget::setTabOrder(SubmitButton, CancelButton);
 
         retranslateUi(P3mod);

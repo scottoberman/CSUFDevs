@@ -19,7 +19,8 @@ public:
 private slots:
     //void on_pushButton_clicked();
 
-public slots:
+public slots :
+	void AddItemClicked();
 	void ModifySelectedItemClicked(QModelIndexList);
 	void CancelButtonPressed();
 	void SubmitButtonPressed();
@@ -29,6 +30,11 @@ signals:
 
 private:
     Ui::P3mod *ui;
+
+	// Item Modes
+	// 0: Add
+	// 1: Modify
+	int itemMode;
 };
 
 #endif // P3MOD_H

@@ -20,7 +20,6 @@ Ims db;
 
 int userPriv;
 
-
 int main(int argc, char *argv[])
 {
 	try

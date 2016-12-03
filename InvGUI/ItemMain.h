@@ -19,6 +19,7 @@ public:
 	ItemDeletionPrompt *deletePrompt;
 
 private slots:
+	void AddItemButtonClicked();
     void on_AddItemButton_clicked();
     void on_ModifySelectedItemButton_clicked();
     void on_DeleteSelectedItemButton_clicked();

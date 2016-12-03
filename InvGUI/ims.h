@@ -32,7 +32,7 @@ public:
 
 
 	bool login(const string NAME, const string PASSWORD);
-	bool add_item(const string NAME, const string DESC, const double PRICE, const int COUNT, const int STATUS);
+	bool add_item(const string NAME, const string MAKE, const string DESC, const double PRICE, const int COUNT, const int STATUS);
 	bool delete_item(const int ID);
 	void print_all_items();
 	void print_item_by_name(const string NAME);

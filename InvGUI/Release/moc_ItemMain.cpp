@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ItemMain_t {
-    QByteArrayData data[14];
-    char stringdata0[259];
+    QByteArrayData data[15];
+    char stringdata0[280];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,19 +36,21 @@ QT_MOC_LITERAL(3, 30, 30), // "ChangePageToModifySelectedItem"
 QT_MOC_LITERAL(4, 61, 15), // "QModelIndexList"
 QT_MOC_LITERAL(5, 77, 30), // "ChangePageToDeleteSelectedItem"
 QT_MOC_LITERAL(6, 108, 2), // "ID"
-QT_MOC_LITERAL(7, 111, 24), // "on_AddItemButton_clicked"
-QT_MOC_LITERAL(8, 136, 35), // "on_ModifySelectedItemButton_c..."
-QT_MOC_LITERAL(9, 172, 35), // "on_DeleteSelectedItemButton_c..."
-QT_MOC_LITERAL(10, 208, 16), // "LoadItemMainPage"
-QT_MOC_LITERAL(11, 225, 10), // "changeMade"
-QT_MOC_LITERAL(12, 236, 10), // "ResetTable"
-QT_MOC_LITERAL(13, 247, 11) // "cellClicked"
+QT_MOC_LITERAL(7, 111, 20), // "AddItemButtonClicked"
+QT_MOC_LITERAL(8, 132, 24), // "on_AddItemButton_clicked"
+QT_MOC_LITERAL(9, 157, 35), // "on_ModifySelectedItemButton_c..."
+QT_MOC_LITERAL(10, 193, 35), // "on_DeleteSelectedItemButton_c..."
+QT_MOC_LITERAL(11, 229, 16), // "LoadItemMainPage"
+QT_MOC_LITERAL(12, 246, 10), // "changeMade"
+QT_MOC_LITERAL(13, 257, 10), // "ResetTable"
+QT_MOC_LITERAL(14, 268, 11) // "cellClicked"
 
     },
     "ItemMain\0ChangePageToAddItem\0\0"
     "ChangePageToModifySelectedItem\0"
     "QModelIndexList\0ChangePageToDeleteSelectedItem\0"
-    "ID\0on_AddItemButton_clicked\0"
+    "ID\0AddItemButtonClicked\0"
+    "on_AddItemButton_clicked\0"
     "on_ModifySelectedItemButton_clicked\0"
     "on_DeleteSelectedItemButton_clicked\0"
     "LoadItemMainPage\0changeMade\0ResetTable\0"
@@ -62,7 +64,7 @@ static const uint qt_meta_data_ItemMain[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,17 +72,18 @@ static const uint qt_meta_data_ItemMain[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x06 /* Public */,
-       3,    1,   60,    2, 0x06 /* Public */,
-       5,    1,   63,    2, 0x06 /* Public */,
+       1,    0,   64,    2, 0x06 /* Public */,
+       3,    1,   65,    2, 0x06 /* Public */,
+       5,    1,   68,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,   66,    2, 0x08 /* Private */,
-       8,    0,   67,    2, 0x08 /* Private */,
-       9,    0,   68,    2, 0x08 /* Private */,
-      10,    1,   69,    2, 0x08 /* Private */,
-      12,    0,   72,    2, 0x08 /* Private */,
-      13,    0,   73,    2, 0x0a /* Public */,
+       7,    0,   71,    2, 0x08 /* Private */,
+       8,    0,   72,    2, 0x08 /* Private */,
+       9,    0,   73,    2, 0x08 /* Private */,
+      10,    0,   74,    2, 0x08 /* Private */,
+      11,    1,   75,    2, 0x08 /* Private */,
+      13,    0,   78,    2, 0x08 /* Private */,
+      14,    0,   79,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -91,7 +94,8 @@ static const uint qt_meta_data_ItemMain[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   11,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   12,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -107,12 +111,13 @@ void ItemMain::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 0: _t->ChangePageToAddItem(); break;
         case 1: _t->ChangePageToModifySelectedItem((*reinterpret_cast< QModelIndexList(*)>(_a[1]))); break;
         case 2: _t->ChangePageToDeleteSelectedItem((*reinterpret_cast< const int(*)>(_a[1]))); break;
-        case 3: _t->on_AddItemButton_clicked(); break;
-        case 4: _t->on_ModifySelectedItemButton_clicked(); break;
-        case 5: _t->on_DeleteSelectedItemButton_clicked(); break;
-        case 6: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 7: _t->ResetTable(); break;
-        case 8: _t->cellClicked(); break;
+        case 3: _t->AddItemButtonClicked(); break;
+        case 4: _t->on_AddItemButton_clicked(); break;
+        case 5: _t->on_ModifySelectedItemButton_clicked(); break;
+        case 6: _t->on_DeleteSelectedItemButton_clicked(); break;
+        case 7: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: _t->ResetTable(); break;
+        case 9: _t->cellClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -178,13 +183,13 @@ int ItemMain::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     }
     return _id;
 }

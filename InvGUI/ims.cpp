@@ -171,15 +171,16 @@ bool Ims::login(const string NAME, const string PASSWORD)
 	return res->rowsCount() >= 1;
 }
 
-bool Ims::add_item(const string NAME, const string DESC, const double PRICE, const int COUNT, const int STATUS)
+bool Ims::add_item(const string NAME, const string MAKE, const string DESC, const double PRICE, const int COUNT, const int STATUS)
 {
-	pstmt = con->prepareStatement("INSERT INTO item (item_name, item_description, price, stock_count, status) VALUES (?, ?, ?, ?, ?)");
+	pstmt = con->prepareStatement("INSERT INTO item (item_name, item_description, price, stock_count, status, make) VALUES (?, ?, ?, ?, ?, ?)");
 
 	pstmt->setString(1, NAME);
 	pstmt->setString(2, DESC);
 	pstmt->setDouble(3, PRICE);
 	pstmt->setInt(4, COUNT);
 	pstmt->setInt(5, STATUS);
+	pstmt->setString(6, MAKE);
 
 	return pstmt->executeUpdate();
 }

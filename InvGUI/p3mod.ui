@@ -104,22 +104,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="DescriptionInput">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>250</y>
-     <width>211</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="maxLength">
-    <number>256</number>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="CancelButton">
    <property name="geometry">
     <rect>
@@ -247,6 +231,16 @@
     <string/>
    </property>
   </widget>
+  <widget class="QTextEdit" name="DescriptionInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>250</y>
+     <width>211</width>
+     <height>91</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>NameInput</tabstop>
@@ -254,7 +248,6 @@
   <tabstop>comboBox</tabstop>
   <tabstop>QuantityInput</tabstop>
   <tabstop>PriceInput</tabstop>
-  <tabstop>DescriptionInput</tabstop>
   <tabstop>SubmitButton</tabstop>
   <tabstop>CancelButton</tabstop>
  </tabstops>
