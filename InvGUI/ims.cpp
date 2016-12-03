@@ -186,6 +186,7 @@ bool Ims::add_item(const string NAME, const string DESC, const double PRICE, con
 
 bool Ims::delete_item(const int ID)
 {
+	qDebug() << "ID IS " << ID;
 	pstmt = con->prepareStatement("UPDATE item SET status = 7 WHERE item_id = ?");
 	pstmt->setInt(1, ID);
 
@@ -196,7 +197,6 @@ void Ims::print_all_items()
 {
 	stmt = con->createStatement();
 	res = stmt->executeQuery("SELECT item_id, item_name, make, price, stock_count, item_description FROM item WHERE status != 7");
-
 }
 
 void Ims::print_item_by_name(const string NAME)
@@ -259,6 +259,19 @@ bool Ims::modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const stri
 	}
 
 	return itemModified;
+}
+
+bool Ims::modify_item(const int ID, const string NAME, const string MAKE, const double PRICE, const int QUANTITY, const string DESCRIPTION)
+{
+		pstmt = con->prepareStatement("UPDATE item SET item_name = ?, item_description = ?, price= ?, stock_count = ?, make = ? WHERE item_id = ?");
+		pstmt->setString(1, NAME);
+		pstmt->setString(2, DESCRIPTION);
+		pstmt->setDouble(3, PRICE);
+		pstmt->setInt(4, QUANTITY);
+		pstmt->setString(5, MAKE);
+		pstmt->setInt(6, ID);
+
+		return (pstmt->executeUpdate());
 }
 
 void Ims::print_result_set(QTextBrowser *text)
@@ -359,6 +372,19 @@ void Ims::white_space_format(sql::SQLString str, QString &str_to_append_to, int 
 	}
 }
 
+void Ims::get_vector_of_unique_makes(vector<string>& makes)
+{
+	stmt = con->createStatement();
+	res = stmt->executeQuery("SELECT make FROM item");
+
+	while (res->next())
+	{
+		if (!res->getString("make").asStdString().empty())
+		{
+			makes.push_back(res->getString("make").asStdString());
+		}
+	}
+}
 
 // End Scott's Stuff
 

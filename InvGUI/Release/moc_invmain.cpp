@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_InvMain_t {
-    QByteArrayData data[14];
-    char stringdata0[239];
+    QByteArrayData data[17];
+    char stringdata0[272];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,19 +34,23 @@ QT_MOC_LITERAL(1, 8, 13), // "LogoutPressed"
 QT_MOC_LITERAL(2, 22, 0), // ""
 QT_MOC_LITERAL(3, 23, 18), // "ModifySelectedItem"
 QT_MOC_LITERAL(4, 42, 15), // "QModelIndexList"
-QT_MOC_LITERAL(5, 58, 8), // "GoToPage"
-QT_MOC_LITERAL(6, 67, 12), // "newPageIndex"
-QT_MOC_LITERAL(7, 80, 22), // "on_Page1Button_clicked"
-QT_MOC_LITERAL(8, 103, 22), // "on_Page2Button_clicked"
-QT_MOC_LITERAL(9, 126, 22), // "on_Page3Button_clicked"
-QT_MOC_LITERAL(10, 149, 21), // "on_pushButton_clicked"
-QT_MOC_LITERAL(11, 171, 23), // "on_pushButton_2_clicked"
-QT_MOC_LITERAL(12, 195, 17), // "on_Logout_clicked"
-QT_MOC_LITERAL(13, 213, 25) // "ModifySelectedItemClicked"
+QT_MOC_LITERAL(5, 58, 16), // "LoadItemMainPage"
+QT_MOC_LITERAL(6, 75, 10), // "changeMade"
+QT_MOC_LITERAL(7, 86, 8), // "GoToPage"
+QT_MOC_LITERAL(8, 95, 12), // "newPageIndex"
+QT_MOC_LITERAL(9, 108, 4), // "Exit"
+QT_MOC_LITERAL(10, 113, 22), // "on_Page1Button_clicked"
+QT_MOC_LITERAL(11, 136, 22), // "on_Page2Button_clicked"
+QT_MOC_LITERAL(12, 159, 22), // "on_Page3Button_clicked"
+QT_MOC_LITERAL(13, 182, 21), // "on_pushButton_clicked"
+QT_MOC_LITERAL(14, 204, 23), // "on_pushButton_2_clicked"
+QT_MOC_LITERAL(15, 228, 17), // "on_Logout_clicked"
+QT_MOC_LITERAL(16, 246, 25) // "ModifySelectedItemClicked"
 
     },
     "InvMain\0LogoutPressed\0\0ModifySelectedItem\0"
-    "QModelIndexList\0GoToPage\0newPageIndex\0"
+    "QModelIndexList\0LoadItemMainPage\0"
+    "changeMade\0GoToPage\0newPageIndex\0Exit\0"
     "on_Page1Button_clicked\0on_Page2Button_clicked\0"
     "on_Page3Button_clicked\0on_pushButton_clicked\0"
     "on_pushButton_2_clicked\0on_Logout_clicked\0"
@@ -60,7 +64,7 @@ static const uint qt_meta_data_InvMain[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,25 +72,29 @@ static const uint qt_meta_data_InvMain[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x06 /* Public */,
-       3,    1,   65,    2, 0x06 /* Public */,
+       1,    0,   74,    2, 0x06 /* Public */,
+       3,    1,   75,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   68,    2, 0x0a /* Public */,
-       7,    0,   71,    2, 0x08 /* Private */,
-       8,    0,   72,    2, 0x08 /* Private */,
-       9,    0,   73,    2, 0x08 /* Private */,
-      10,    0,   74,    2, 0x08 /* Private */,
-      11,    0,   75,    2, 0x08 /* Private */,
-      12,    0,   76,    2, 0x08 /* Private */,
-      13,    1,   77,    2, 0x08 /* Private */,
+       5,    1,   78,    2, 0x0a /* Public */,
+       7,    1,   81,    2, 0x0a /* Public */,
+       9,    0,   84,    2, 0x0a /* Public */,
+      10,    0,   85,    2, 0x08 /* Private */,
+      11,    0,   86,    2, 0x08 /* Private */,
+      12,    0,   87,    2, 0x08 /* Private */,
+      13,    0,   88,    2, 0x08 /* Private */,
+      14,    0,   89,    2, 0x08 /* Private */,
+      15,    0,   90,    2, 0x08 /* Private */,
+      16,    1,   91,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 4,    2,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int,    6,
+    QMetaType::Void, QMetaType::Bool,    6,
+    QMetaType::Void, QMetaType::Int,    8,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -106,14 +114,16 @@ void InvMain::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         switch (_id) {
         case 0: _t->LogoutPressed(); break;
         case 1: _t->ModifySelectedItem((*reinterpret_cast< QModelIndexList(*)>(_a[1]))); break;
-        case 2: _t->GoToPage((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: _t->on_Page1Button_clicked(); break;
-        case 4: _t->on_Page2Button_clicked(); break;
-        case 5: _t->on_Page3Button_clicked(); break;
-        case 6: _t->on_pushButton_clicked(); break;
-        case 7: _t->on_pushButton_2_clicked(); break;
-        case 8: _t->on_Logout_clicked(); break;
-        case 9: _t->ModifySelectedItemClicked((*reinterpret_cast< QModelIndexList(*)>(_a[1]))); break;
+        case 2: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 3: _t->GoToPage((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: _t->Exit(); break;
+        case 5: _t->on_Page1Button_clicked(); break;
+        case 6: _t->on_Page2Button_clicked(); break;
+        case 7: _t->on_Page3Button_clicked(); break;
+        case 8: _t->on_pushButton_clicked(); break;
+        case 9: _t->on_pushButton_2_clicked(); break;
+        case 10: _t->on_Logout_clicked(); break;
+        case 11: _t->ModifySelectedItemClicked((*reinterpret_cast< QModelIndexList(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -126,7 +136,7 @@ void InvMain::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QModelIndexList >(); break;
             }
             break;
-        case 9:
+        case 11:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -179,13 +189,13 @@ int InvMain::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }

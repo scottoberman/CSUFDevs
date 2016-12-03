@@ -41,18 +41,22 @@ public:
     QLabel *label_6;
     QComboBox *comboBox;
     QLabel *label_7;
+    QLineEdit *IdInput;
+    QLabel *ModSuccessfulLabel;
 
     void setupUi(QWidget *P3mod)
     {
         if (P3mod->objectName().isEmpty())
             P3mod->setObjectName(QStringLiteral("P3mod"));
         P3mod->resize(481, 391);
+        P3mod->setMinimumSize(QSize(481, 391));
+        P3mod->setMaximumSize(QSize(481, 391));
         SubmitButton = new QPushButton(P3mod);
         SubmitButton->setObjectName(QStringLiteral("SubmitButton"));
-        SubmitButton->setGeometry(QRect(30, 350, 131, 23));
+        SubmitButton->setGeometry(QRect(30, 350, 81, 23));
         label = new QLabel(P3mod);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(60, 10, 81, 16));
+        label->setGeometry(QRect(50, 10, 111, 16));
         modOut = new QLabel(P3mod);
         modOut->setObjectName(QStringLiteral("modOut"));
         modOut->setGeometry(QRect(170, 300, 181, 16));
@@ -97,6 +101,13 @@ public:
         label_7 = new QLabel(P3mod);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(180, 90, 161, 16));
+        IdInput = new QLineEdit(P3mod);
+        IdInput->setObjectName(QStringLiteral("IdInput"));
+        IdInput->setEnabled(false);
+        IdInput->setGeometry(QRect(380, 30, 51, 20));
+        ModSuccessfulLabel = new QLabel(P3mod);
+        ModSuccessfulLabel->setObjectName(QStringLiteral("ModSuccessfulLabel"));
+        ModSuccessfulLabel->setGeometry(QRect(330, 190, 101, 61));
         QWidget::setTabOrder(NameInput, MakeInput);
         QWidget::setTabOrder(MakeInput, comboBox);
         QWidget::setTabOrder(comboBox, QuantityInput);
@@ -106,17 +117,18 @@ public:
         QWidget::setTabOrder(SubmitButton, CancelButton);
 
         retranslateUi(P3mod);
-        QObject::connect(SubmitButton, SIGNAL(clicked()), P3mod, SLOT(SubmitChangesButtonPressed()));
-        QObject::connect(CancelButton, SIGNAL(clicked(bool)), P3mod, SLOT(close()));
+        QObject::connect(SubmitButton, SIGNAL(clicked()), P3mod, SLOT(SubmitButtonPressed()));
+        QObject::connect(comboBox, SIGNAL(currentIndexChanged(QString)), MakeInput, SLOT(setText(QString)));
+        QObject::connect(CancelButton, SIGNAL(clicked()), P3mod, SLOT(hide()));
 
         QMetaObject::connectSlotsByName(P3mod);
     } // setupUi
 
     void retranslateUi(QWidget *P3mod)
     {
-        P3mod->setWindowTitle(QApplication::translate("P3mod", "Form", 0));
-        SubmitButton->setText(QApplication::translate("P3mod", "Submit Changes", 0));
-        label->setText(QApplication::translate("P3mod", "Modify Product", 0));
+        P3mod->setWindowTitle(QApplication::translate("P3mod", "Product Management", 0));
+        SubmitButton->setText(QApplication::translate("P3mod", "Submit", 0));
+        label->setText(QApplication::translate("P3mod", "Product Management", 0));
         modOut->setText(QString());
         CancelButton->setText(QApplication::translate("P3mod", "Cancel", 0));
         label_2->setText(QApplication::translate("P3mod", "Name", 0));
@@ -125,6 +137,7 @@ public:
         label_5->setText(QApplication::translate("P3mod", "Description", 0));
         label_6->setText(QApplication::translate("P3mod", "Quantity", 0));
         label_7->setText(QApplication::translate("P3mod", "Existing Makes to Choose From", 0));
+        ModSuccessfulLabel->setText(QString());
     } // retranslateUi
 
 };

@@ -20,7 +20,12 @@ private slots:
     //void on_pushButton_clicked();
 
 public slots:
-	void ModifySelectedItem(QModelIndexList);
+	void ModifySelectedItemClicked(QModelIndexList);
+	void CancelButtonPressed();
+	void SubmitButtonPressed();
+
+signals:
+	void ReturnToItemMain(bool changeMade);
 
 private:
     Ui::P3mod *ui;

@@ -38,9 +38,11 @@ public:
 	void print_item_by_name(const string NAME);
 	void print_item_by_id(const string ID);
 	bool modify_item(const string ATTRIBUTE_TO_MODIFY, const int ID, const string NEW_VAL);
+	bool modify_item(const int ID, const string NAME, const string MAKE, const double PRICE, const int QUANTITY, const string DESCRIPTION);
 	void print_result_set(QTextBrowser *text);
 	void print_items_to_table(QTableWidget* table);
 	void white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length);
+	void get_vector_of_unique_makes(vector<string>& makes);
 	
 
 private:

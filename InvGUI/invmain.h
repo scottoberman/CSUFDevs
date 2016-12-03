@@ -15,6 +15,10 @@ namespace Ui {
 class InvMain;
 }
 
+// Forward declaration due to circular dependency
+class P3mod;
+class ItemMain;
+
 class InvMain : public QWidget
 {
     Q_OBJECT
@@ -24,7 +28,9 @@ public:
     ~InvMain();
 
 public slots:
+	void LoadItemMainPage(bool changeMade);
     void GoToPage(int newPageIndex);
+	void Exit();
 
 private slots:
     void on_Page1Button_clicked();
@@ -47,6 +53,8 @@ signals:
 
 private:
     Ui::InvMain *ui;
+
+	ItemMain *itemMain;
 
     QListWidget *mainWindowStuff;
     QStackedWidget *pages;

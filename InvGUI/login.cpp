@@ -7,11 +7,19 @@ Login::Login(QWidget *parent) :
     ui(new Ui::Login)
 {
     ui->setupUi(this);
+
+	connect(ui->ExitButton, &QPushButton::clicked,
+			this, &Login::Exit);
 }
 
 Login::~Login()
 {
     delete ui;
+}
+
+void Login::Exit()
+{
+	QApplication::exit();
 }
 
 void Login::on_pushButton_clicked()
@@ -23,3 +31,5 @@ void Login::on_pushButton_clicked()
 		emit LoginPressed();
 	}        
 }
+
+

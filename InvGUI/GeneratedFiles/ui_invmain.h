@@ -31,6 +31,7 @@ public:
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
     QPushButton *Logout;
+    QPushButton *ExitButton;
 
     void setupUi(QWidget *InvMain)
     {
@@ -74,6 +75,9 @@ public:
         Logout = new QPushButton(InvMain);
         Logout->setObjectName(QStringLiteral("Logout"));
         Logout->setGeometry(QRect(20, 620, 75, 23));
+        ExitButton = new QPushButton(InvMain);
+        ExitButton->setObjectName(QStringLiteral("ExitButton"));
+        ExitButton->setGeometry(QRect(20, 660, 75, 23));
 
         retranslateUi(InvMain);
 
@@ -89,6 +93,7 @@ public:
         pushButton->setText(QApplication::translate("InvMain", "Print Database", 0));
         pushButton_2->setText(QApplication::translate("InvMain", "Create User", 0));
         Logout->setText(QApplication::translate("InvMain", "Logout", 0));
+        ExitButton->setText(QApplication::translate("InvMain", "Exit", 0));
     } // retranslateUi
 
 };

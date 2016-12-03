@@ -29,15 +29,16 @@ public:
     QLabel *label_2;
     QLineEdit *Pass;
     QLineEdit *Sn;
+    QPushButton *ExitButton;
 
     void setupUi(QWidget *Login)
     {
         if (Login->objectName().isEmpty())
             Login->setObjectName(QStringLiteral("Login"));
-        Login->resize(640, 480);
+        Login->resize(324, 327);
         pushButton = new QPushButton(Login);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(120, 190, 75, 23));
+        pushButton->setGeometry(QRect(40, 160, 75, 23));
         label = new QLabel(Login);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(40, 100, 47, 13));
@@ -51,6 +52,9 @@ public:
         Sn = new QLineEdit(Login);
         Sn->setObjectName(QStringLiteral("Sn"));
         Sn->setGeometry(QRect(40, 50, 151, 31));
+        ExitButton = new QPushButton(Login);
+        ExitButton->setObjectName(QStringLiteral("ExitButton"));
+        ExitButton->setGeometry(QRect(200, 250, 75, 23));
         QWidget::setTabOrder(Sn, Pass);
         QWidget::setTabOrder(Pass, pushButton);
 
@@ -68,6 +72,7 @@ public:
         pushButton->setText(QApplication::translate("Login", "Login", 0));
         label->setText(QApplication::translate("Login", "Password", 0));
         label_2->setText(QApplication::translate("Login", "Screenname", 0));
+        ExitButton->setText(QApplication::translate("Login", "Exit", 0));
     } // retranslateUi
 
 };
