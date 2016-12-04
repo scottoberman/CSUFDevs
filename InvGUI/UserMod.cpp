@@ -50,18 +50,20 @@ void UserMod::ShowModPage(QModelIndexList row)
 	ui.FirstnameInput->setText(row.at(2).data().toString());
 	ui.LastnameInput->setText(row.at(3).data().toString());
 	ui.EmailInput->setText(row.at(4).data().toString());
+	ui.Password1Input->setText(row.at(6).data().toString());
+	ui.Password2Input->setText(row.at(6).data().toString());
 
-	// Clear password lineedits
-	ui.Password1Input->clear();
-	ui.Password2Input->clear();
-
+	// If the user privilege is out of range, set it to the lowest
+	// privilege available.
 	if (row.at(5).data().toInt() <= 3)
 	{
-		ui.PrivilegeComboBox->setCurrentIndex(row.at(5).data().toInt() - 1);
+		qDebug() << "Privilege in range";
+		ui.PrivilegeComboBox->setCurrentIndex(row.at(5).data().toInt());
 	}
 	else
 	{
-		ui.PrivilegeComboBox->setCurrentIndex(3);
+		qDebug() << "Privilege out of range";
+		ui.PrivilegeComboBox->setCurrentIndex(ui.PrivilegeComboBox->count() - 1);
 	}
 	
 

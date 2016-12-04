@@ -39,8 +39,8 @@ public:
         sizePolicy.setHeightForWidth(UserMain->sizePolicy().hasHeightForWidth());
         UserMain->setSizePolicy(sizePolicy);
         tableWidget = new QTableWidget(UserMain);
-        if (tableWidget->columnCount() < 6)
-            tableWidget->setColumnCount(6);
+        if (tableWidget->columnCount() < 7)
+            tableWidget->setColumnCount(7);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -53,6 +53,8 @@ public:
         tableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(5, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(6, __qtablewidgetitem6);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setGeometry(QRect(0, 10, 1061, 471));
         AddUserButton = new QPushButton(UserMain);
@@ -85,6 +87,8 @@ public:
         ___qtablewidgetitem4->setText(QApplication::translate("UserMain", "Email", 0));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget->horizontalHeaderItem(5);
         ___qtablewidgetitem5->setText(QApplication::translate("UserMain", "Privilege Level", 0));
+        QTableWidgetItem *___qtablewidgetitem6 = tableWidget->horizontalHeaderItem(6);
+        ___qtablewidgetitem6->setText(QApplication::translate("UserMain", "Password", 0));
         AddUserButton->setText(QApplication::translate("UserMain", "Add User", 0));
         ModifySelectedUserButton->setText(QApplication::translate("UserMain", "Modify Selected User", 0));
         DeleteSelectedUserButton->setText(QApplication::translate("UserMain", "Delete Selected User", 0));

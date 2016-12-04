@@ -67,7 +67,7 @@ void UserMain::ResetTable()
 	ui.tableWidget->setSortingEnabled(true);
 
 	// Set the number of columns in the table.
-	ui.tableWidget->setColumnCount(6);
+	ui.tableWidget->setColumnCount(7);
 
 	// Populate the table with users from the database.
 	db.print_users_to_table(ui.tableWidget);
@@ -76,6 +76,9 @@ void UserMain::ResetTable()
 	// This prevents trying to modify/delete when nothing is selected.
 	ui.DeleteSelectedUserButton->setDisabled(true);
 	ui.ModifySelectedUserButton->setDisabled(true);
+
+	// Hide column of passwords (this is used to transfer passwords around)
+	ui.tableWidget->hideColumn(6);
 }
 
 void UserMain::CellClicked()

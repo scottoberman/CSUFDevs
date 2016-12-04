@@ -58,6 +58,11 @@
      <string>Privilege Level</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>Password</string>
+    </property>
+   </column>
   </widget>
   <widget class="QPushButton" name="AddUserButton">
    <property name="geometry">

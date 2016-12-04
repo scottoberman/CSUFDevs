@@ -212,7 +212,7 @@ void Ims::print_all_items()
 void Ims::print_all_users()
 {
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT user_id, user_id_name, user_fname, user_lname, user_email, user_privilege_level FROM user WHERE status != 7");
+	res = stmt->executeQuery("SELECT user_password, user_id, user_id_name, user_fname, user_lname, user_email, user_privilege_level FROM user WHERE status != 7");
 }
 
 void Ims::print_item_by_name(const string NAME)
@@ -428,6 +428,9 @@ void Ims::print_users_to_table(QTableWidget* table)
 			user = new QTableWidgetItem;
 			user->setData(Qt::EditRole, (res->getInt("user_privilege_level")));
 			table->setItem(row, col, user);
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("user_password").c_str())));
 
 			row++;
 			col = 0;

@@ -4,10 +4,7 @@
 
 #include <QtWidgets>
 
-#include "P2del.h"
 #include "P3mod.h"
-#include "P4print.h"
-#include "P5extra.h"
 #include "ItemMain.h"
 #include "UserMain.h"
 

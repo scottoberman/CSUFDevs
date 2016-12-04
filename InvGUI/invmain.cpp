@@ -20,14 +20,6 @@ InvMain::InvMain(QWidget *parent) :
     pages->addWidget(itemMain);
     pages->addWidget(userMain);
 
-	// PLACE HOLDER SINCE P3MOD IS NOT GONA BE IN THE STACKED WIDGET ATM
-    pages->addWidget(new QWidget);
-
-    pages->addWidget(new P4print(this));
-    pages->addWidget(new P5extra(this));
-    pages->addWidget(new QStackedWidget(this));
-
-
 	// The pages will be stored in a StackedQWidget Class
 	// which will then be placed in a QHBoxLayout Class in
 	// the mainwindow.
@@ -101,6 +93,9 @@ void InvMain::ModifySelectedItemClicked(QModelIndexList selectedRow)
 void InvMain::on_Logout_clicked()
 {
 	emit LogoutPressed();
+
+	qApp->quit();
+	QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
 }
 
 void InvMain::Exit()

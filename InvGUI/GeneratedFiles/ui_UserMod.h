@@ -65,11 +65,11 @@ public:
         Password1Input = new QLineEdit(UserMod);
         Password1Input->setObjectName(QStringLiteral("Password1Input"));
         Password1Input->setGeometry(QRect(30, 160, 113, 20));
-        Password1Input->setEchoMode(QLineEdit::Password);
+        Password1Input->setEchoMode(QLineEdit::Normal);
         Password2Input = new QLineEdit(UserMod);
         Password2Input->setObjectName(QStringLiteral("Password2Input"));
         Password2Input->setGeometry(QRect(30, 200, 113, 20));
-        Password2Input->setEchoMode(QLineEdit::Password);
+        Password2Input->setEchoMode(QLineEdit::Normal);
         EmailInput = new QLineEdit(UserMod);
         EmailInput->setObjectName(QStringLiteral("EmailInput"));
         EmailInput->setGeometry(QRect(30, 260, 113, 20));
