@@ -9,6 +9,7 @@
 #include "P4print.h"
 #include "P5extra.h"
 #include "ItemMain.h"
+#include "UserMain.h"
 
 namespace Ui {
 class InvMain;
@@ -54,6 +55,7 @@ private:
     Ui::InvMain *ui;
 
 	ItemMain *itemMain;
+	UserMain *userMain;
 
     QListWidget *mainWindowStuff;
     QStackedWidget *pages;

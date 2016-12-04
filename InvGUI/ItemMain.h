@@ -27,7 +27,7 @@ private slots:
 	void ResetTable();
 
 public slots:
-	void cellClicked();
+	void CellClicked();
 
 private:
 	Ui::ItemMain ui;

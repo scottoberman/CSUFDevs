@@ -43,7 +43,7 @@ QT_MOC_LITERAL(10, 193, 35), // "on_DeleteSelectedItemButton_c..."
 QT_MOC_LITERAL(11, 229, 16), // "LoadItemMainPage"
 QT_MOC_LITERAL(12, 246, 10), // "changeMade"
 QT_MOC_LITERAL(13, 257, 10), // "ResetTable"
-QT_MOC_LITERAL(14, 268, 11) // "cellClicked"
+QT_MOC_LITERAL(14, 268, 11) // "CellClicked"
 
     },
     "ItemMain\0ChangePageToAddItem\0\0"
@@ -54,7 +54,7 @@ QT_MOC_LITERAL(14, 268, 11) // "cellClicked"
     "on_ModifySelectedItemButton_clicked\0"
     "on_DeleteSelectedItemButton_clicked\0"
     "LoadItemMainPage\0changeMade\0ResetTable\0"
-    "cellClicked"
+    "CellClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -117,7 +117,7 @@ void ItemMain::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 6: _t->on_DeleteSelectedItemButton_clicked(); break;
         case 7: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 8: _t->ResetTable(); break;
-        case 9: _t->cellClicked(); break;
+        case 9: _t->CellClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

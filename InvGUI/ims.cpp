@@ -74,9 +74,9 @@ bool Ims::add_user(const string user_id_name, const string user_fname, const str
 		this->pstmt->setString(3, user_lname);
 		this->pstmt->setString(4, user_email);
 		this->pstmt->setString(5, user_password);
-		this->pstmt->setInt(6, 10);
+		this->pstmt->setInt(6, user_priv_level);
 		addedUser = this->pstmt->executeUpdate();
-		delete this->pstmt;
+		//delete this->pstmt;
 
 	}
 	catch (sql::SQLException &e) {
@@ -194,10 +194,25 @@ bool Ims::delete_item(const int ID)
 	return pstmt->executeUpdate();
 }
 
+bool Ims::delete_user(const int ID)
+{
+	qDebug() << "ID IS " << ID;
+	pstmt = con->prepareStatement("UPDATE user SET status = 7 WHERE user_id = ?");
+	pstmt->setInt(1, ID);
+
+	return pstmt->executeUpdate();
+}
+
 void Ims::print_all_items()
 {
 	stmt = con->createStatement();
 	res = stmt->executeQuery("SELECT item_id, item_name, make, price, stock_count, item_description FROM item WHERE status != 7");
+}
+
+void Ims::print_all_users()
+{
+	stmt = con->createStatement();
+	res = stmt->executeQuery("SELECT user_id, user_id_name, user_fname, user_lname, user_email, user_privilege_level FROM user WHERE status != 7");
 }
 
 void Ims::print_item_by_name(const string NAME)
@@ -272,7 +287,21 @@ bool Ims::modify_item(const int ID, const string NAME, const string MAKE, const 
 		pstmt->setString(5, MAKE);
 		pstmt->setInt(6, ID);
 
-		return (pstmt->executeUpdate());
+		return pstmt->executeUpdate();
+}
+
+bool Ims::modify_user(const int ID, const string USERNAME, const string FIRSTNAME, const string LASTNAME, const string EMAIL, const string PASSWORD, const int PRIV_LEVEL)
+{
+	pstmt = con->prepareStatement("UPDATE user SET user_id_name = ?, user_fname = ?, user_lname = ?, user_email = ?, user_password = ?, user_privilege_level = ? WHERE user_id = ?");
+	pstmt->setString(1, USERNAME);
+	pstmt->setString(2, FIRSTNAME);
+	pstmt->setString(3, LASTNAME);
+	pstmt->setString(4, EMAIL);
+	pstmt->setString(5, PASSWORD);
+	pstmt->setInt(6, PRIV_LEVEL);
+	pstmt->setInt(7, ID);
+
+	return pstmt->executeUpdate();
 }
 
 void Ims::print_result_set(QTextBrowser *text)
@@ -360,6 +389,56 @@ void Ims::print_items_to_table(QTableWidget* table)
 	}
 	
 	
+}
+
+void Ims::print_users_to_table(QTableWidget* table)
+{
+	print_all_users();
+
+	int col = 0;
+	int row = 0;
+
+	QTableWidgetItem *user; // Beware of memory leak when table is reloaded/edited
+							// May need to make function to cleanup table when being
+							// modified.
+
+	try
+	{
+		while (res->next())
+		{
+			table->insertRow(row);
+
+			user = new QTableWidgetItem;
+			user->setData(Qt::EditRole, (res->getInt("user_id")));
+			table->setItem(row, col, user);
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("user_id_name").c_str())));
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("user_fname").c_str())));
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("user_lname").c_str())));
+			col++;
+
+			table->setItem(row, col, new QTableWidgetItem(QString::fromStdString(res->getString("user_email").c_str())));
+			col++;
+
+			user = new QTableWidgetItem;
+			user->setData(Qt::EditRole, (res->getInt("user_privilege_level")));
+			table->setItem(row, col, user);
+
+			row++;
+			col = 0;
+		}
+	}
+	catch (sql::SQLException &e)
+	{
+		qDebug() << e.getErrorCode() << " " << e.what();
+	}
+
+
 }
 
 void Ims::white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length)

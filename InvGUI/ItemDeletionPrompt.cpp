@@ -19,13 +19,14 @@ void ItemDeletionPrompt::SetDeleteItemPrompt(const int ID)
 
 	idToDelete = ID;
 
-	show();
 	qDebug() << "Attempting to delete ID OF" << idToDelete;
 	prompt = "Delete item of id ";
 	prompt.append(QString::number(idToDelete));
 	prompt.append("?");
 
 	ui.label->setText(prompt);
+
+	show();
 }
 
 void ItemDeletionPrompt::DeleteItem()

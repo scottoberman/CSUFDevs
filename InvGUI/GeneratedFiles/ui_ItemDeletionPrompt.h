@@ -32,6 +32,11 @@ public:
         if (ItemDeletionPrompt->objectName().isEmpty())
             ItemDeletionPrompt->setObjectName(QStringLiteral("ItemDeletionPrompt"));
         ItemDeletionPrompt->resize(400, 300);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(ItemDeletionPrompt->sizePolicy().hasHeightForWidth());
+        ItemDeletionPrompt->setSizePolicy(sizePolicy);
         pushButton = new QPushButton(ItemDeletionPrompt);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(60, 260, 75, 23));

@@ -7,14 +7,19 @@ ItemMain::ItemMain(QWidget *parent)
 	ui.setupUi(this);
 
 	p3mod = new P3mod();
-
 	deletePrompt = new ItemDeletionPrompt();
 	
 	ResetTable();
 
 	// If a cell is clicked, activate the buttons to allow item modification and deletion
 	connect(ui.tableWidget, &QTableWidget::cellClicked,
-			this, &ItemMain::cellClicked);
+			this, &ItemMain::CellClicked);
+
+	// Signal-Slot connection to auto-fill the
+	// line edits of the modify item page when
+	// the modify item page is pressed.
+	connect(this, &ItemMain::ChangePageToModifySelectedItem,
+			p3mod, &P3mod::ModifySelectedItemClicked);
 
 	// If the table was modified, reload the table and reload the state of itemmain.
 	connect(p3mod, &P3mod::ReturnToItemMain,
@@ -35,7 +40,6 @@ ItemMain::ItemMain(QWidget *parent)
 			this, &ItemMain::AddItemButtonClicked);
 	connect(this, &ItemMain::ChangePageToAddItem,
 			p3mod, &P3mod::AddItemClicked);
-
 }
 
 ItemMain::~ItemMain()
@@ -69,7 +73,7 @@ void ItemMain::on_DeleteSelectedItemButton_clicked()
 	emit ChangePageToDeleteSelectedItem(ui.tableWidget->selectionModel()->selectedIndexes().at(0).data().toInt());
 }
 
-void ItemMain::cellClicked()
+void ItemMain::CellClicked()
 {
 	ui.DeleteSelectedItemButton->setDisabled(false);
 	ui.ModifySelectedItemButton->setDisabled(false);

@@ -25,12 +25,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(loginPage, &Login::LoginPressed,
 			this, &MainWindow::ChangeToInvMainScreen);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	QApplication::exit();
 }
 
 void MainWindow::ChangeToLoginScreen()

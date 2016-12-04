@@ -7,6 +7,11 @@ P3mod::P3mod(QWidget *parent) :
     ui(new Ui::P3mod)
 {
     ui->setupUi(this);
+	
+	// The id input is disabled and invisible since the
+	// only real need for the id is to find the item
+	// to update in the SQL table when a modification
+	// is made.
 	ui->IdInput->setVisible(false);
 }
 
@@ -17,6 +22,7 @@ P3mod::~P3mod()
 
 void P3mod::AddItemClicked()
 {
+	// ItemMode 0: Item is being added NOT modified
 	itemMode = 0;
 
 	// Populate combo box of unique item makes
@@ -45,6 +51,7 @@ void P3mod::AddItemClicked()
 
 void P3mod::ModifySelectedItemClicked(QModelIndexList itemRow)
 {
+	// ItemMode 1: Item is being modified NOT added
 	itemMode = 1;
 
 	// Populate combo box of unique item makes

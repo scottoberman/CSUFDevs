@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ItemDeletionPrompt</class>
- <widget class="QWidget" name="ItemDeletionPrompt">
+ <class>UserDeletionPrompt</class>
+ <widget class="QWidget" name="UserDeletionPrompt">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>ItemDeletionPrompt</string>
+   <string>UserDeletionPrompt</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -35,7 +35,7 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>290</x>
      <y>260</y>
      <width>75</width>
      <height>23</height>
@@ -48,23 +48,11 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>76</x>
-     <y>72</y>
-     <width>241</width>
-     <height>131</height>
+     <x>60</x>
+     <y>50</y>
+     <width>301</width>
+     <height>141</height>
     </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>241</width>
-     <height>131</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>241</width>
-     <height>131</height>
-    </size>
    </property>
    <property name="font">
     <font>
@@ -72,7 +60,10 @@
     </font>
    </property>
    <property name="text">
-    <string>Delete item of id</string>
+    <string>Delete user?</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -85,21 +76,18 @@
   <connection>
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
-   <receiver>ItemDeletionPrompt</receiver>
+   <receiver>UserDeletionPrompt</receiver>
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>321</x>
-     <y>272</y>
+     <x>332</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>341</x>
-     <y>222</y>
+     <x>329</x>
+     <y>217</y>
     </hint>
    </hints>
   </connection>
  </connections>
- <slots>
-  <slot>DeleteItem(int)</slot>
- </slots>
 </ui>

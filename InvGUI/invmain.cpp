@@ -11,13 +11,14 @@ InvMain::InvMain(QWidget *parent) :
     ui->setupUi(this);
 
 	itemMain = new ItemMain(this);
+	userMain = new UserMain(this);
 
 // Add each page to the widget stack.
 // The QStackedWidget allows only one widget
 // to be displayed at once.
     pages = new QStackedWidget;
     pages->addWidget(itemMain);
-    pages->addWidget(new P2del(this));
+    pages->addWidget(userMain);
 
 	// PLACE HOLDER SINCE P3MOD IS NOT GONA BE IN THE STACKED WIDGET ATM
     pages->addWidget(new QWidget);
@@ -33,12 +34,6 @@ InvMain::InvMain(QWidget *parent) :
 	// The StackedQWidget class allows only one widget
 	// to be displayed at once.
 	ui->horizontalLayout->addWidget(pages);
-
-	// Signal-Slot connection to auto-fill the
-	// line edits of the modify item page when
-	// the modify item page is pressed.
-	connect(itemMain, &ItemMain::ChangePageToModifySelectedItem,
-			itemMain->p3mod, &P3mod::ModifySelectedItemClicked);
 
 	connect(ui->ExitButton, &QPushButton::clicked,
 			this, &InvMain::Exit);
