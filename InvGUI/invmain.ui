@@ -31,7 +31,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="Page1Button">
+  <widget class="QPushButton" name="InventoryButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -56,7 +56,7 @@
     <string>Inventory</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Page2Button">
+  <widget class="QPushButton" name="UsersButton">
    <property name="geometry">
     <rect>
      <x>20</x>

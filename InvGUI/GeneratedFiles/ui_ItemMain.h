@@ -27,6 +27,7 @@ public:
     QPushButton *AddItemButton;
     QPushButton *ModifySelectedItemButton;
     QPushButton *DeleteSelectedItemButton;
+    QPushButton *SearchForItemButton;
 
     void setupUi(QWidget *ItemMain)
     {
@@ -60,6 +61,13 @@ public:
         DeleteSelectedItemButton = new QPushButton(ItemMain);
         DeleteSelectedItemButton->setObjectName(QStringLiteral("DeleteSelectedItemButton"));
         DeleteSelectedItemButton->setGeometry(QRect(850, 490, 191, 23));
+        SearchForItemButton = new QPushButton(ItemMain);
+        SearchForItemButton->setObjectName(QStringLiteral("SearchForItemButton"));
+        SearchForItemButton->setGeometry(QRect(110, 480, 91, 23));
+        QWidget::setTabOrder(AddItemButton, SearchForItemButton);
+        QWidget::setTabOrder(SearchForItemButton, ModifySelectedItemButton);
+        QWidget::setTabOrder(ModifySelectedItemButton, DeleteSelectedItemButton);
+        QWidget::setTabOrder(DeleteSelectedItemButton, tableWidget);
 
         retranslateUi(ItemMain);
 
@@ -84,6 +92,7 @@ public:
         AddItemButton->setText(QApplication::translate("ItemMain", "Add Item", 0));
         ModifySelectedItemButton->setText(QApplication::translate("ItemMain", "Modify Selected Item", 0));
         DeleteSelectedItemButton->setText(QApplication::translate("ItemMain", "Delete Selected Item", 0));
+        SearchForItemButton->setText(QApplication::translate("ItemMain", "Search for item", 0));
     } // retranslateUi
 
 };

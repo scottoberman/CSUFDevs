@@ -30,6 +30,17 @@ InvMain::InvMain(QWidget *parent) :
 	connect(ui->ExitButton, &QPushButton::clicked,
 			this, &InvMain::Exit);
 
+	connect(ui->UsersButton, &QPushButton::clicked,
+			this, &InvMain::ShowUserMain);
+
+	connect(ui->InventoryButton, &QPushButton::clicked,
+		this, &InvMain::ShowItemMain);
+
+	if (userPriv > 0)
+	{
+		ui->UsersButton->setHidden(true);
+	}
+
 }
 InvMain::~InvMain()
 {
@@ -53,36 +64,6 @@ void InvMain::LoadItemMainPage(bool changeMade)
 	pages->insertWidget(0, itemMain);
 	pages->setCurrentIndex(0);
 }
-void InvMain::GoToPage(int newPageIndex)
-{
-    // Changes the currently active page
-    pages->setCurrentIndex(newPageIndex);
-}
-
-void InvMain::on_Page1Button_clicked()
-{
-    GoToPage(0);
-}
-
-void InvMain::on_Page2Button_clicked()
-{
-    GoToPage(1);
-}
-
-void InvMain::on_Page3Button_clicked()
-{
-    GoToPage(2);
-}
-
-void InvMain::on_pushButton_clicked()
-{
-    GoToPage(3);
-}
-
-void InvMain::on_pushButton_2_clicked()
-{
-	GoToPage(4);
-}
 
 void InvMain::ModifySelectedItemClicked(QModelIndexList selectedRow)
 {
@@ -101,4 +82,14 @@ void InvMain::on_Logout_clicked()
 void InvMain::Exit()
 {
 	QApplication::exit();
+}
+
+void InvMain::ShowItemMain()
+{
+	pages->setCurrentIndex(0);
+}
+
+void InvMain::ShowUserMain()
+{
+	pages->setCurrentIndex(1);
 }

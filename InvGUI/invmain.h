@@ -26,23 +26,13 @@ public:
 
 public slots:
 	void LoadItemMainPage(bool changeMade);
-    void GoToPage(int newPageIndex);
 	void Exit();
 
 private slots:
-    void on_Page1Button_clicked();
-
-    void on_Page2Button_clicked();
-
-    void on_Page3Button_clicked();
-
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
-
     void on_Logout_clicked();
-
 	void ModifySelectedItemClicked(QModelIndexList);
+	void InvMain::ShowItemMain();
+	void InvMain::ShowUserMain();
 
 signals:
 	void LogoutPressed();

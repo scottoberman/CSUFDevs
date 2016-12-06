@@ -13,15 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     stack = new QStackedWidget();
 
 	Login *loginPage = new Login(this);
-	InvMain *invMain = new InvMain(this);
 
     stack->addWidget(loginPage);
-    stack->addWidget(invMain);
 
     ui->horizontalLayout->addWidget(stack);
-
-	connect(invMain, &InvMain::LogoutPressed,
-			this, &MainWindow::ChangeToLoginScreen);
 
 	connect(loginPage, &Login::LoginPressed,
 			this, &MainWindow::ChangeToInvMainScreen);
@@ -45,6 +40,12 @@ void MainWindow::ChangeToLoginScreen()
 
 void MainWindow::ChangeToInvMainScreen()
 {
+	InvMain *invMain = new InvMain(this);
+	stack->addWidget(invMain);
+
+	connect(invMain, &InvMain::LogoutPressed,
+		this, &MainWindow::ChangeToLoginScreen);
+
 	this->setFixedSize(1275, 746);
 	stack->setCurrentIndex(1);
 }

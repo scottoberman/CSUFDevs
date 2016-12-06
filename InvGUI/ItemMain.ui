@@ -101,8 +101,28 @@
     <string>Delete Selected Item</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="SearchForItemButton">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>480</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Search for item</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>AddItemButton</tabstop>
+  <tabstop>SearchForItemButton</tabstop>
+  <tabstop>ModifySelectedItemButton</tabstop>
+  <tabstop>DeleteSelectedItemButton</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

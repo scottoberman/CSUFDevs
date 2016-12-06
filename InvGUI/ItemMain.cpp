@@ -8,6 +8,8 @@ ItemMain::ItemMain(QWidget *parent)
 
 	itemMod = new ItemMod();
 	deletePrompt = new ItemDeletionPrompt();
+
+	searchItem = new SearchItem();
 	
 	ResetTable();
 
@@ -40,6 +42,10 @@ ItemMain::ItemMain(QWidget *parent)
 			this, &ItemMain::AddItemButtonClicked);
 	connect(this, &ItemMain::ChangePageToAddItem,
 			itemMod, &ItemMod::AddItemClicked);
+
+	// If the user clicks the search for item button, open the search window
+	connect(ui.SearchForItemButton, &QPushButton::clicked,
+			searchItem, &SearchItem::LoadSearchItem);
 }
 
 ItemMain::~ItemMain()
@@ -127,4 +133,19 @@ void ItemMain::ResetTable()
 	// This prevents trying to modify/delete when nothing is selected.
 	ui.DeleteSelectedItemButton->setDisabled(true);
 	ui.ModifySelectedItemButton->setDisabled(true);
+
+	// Set which buttons are enabled based upon user privileges
+	if (userPriv > 0)
+	{
+		ui.DeleteSelectedItemButton->setHidden(true);
+		ui.DeleteSelectedItemButton->setDisabled(true);
+	}
+	if (userPriv > 1)
+	{
+		ui.AddItemButton->setHidden(true);
+		ui.AddItemButton->setDisabled(true);
+
+		ui.ModifySelectedItemButton->setHidden(true);
+		ui.ModifySelectedItemButton->setDisabled(true);
+	}
 }

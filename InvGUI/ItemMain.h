@@ -5,6 +5,7 @@
 
 #include "ItemMod.h"
 #include "itemdeletionprompt.h"
+#include "SearchItem.h"
 
 class ItemMod;
 class ItemMain : public QWidget
@@ -17,6 +18,7 @@ public:
 
 	ItemMod *itemMod;
 	ItemDeletionPrompt *deletePrompt;
+	SearchItem *searchItem;
 
 private slots:
 	void AddItemButtonClicked();

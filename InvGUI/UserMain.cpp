@@ -79,6 +79,12 @@ void UserMain::ResetTable()
 
 	// Hide column of passwords (this is used to transfer passwords around)
 	ui.tableWidget->hideColumn(6);
+
+	// Set the width of the columns
+	ui.tableWidget->setColumnWidth(1, 200);
+	ui.tableWidget->setColumnWidth(2, 130);
+	ui.tableWidget->setColumnWidth(3, 130);
+	ui.tableWidget->setColumnWidth(4, 300);
 }
 
 void UserMain::CellClicked()
@@ -91,6 +97,7 @@ void UserMain::LoadUserMain(bool changeMade)
 {
 	if (changeMade)
 	{
+		userMod->hide();
 		ResetTable();
 	}
 	else

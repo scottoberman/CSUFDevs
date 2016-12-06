@@ -217,15 +217,15 @@ void Ims::print_all_users()
 
 void Ims::print_item_by_name(const string NAME)
 {
-	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_name = ? AND status != 7");
-	pstmt->setString(1, NAME);
+	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_name LIKE ? AND status != 7");
+	pstmt->setString(1, "%" + NAME + "%");
 	res = pstmt->executeQuery();
 }
 
 void Ims::print_item_by_id(const string ID)
 {
-	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_id = ? AND status != 7");
-	pstmt->setString(1, ID);
+	pstmt = con->prepareStatement("SELECT item_id, item_name, price, stock_count FROM item WHERE item_id LIKE ? AND status != 7");
+	pstmt->setString(1, "%" + ID + "%");
 	res = pstmt->executeQuery();
 }
 
