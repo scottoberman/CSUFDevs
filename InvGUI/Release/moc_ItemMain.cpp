@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ItemMain_t {
-    QByteArrayData data[15];
-    char stringdata0[280];
+    QByteArrayData data[16];
+    char stringdata0[288];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,27 +34,28 @@ QT_MOC_LITERAL(1, 9, 19), // "ChangePageToAddItem"
 QT_MOC_LITERAL(2, 29, 0), // ""
 QT_MOC_LITERAL(3, 30, 30), // "ChangePageToModifySelectedItem"
 QT_MOC_LITERAL(4, 61, 15), // "QModelIndexList"
-QT_MOC_LITERAL(5, 77, 30), // "ChangePageToDeleteSelectedItem"
-QT_MOC_LITERAL(6, 108, 2), // "ID"
-QT_MOC_LITERAL(7, 111, 20), // "AddItemButtonClicked"
-QT_MOC_LITERAL(8, 132, 24), // "on_AddItemButton_clicked"
-QT_MOC_LITERAL(9, 157, 35), // "on_ModifySelectedItemButton_c..."
-QT_MOC_LITERAL(10, 193, 35), // "on_DeleteSelectedItemButton_c..."
-QT_MOC_LITERAL(11, 229, 16), // "LoadItemMainPage"
-QT_MOC_LITERAL(12, 246, 10), // "changeMade"
-QT_MOC_LITERAL(13, 257, 10), // "ResetTable"
-QT_MOC_LITERAL(14, 268, 11) // "CellClicked"
+QT_MOC_LITERAL(5, 77, 7), // "itemRow"
+QT_MOC_LITERAL(6, 85, 30), // "ChangePageToDeleteSelectedItem"
+QT_MOC_LITERAL(7, 116, 2), // "ID"
+QT_MOC_LITERAL(8, 119, 11), // "CellClicked"
+QT_MOC_LITERAL(9, 131, 20), // "AddItemButtonClicked"
+QT_MOC_LITERAL(10, 152, 24), // "on_AddItemButton_clicked"
+QT_MOC_LITERAL(11, 177, 35), // "on_ModifySelectedItemButton_c..."
+QT_MOC_LITERAL(12, 213, 35), // "on_DeleteSelectedItemButton_c..."
+QT_MOC_LITERAL(13, 249, 16), // "LoadItemMainPage"
+QT_MOC_LITERAL(14, 266, 10), // "changeMade"
+QT_MOC_LITERAL(15, 277, 10) // "ResetTable"
 
     },
     "ItemMain\0ChangePageToAddItem\0\0"
     "ChangePageToModifySelectedItem\0"
-    "QModelIndexList\0ChangePageToDeleteSelectedItem\0"
-    "ID\0AddItemButtonClicked\0"
+    "QModelIndexList\0itemRow\0"
+    "ChangePageToDeleteSelectedItem\0ID\0"
+    "CellClicked\0AddItemButtonClicked\0"
     "on_AddItemButton_clicked\0"
     "on_ModifySelectedItemButton_clicked\0"
     "on_DeleteSelectedItemButton_clicked\0"
-    "LoadItemMainPage\0changeMade\0ResetTable\0"
-    "CellClicked"
+    "LoadItemMainPage\0changeMade\0ResetTable"
 };
 #undef QT_MOC_LITERAL
 
@@ -74,29 +75,29 @@ static const uint qt_meta_data_ItemMain[] = {
  // signals: name, argc, parameters, tag, flags
        1,    0,   64,    2, 0x06 /* Public */,
        3,    1,   65,    2, 0x06 /* Public */,
-       5,    1,   68,    2, 0x06 /* Public */,
+       6,    1,   68,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,   71,    2, 0x08 /* Private */,
-       8,    0,   72,    2, 0x08 /* Private */,
-       9,    0,   73,    2, 0x08 /* Private */,
-      10,    0,   74,    2, 0x08 /* Private */,
-      11,    1,   75,    2, 0x08 /* Private */,
-      13,    0,   78,    2, 0x08 /* Private */,
-      14,    0,   79,    2, 0x0a /* Public */,
+       8,    0,   71,    2, 0x0a /* Public */,
+       9,    0,   72,    2, 0x08 /* Private */,
+      10,    0,   73,    2, 0x08 /* Private */,
+      11,    0,   74,    2, 0x08 /* Private */,
+      12,    0,   75,    2, 0x08 /* Private */,
+      13,    1,   76,    2, 0x08 /* Private */,
+      15,    0,   79,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    2,
-    QMetaType::Void, QMetaType::Int,    6,
+    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void, QMetaType::Int,    7,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   12,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   14,
     QMetaType::Void,
 
        0        // eod
@@ -111,13 +112,13 @@ void ItemMain::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 0: _t->ChangePageToAddItem(); break;
         case 1: _t->ChangePageToModifySelectedItem((*reinterpret_cast< QModelIndexList(*)>(_a[1]))); break;
         case 2: _t->ChangePageToDeleteSelectedItem((*reinterpret_cast< const int(*)>(_a[1]))); break;
-        case 3: _t->AddItemButtonClicked(); break;
-        case 4: _t->on_AddItemButton_clicked(); break;
-        case 5: _t->on_ModifySelectedItemButton_clicked(); break;
-        case 6: _t->on_DeleteSelectedItemButton_clicked(); break;
-        case 7: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 8: _t->ResetTable(); break;
-        case 9: _t->CellClicked(); break;
+        case 3: _t->CellClicked(); break;
+        case 4: _t->AddItemButtonClicked(); break;
+        case 5: _t->on_AddItemButton_clicked(); break;
+        case 6: _t->on_ModifySelectedItemButton_clicked(); break;
+        case 7: _t->on_DeleteSelectedItemButton_clicked(); break;
+        case 8: _t->LoadItemMainPage((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 9: _t->ResetTable(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

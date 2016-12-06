@@ -42,7 +42,6 @@ private:
 	ItemMain *itemMain;
 	UserMain *userMain;
 
-    QListWidget *mainWindowStuff;
     QStackedWidget *pages;
 };
 

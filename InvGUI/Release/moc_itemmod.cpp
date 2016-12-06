@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ItemMod_t {
-    QByteArrayData data[9];
-    char stringdata0[134];
+    QByteArrayData data[10];
+    char stringdata0[138];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,13 +36,14 @@ QT_MOC_LITERAL(3, 26, 10), // "changeMade"
 QT_MOC_LITERAL(4, 37, 14), // "AddItemClicked"
 QT_MOC_LITERAL(5, 52, 25), // "ModifySelectedItemClicked"
 QT_MOC_LITERAL(6, 78, 15), // "QModelIndexList"
-QT_MOC_LITERAL(7, 94, 19), // "CancelButtonPressed"
-QT_MOC_LITERAL(8, 114, 19) // "SubmitButtonPressed"
+QT_MOC_LITERAL(7, 94, 3), // "row"
+QT_MOC_LITERAL(8, 98, 19), // "CancelButtonPressed"
+QT_MOC_LITERAL(9, 118, 19) // "SubmitButtonPressed"
 
     },
     "ItemMod\0ReturnToItemMain\0\0changeMade\0"
     "AddItemClicked\0ModifySelectedItemClicked\0"
-    "QModelIndexList\0CancelButtonPressed\0"
+    "QModelIndexList\0row\0CancelButtonPressed\0"
     "SubmitButtonPressed"
 };
 #undef QT_MOC_LITERAL
@@ -66,15 +67,15 @@ static const uint qt_meta_data_ItemMod[] = {
  // slots: name, argc, parameters, tag, flags
        4,    0,   42,    2, 0x0a /* Public */,
        5,    1,   43,    2, 0x0a /* Public */,
-       7,    0,   46,    2, 0x0a /* Public */,
-       8,    0,   47,    2, 0x0a /* Public */,
+       8,    0,   46,    2, 0x0a /* Public */,
+       9,    0,   47,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    3,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 6,    2,
+    QMetaType::Void, 0x80000000 | 6,    7,
     QMetaType::Void,
     QMetaType::Void,
 

@@ -22,11 +22,11 @@ public slots:
 private slots:
 	void DeleteUser();
 
+signals:
+	void UserDeleted(bool deleted);
+
 private:
 	Ui::UserDeletionPrompt ui;
 
 	int idToDelete;
-
-signals:
-	void UserDeleted(bool deleted);
 };

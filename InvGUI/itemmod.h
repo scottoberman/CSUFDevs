@@ -16,12 +16,9 @@ public:
     explicit ItemMod(QWidget *parent = 0);
     ~ItemMod();
 
-private slots:
-    //void on_pushButton_clicked();
-
 public slots :
 	void AddItemClicked();
-	void ModifySelectedItemClicked(QModelIndexList);
+	void ModifySelectedItemClicked(QModelIndexList row);
 	void CancelButtonPressed();
 	void SubmitButtonPressed();
 

@@ -12,10 +12,6 @@ public:
 	UserMod(QWidget *parent = Q_NULLPTR);
 	~UserMod();
 
-private:
-	Ui::UserMod ui;
-	int userMode;
-
 public slots:
 	void ShowAddPage();
 	void ShowModPage(QModelIndexList row);
@@ -25,4 +21,8 @@ private slots:
 
 signals:
 	void ReturnToUserMain(bool changeMade);
+
+private:
+	Ui::UserMod ui;
+	int userMode;
 };

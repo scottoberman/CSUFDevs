@@ -25,13 +25,13 @@ private slots:
 	void DeleteSelectedUserButtonClicked();
 	void ModifySelectedUserButtonClicked();
 
+signals:
+	void ChangePageToDeleteSelectedUser(const int ID);
+	void ChangePageToModifySelectedUser(QModelIndexList row);
+
 private:
 	Ui::UserMain ui;
 
 	UserMod *userMod;
 	UserDeletionPrompt *deletePrompt;
-
-signals:
-	void ChangePageToDeleteSelectedUser(const int ID);
-	void ChangePageToModifySelectedUser(QModelIndexList row);
 };

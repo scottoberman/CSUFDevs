@@ -23,6 +23,8 @@ private:
     Ui::MainWindow *ui;
     QStackedWidget* handle;
     QStackedWidget* stack;
+	Login *loginPage;
+	InvMain *invMain;
 	void closeEvent(QCloseEvent *event);
 
 private slots:

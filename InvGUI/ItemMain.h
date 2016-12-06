@@ -16,9 +16,8 @@ public:
 	ItemMain(QWidget *parent = Q_NULLPTR);
 	~ItemMain();
 
-	ItemMod *itemMod;
-	ItemDeletionPrompt *deletePrompt;
-	SearchItem *searchItem;
+public slots:
+	void CellClicked();
 
 private slots:
 	void AddItemButtonClicked();
@@ -28,15 +27,15 @@ private slots:
 	void LoadItemMainPage(bool changeMade);
 	void ResetTable();
 
-public slots:
-	void CellClicked();
+signals:
+	void ChangePageToAddItem();
+	void ChangePageToModifySelectedItem(QModelIndexList itemRow);
+	void ChangePageToDeleteSelectedItem(const int ID);
 
 private:
 	Ui::ItemMain ui;
-	
 
-signals:
-	void ChangePageToAddItem();
-	void ChangePageToModifySelectedItem(QModelIndexList);
-	void ChangePageToDeleteSelectedItem(const int ID);
+	ItemMod *itemMod;
+	ItemDeletionPrompt *deletePrompt;
+	SearchItem *searchItem;
 };
