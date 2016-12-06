@@ -4,7 +4,7 @@
 
 #include <QtWidgets>
 
-#include "P3mod.h"
+#include "ItemMod.h"
 #include "ItemMain.h"
 #include "UserMain.h"
 
@@ -13,7 +13,7 @@ class InvMain;
 }
 
 // Forward declaration due to circular dependency
-class P3mod;
+class ItemMod;
 class ItemMain;
 
 class InvMain : public QWidget

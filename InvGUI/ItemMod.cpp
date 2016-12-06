@@ -1,10 +1,10 @@
-#include "p3mod.h"
-#include "ui_p3mod.h"
+#include "ItemMod.h"
+#include "ui_ItemMod.h"
 #include "ims.h"
 
-P3mod::P3mod(QWidget *parent) :
+ItemMod::ItemMod(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::P3mod)
+    ui(new Ui::ItemMod)
 {
     ui->setupUi(this);
 	
@@ -15,12 +15,12 @@ P3mod::P3mod(QWidget *parent) :
 	ui->IdInput->setVisible(false);
 }
 
-P3mod::~P3mod()
+ItemMod::~ItemMod()
 {
     delete ui;
 }
 
-void P3mod::AddItemClicked()
+void ItemMod::AddItemClicked()
 {
 	// ItemMode 0: Item is being added NOT modified
 	itemMode = 0;
@@ -49,7 +49,7 @@ void P3mod::AddItemClicked()
 	show();
 }
 
-void P3mod::ModifySelectedItemClicked(QModelIndexList itemRow)
+void ItemMod::ModifySelectedItemClicked(QModelIndexList itemRow)
 {
 	// ItemMode 1: Item is being modified NOT added
 	itemMode = 1;
@@ -80,13 +80,13 @@ void P3mod::ModifySelectedItemClicked(QModelIndexList itemRow)
 	show();
 }
 
-void P3mod::CancelButtonPressed()
+void ItemMod::CancelButtonPressed()
 {
 	qDebug() << "Cancel button pressed in modify window";
 	hide();
 }
 
-void P3mod::SubmitButtonPressed()
+void ItemMod::SubmitButtonPressed()
 {
 	qDebug() << "Submit button pressed in product management window";
 	if (itemMode == 0)

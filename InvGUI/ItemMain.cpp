@@ -6,7 +6,7 @@ ItemMain::ItemMain(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	p3mod = new P3mod();
+	itemMod = new ItemMod();
 	deletePrompt = new ItemDeletionPrompt();
 	
 	ResetTable();
@@ -19,10 +19,10 @@ ItemMain::ItemMain(QWidget *parent)
 	// line edits of the modify item page when
 	// the modify item page is pressed.
 	connect(this, &ItemMain::ChangePageToModifySelectedItem,
-			p3mod, &P3mod::ModifySelectedItemClicked);
+			itemMod, &ItemMod::ModifySelectedItemClicked);
 
 	// If the table was modified, reload the table and reload the state of itemmain.
-	connect(p3mod, &P3mod::ReturnToItemMain,
+	connect(itemMod, &ItemMod::ReturnToItemMain,
 			this, &ItemMain::LoadItemMainPage);
 
 	// If the delete item button was clicked open the deletion prompt
@@ -39,7 +39,7 @@ ItemMain::ItemMain(QWidget *parent)
 	connect(ui.AddItemButton, &QPushButton::clicked,
 			this, &ItemMain::AddItemButtonClicked);
 	connect(this, &ItemMain::ChangePageToAddItem,
-			p3mod, &P3mod::AddItemClicked);
+			itemMod, &ItemMod::AddItemClicked);
 }
 
 ItemMain::~ItemMain()

@@ -1,20 +1,20 @@
-#ifndef P3MOD_H
-#define P3MOD_H
+#ifndef ItemMod_H
+#define ItemMod_H
 
 #include <QWidget>
 #include "invmain.h"
 
 namespace Ui {
-class P3mod;
+class ItemMod;
 }
 
-class P3mod : public QWidget
+class ItemMod : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit P3mod(QWidget *parent = 0);
-    ~P3mod();
+    explicit ItemMod(QWidget *parent = 0);
+    ~ItemMod();
 
 private slots:
     //void on_pushButton_clicked();
@@ -29,7 +29,7 @@ signals:
 	void ReturnToItemMain(bool changeMade);
 
 private:
-    Ui::P3mod *ui;
+    Ui::ItemMod *ui;
 
 	// Item Modes
 	// 0: Add
@@ -37,4 +37,4 @@ private:
 	int itemMode;
 };
 
-#endif // P3MOD_H
+#endif // ItemMod_H

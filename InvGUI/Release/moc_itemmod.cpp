@@ -1,16 +1,16 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'p3mod.h'
+** Meta object code from reading C++ file 'itemmod.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../p3mod.h"
+#include "../itemmod.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'p3mod.h' doesn't include <QObject>."
+#error "The header file 'itemmod.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -18,36 +18,36 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_P3mod_t {
+struct qt_meta_stringdata_ItemMod_t {
     QByteArrayData data[9];
-    char stringdata0[132];
+    char stringdata0[134];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_P3mod_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_ItemMod_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_P3mod_t qt_meta_stringdata_P3mod = {
+static const qt_meta_stringdata_ItemMod_t qt_meta_stringdata_ItemMod = {
     {
-QT_MOC_LITERAL(0, 0, 5), // "P3mod"
-QT_MOC_LITERAL(1, 6, 16), // "ReturnToItemMain"
-QT_MOC_LITERAL(2, 23, 0), // ""
-QT_MOC_LITERAL(3, 24, 10), // "changeMade"
-QT_MOC_LITERAL(4, 35, 14), // "AddItemClicked"
-QT_MOC_LITERAL(5, 50, 25), // "ModifySelectedItemClicked"
-QT_MOC_LITERAL(6, 76, 15), // "QModelIndexList"
-QT_MOC_LITERAL(7, 92, 19), // "CancelButtonPressed"
-QT_MOC_LITERAL(8, 112, 19) // "SubmitButtonPressed"
+QT_MOC_LITERAL(0, 0, 7), // "ItemMod"
+QT_MOC_LITERAL(1, 8, 16), // "ReturnToItemMain"
+QT_MOC_LITERAL(2, 25, 0), // ""
+QT_MOC_LITERAL(3, 26, 10), // "changeMade"
+QT_MOC_LITERAL(4, 37, 14), // "AddItemClicked"
+QT_MOC_LITERAL(5, 52, 25), // "ModifySelectedItemClicked"
+QT_MOC_LITERAL(6, 78, 15), // "QModelIndexList"
+QT_MOC_LITERAL(7, 94, 19), // "CancelButtonPressed"
+QT_MOC_LITERAL(8, 114, 19) // "SubmitButtonPressed"
 
     },
-    "P3mod\0ReturnToItemMain\0\0changeMade\0"
+    "ItemMod\0ReturnToItemMain\0\0changeMade\0"
     "AddItemClicked\0ModifySelectedItemClicked\0"
     "QModelIndexList\0CancelButtonPressed\0"
     "SubmitButtonPressed"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_P3mod[] = {
+static const uint qt_meta_data_ItemMod[] = {
 
  // content:
        7,       // revision
@@ -81,10 +81,10 @@ static const uint qt_meta_data_P3mod[] = {
        0        // eod
 };
 
-void P3mod::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void ItemMod::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        P3mod *_t = static_cast<P3mod *>(_o);
+        ItemMod *_t = static_cast<ItemMod *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->ReturnToItemMain((*reinterpret_cast< bool(*)>(_a[1]))); break;
@@ -109,8 +109,8 @@ void P3mod::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (P3mod::*_t)(bool );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&P3mod::ReturnToItemMain)) {
+            typedef void (ItemMod::*_t)(bool );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ItemMod::ReturnToItemMain)) {
                 *result = 0;
                 return;
             }
@@ -118,26 +118,26 @@ void P3mod::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
     }
 }
 
-const QMetaObject P3mod::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_P3mod.data,
-      qt_meta_data_P3mod,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObject ItemMod::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_ItemMod.data,
+      qt_meta_data_ItemMod,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
-const QMetaObject *P3mod::metaObject() const
+const QMetaObject *ItemMod::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *P3mod::qt_metacast(const char *_clname)
+void *ItemMod::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_P3mod.stringdata0))
-        return static_cast<void*>(const_cast< P3mod*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_ItemMod.stringdata0))
+        return static_cast<void*>(const_cast< ItemMod*>(this));
     return QWidget::qt_metacast(_clname);
 }
 
-int P3mod::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ItemMod::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -155,7 +155,7 @@ int P3mod::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void P3mod::ReturnToItemMain(bool _t1)
+void ItemMod::ReturnToItemMain(bool _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

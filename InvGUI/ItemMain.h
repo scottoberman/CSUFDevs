@@ -3,10 +3,10 @@
 #include <QWidget>
 #include "ui_ItemMain.h"
 
-#include "p3mod.h"
+#include "ItemMod.h"
 #include "itemdeletionprompt.h"
 
-class P3mod;
+class ItemMod;
 class ItemMain : public QWidget
 {
 	Q_OBJECT
@@ -15,7 +15,7 @@ public:
 	ItemMain(QWidget *parent = Q_NULLPTR);
 	~ItemMain();
 
-	P3mod *p3mod;
+	ItemMod *itemMod;
 	ItemDeletionPrompt *deletePrompt;
 
 private slots:

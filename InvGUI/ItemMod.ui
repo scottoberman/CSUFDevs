@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>P3mod</class>
- <widget class="QWidget" name="P3mod">
+ <class>ItemMod</class>
+ <widget class="QWidget" name="ItemMod">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -256,7 +256,7 @@
   <connection>
    <sender>SubmitButton</sender>
    <signal>clicked()</signal>
-   <receiver>P3mod</receiver>
+   <receiver>ItemMod</receiver>
    <slot>SubmitButtonPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -288,7 +288,7 @@
   <connection>
    <sender>CancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>P3mod</receiver>
+   <receiver>ItemMod</receiver>
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
