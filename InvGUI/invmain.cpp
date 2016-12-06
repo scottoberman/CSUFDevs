@@ -65,12 +65,6 @@ void InvMain::LoadItemMainPage(bool changeMade)
 	pages->setCurrentIndex(0);
 }
 
-void InvMain::ModifySelectedItemClicked(QModelIndexList selectedRow)
-{
-	emit ModifySelectedItem(selectedRow);
-	pages->setCurrentIndex(2);
-}
-
 void InvMain::on_Logout_clicked()
 {
 	emit LogoutPressed();
