@@ -46,7 +46,7 @@ public:
 	void print_items_to_table(QTableWidget* table);
 	void print_users_to_table(QTableWidget* table);
 	void white_space_format(sql::SQLString str, QString &str_to_append_to, int desired_length);
-	void get_vector_of_unique_makes(vector<string>& makes);
+	void get_map_of_unique_makes(map<string, string>& makes);
 	
 
 private:

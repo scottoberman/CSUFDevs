@@ -26,17 +26,19 @@ void ItemMod::AddItemClicked()
 	itemMode = 0;
 
 	// Populate combo box of unique item makes
-	vector<string> makes;
-	db.get_vector_of_unique_makes(makes);
+	map<string, string> makes;
+	map<string, string>::const_iterator makesIter;
+	db.get_map_of_unique_makes(makes);
 
 	// Make sure the combobox is empty
 	// (Prevents duplicate makes on repeated executions.
 	ui->comboBox->clear();
 
-	while (!makes.empty())
+	makesIter = makes.begin();
+	while (makesIter != makes.end())
 	{
-		ui->comboBox->insertItem(0, QString::fromStdString(makes.back()));
-		makes.pop_back();
+		ui->comboBox->insertItem(0, QString::fromStdString(makesIter->first));
+		makesIter++;
 	}
 
 	// Ensure all input boxes are empty
@@ -55,17 +57,19 @@ void ItemMod::ModifySelectedItemClicked(QModelIndexList itemRow)
 	itemMode = 1;
 
 	// Populate combo box of unique item makes
-	vector<string> makes;
-	db.get_vector_of_unique_makes(makes);
+	map<string, string> makes;
+	map<string, string>::const_iterator makesIter;
+	db.get_map_of_unique_makes(makes);
 
 	// Make sure the combobox is empty
 	// (Prevents duplicate makes on repeated executions.
 	ui->comboBox->clear();
 
-	while (!makes.empty())
+	makesIter = makes.begin();
+	while (makesIter != makes.end())
 	{
-		ui->comboBox->insertItem(0, QString::fromStdString(makes.back()));
-		makes.pop_back();
+		ui->comboBox->insertItem(0, QString::fromStdString(makesIter->first));
+		makesIter++;
 	}
 	
 	// Populate line edits with the old information of the item

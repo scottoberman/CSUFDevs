@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "ims.h"
 #include <cstring>
+#include <map>
 #include <qdebug.h>
 
 using namespace std;
@@ -455,7 +456,7 @@ void Ims::white_space_format(sql::SQLString str, QString &str_to_append_to, int 
 	}
 }
 
-void Ims::get_vector_of_unique_makes(vector<string>& makes)
+void Ims::get_map_of_unique_makes(map<string, string>& makes)
 {
 	stmt = con->createStatement();
 	res = stmt->executeQuery("SELECT make FROM item");
@@ -464,7 +465,7 @@ void Ims::get_vector_of_unique_makes(vector<string>& makes)
 	{
 		if (!res->getString("make").asStdString().empty())
 		{
-			makes.push_back(res->getString("make").asStdString());
+			makes.emplace(res->getString("make").asStdString(), res->getString("make").asStdString());
 		}
 	}
 }

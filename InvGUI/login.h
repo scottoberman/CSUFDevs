@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets>
+#include "usermod.h"
 
 namespace Ui {
 class Login;
@@ -25,8 +26,11 @@ private slots:
 private:
     Ui::Login *ui;
     QStackedWidget *outerHandle;
+	UserMod *createUser;
+
 signals:
 	void LoginPressed();
+	void CreateAccountButtonPressed();
 };
 
 #endif // LOGIN_H

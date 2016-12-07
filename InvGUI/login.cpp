@@ -8,8 +8,15 @@ Login::Login(QWidget *parent) :
 {
     ui->setupUi(this);
 
+	createUser = new UserMod();
+
 	connect(ui->ExitButton, &QPushButton::clicked,
 			this, &Login::Exit);
+
+	connect(ui->CreateAccountButton, &QPushButton::clicked,
+			createUser, &UserMod::ShowModPageFromLogin);
+
+
 }
 
 Login::~Login()

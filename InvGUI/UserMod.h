@@ -15,6 +15,7 @@ public:
 public slots:
 	void ShowAddPage();
 	void ShowModPage(QModelIndexList row);
+	void ShowModPageFromLogin();
 
 private slots:
 	void SubmitButtonClicked();

@@ -30,6 +30,7 @@ public:
     QLineEdit *Pass;
     QLineEdit *Sn;
     QPushButton *ExitButton;
+    QPushButton *CreateAccountButton;
 
     void setupUi(QWidget *Login)
     {
@@ -41,10 +42,10 @@ public:
         pushButton->setGeometry(QRect(40, 160, 75, 23));
         label = new QLabel(Login);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(40, 100, 47, 13));
+        label->setGeometry(QRect(40, 100, 61, 16));
         label_2 = new QLabel(Login);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(40, 30, 61, 16));
+        label_2->setGeometry(QRect(40, 30, 81, 16));
         Pass = new QLineEdit(Login);
         Pass->setObjectName(QStringLiteral("Pass"));
         Pass->setGeometry(QRect(40, 120, 151, 31));
@@ -55,6 +56,9 @@ public:
         ExitButton = new QPushButton(Login);
         ExitButton->setObjectName(QStringLiteral("ExitButton"));
         ExitButton->setGeometry(QRect(200, 250, 75, 23));
+        CreateAccountButton = new QPushButton(Login);
+        CreateAccountButton->setObjectName(QStringLiteral("CreateAccountButton"));
+        CreateAccountButton->setGeometry(QRect(40, 250, 91, 23));
         QWidget::setTabOrder(Sn, Pass);
         QWidget::setTabOrder(Pass, pushButton);
 
@@ -73,6 +77,7 @@ public:
         label->setText(QApplication::translate("Login", "Password", 0));
         label_2->setText(QApplication::translate("Login", "Screenname", 0));
         ExitButton->setText(QApplication::translate("Login", "Exit", 0));
+        CreateAccountButton->setText(QApplication::translate("Login", "Create Account", 0));
     } // retranslateUi
 
 };

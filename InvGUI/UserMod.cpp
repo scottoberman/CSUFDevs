@@ -72,7 +72,7 @@ void UserMod::ShowModPage(QModelIndexList row)
 
 void UserMod::SubmitButtonClicked()
 {
-
+	bool changeMade = false;
 	if (ui.Password1Input->text() != ui.Password2Input->text())
 	{
 		// Output error stating passwords do not match
@@ -83,13 +83,14 @@ void UserMod::SubmitButtonClicked()
 	}
 	else
 	{
+		
 		if (userMode == 0)
 		{
-			emit ReturnToUserMain(db.add_user(ui.UsernameInput->text().toStdString(), ui.FirstnameInput->text().toStdString(), ui.LastnameInput->text().toStdString(), ui.EmailInput->text().toStdString(), ui.Password1Input->text().toStdString(), ui.PrivilegeComboBox->currentText().toInt()));
+			changeMade = db.add_user(ui.UsernameInput->text().toStdString(), ui.FirstnameInput->text().toStdString(), ui.LastnameInput->text().toStdString(), ui.EmailInput->text().toStdString(), ui.Password1Input->text().toStdString(), ui.PrivilegeComboBox->currentText().toInt());
 		}
 		else if (userMode == 1)
 		{
-			emit ReturnToUserMain(db.modify_user(ui.IdInput->text().toInt(), ui.UsernameInput->text().toStdString(), ui.FirstnameInput->text().toStdString(), ui.LastnameInput->text().toStdString(), ui.EmailInput->text().toStdString(), ui.Password1Input->text().toStdString(), ui.PrivilegeComboBox->currentText().toInt()));
+			changeMade = db.modify_user(ui.IdInput->text().toInt(), ui.UsernameInput->text().toStdString(), ui.FirstnameInput->text().toStdString(), ui.LastnameInput->text().toStdString(), ui.EmailInput->text().toStdString(), ui.Password1Input->text().toStdString(), ui.PrivilegeComboBox->currentText().toInt());
 		}
 		else
 		{
@@ -97,5 +98,28 @@ void UserMod::SubmitButtonClicked()
 		}
 	}
 
+	if (changeMade)
+	{
+		hide();
 
+		ui.UsernameInput->clear();
+		ui.FirstnameInput->clear();
+		ui.LastnameInput->clear();
+		ui.Password1Input->clear();
+		ui.Password2Input->clear();
+		ui.EmailInput->clear();
+	}
+
+	emit ReturnToUserMain(changeMade);
+}
+
+void UserMod::ShowModPageFromLogin()
+{
+	userMode = 0;
+	//ui.PrivilegeComboBox->setHidden(true);
+	ui.PrivilegeComboBox->setDisabled(true);
+
+	ui.PrivilegeComboBox->setCurrentIndex(2);
+
+	show();
 }
