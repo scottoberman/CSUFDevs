@@ -154,10 +154,9 @@ Ims::~Ims() {
 	delete this->pstmt;
 }
 
-// Scott's Stuff
 bool Ims::login(const string NAME, const string PASSWORD)
 {
-	pstmt = con->prepareStatement("SELECT * FROM user WHERE user_id_name = ? AND user_password = ?");
+	pstmt = con->prepareStatement("SELECT * FROM user WHERE user_id_name = ? AND user_password = ? AND STATUS != 7");
 	pstmt->setString(1, NAME);
 	pstmt->setString(2, PASSWORD);
 
@@ -469,8 +468,6 @@ void Ims::get_map_of_unique_makes(map<string, string>& makes)
 		}
 	}
 }
-
-// End Scott's Stuff
 
 void Ims::log_error(sql::SQLException &e) {
 	cout << " IN LOG_ERROR!!" << endl;
